@@ -1,0 +1,16 @@
+{
+  "chapter_quizzes": {
+    "1": [
+      {
+        "variant_id": "quiz_v01",
+        "question_ids": ["ch001_q001"]
+      }
+    ]
+  },
+  "exam_variants": [
+    {
+      "variant_id": "exam_v01",
+      "question_ids": ["ch001_q001"]
+    }
+  ]
+}

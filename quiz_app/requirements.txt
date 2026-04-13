@@ -1,0 +1,4 @@
+ebooklib>=0.18
+beautifulsoup4>=4.12.0
+streamlit>=1.35.0
+lxml>=5.0.0

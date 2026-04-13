@@ -1,0 +1,1051 @@
+# FutballPro — Product Documentation
+
+> **Centralized technical reference for the FutballPro platform.**
+> This document covers system architecture, frontend/backend patterns, data models,
+> APIs, integrations, and design/UX principles. It serves as the foundation for
+> establishing consistent development rules and methodologies across all future work.
+
+---
+
+## Table of Contents
+
+1. [Product Overview](#1-product-overview)
+2. [System Architecture](#2-system-architecture)
+3. [Frontend Architecture](#3-frontend-architecture)
+4. [Backend Architecture](#4-backend-architecture)
+5. [Data Models & Database](#5-data-models--database)
+6. [APIs & Integrations](#6-apis--integrations)
+7. [Authentication & Authorization](#7-authentication--authorization)
+8. [Subscription & Billing](#8-subscription--billing)
+9. [Launch Wave System](#9-launch-wave-system)
+10. [Internationalization (i18n)](#10-internationalization-i18n)
+11. [Design System & UX Principles](#11-design-system--ux-principles)
+12. [Deployment & Infrastructure](#12-deployment--infrastructure)
+13. [Security Practices](#13-security-practices)
+14. [Development Conventions](#14-development-conventions)
+15. [Environment Variables](#15-environment-variables)
+
+---
+
+## 1. Product Overview
+
+**FutballPro** is a professional football (soccer) analytics platform that enables players and coaches to:
+
+- **Upload session data** (CSV/XLSX files) and receive AI-powered performance insights
+- **Build player profiles** with stats, positions, and career information
+- **Track performance** over time with dashboards, charts, and z-score benchmarking
+- **Manage teams** — coaches can view and manage squads of players
+- **Join a pre-launch waitlist** with a drip email campaign and countdown system
+
+### User Roles
+
+| Role    | Description                                          |
+|---------|------------------------------------------------------|
+| `player` | Individual athlete — uploads sessions, views own stats |
+| `coach`  | Team manager — uploads for players, views team analytics |
+| `admin`  | Platform operator — full monitoring dashboard, user management |
+
+### Supported Sports
+
+Football (primary), Basketball, Soccer, Baseball, Tennis, Hockey — each with sport-specific positions, stat labels, and color themes.
+
+---
+
+## 2. System Architecture
+
+### High-Level Diagram
+
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                         CLIENT (Browser)                           │
+│   Vite + React 18 + TypeScript + Tailwind CSS + shadcn/ui         │
+│   SPA served from Vercel CDN                                       │
+└──────────────┬───────────────┬──────────────────┬──────────────────┘
+               │               │                  │
+        Supabase JS      Vercel Serverless    Vercel Cron
+        (anon key)        Functions (/api)    (daily 10:00 UTC)
+               │               │                  │
+               ▼               ▼                  ▼
+┌──────────────────────────────────────────────────────────────────┐
+│                         SUPABASE                                  │
+│   PostgreSQL · Auth · RLS · RPC Functions · Storage (S3)          │
+└──────────────────────────┬───────────────────────────────────────┘
+                           │
+                     ┌─────┴─────┐
+                     │  Railway   │
+                     │  Session   │
+                     │ Processor  │
+                     │ (Python)   │
+                     └───────────┘
+```
+
+### Technology Stack
+
+| Layer          | Technology                                                     |
+|----------------|----------------------------------------------------------------|
+| **Frontend**   | React 18, TypeScript, Vite 7, SWC, Tailwind CSS 3, shadcn/ui  |
+| **State**      | React Context (Auth, Language), TanStack React Query           |
+| **Routing**    | react-router-dom v6 (SPA with `<BrowserRouter>`)              |
+| **Backend**    | Vercel Serverless Functions (Node.js), Express server (Railway)|
+| **Database**   | Supabase PostgreSQL with Row-Level Security                    |
+| **Auth**       | Supabase Auth (email/password, OAuth-ready)                    |
+| **Storage**    | Supabase Storage (S3-compatible buckets)                       |
+| **Email**      | Resend API                                                     |
+| **Messaging**  | WhatsApp Business Cloud API (Meta Graph API)                   |
+| **Payments**   | Stripe (Checkout Sessions, Billing Portal, Webhooks)           |
+| **Processing** | Python session processor (Railway, git submodule)              |
+| **Hosting**    | Vercel (Hobby plan) + Railway (processor)                      |
+| **Cron**       | Vercel Cron (`0 10 * * *` — daily drip emails)                 |
+
+---
+
+## 3. Frontend Architecture
+
+### 3.1 Project Structure
+
+```
+src/
+├── App.tsx                    # Root: providers, router, error boundary
+├── main.tsx                   # Vite entry point
+├── pages/                     # ~50+ route-level page components
+│   ├── Auth.tsx               # Login/signup
+│   ├── Dashboard.tsx          # Role-based dashboard
+│   ├── PlayerProfile.tsx      # Player profile view/edit
+│   ├── CoachProfile.tsx       # Coach profile view/edit
+│   ├── Settings.tsx           # User settings + subscription
+│   ├── WaitlistV1–V7.tsx      # Waitlist iterations (V7 = active)
+│   ├── LandingV1–V9.tsx       # Landing page iterations (V3 = active)
+│   ├── admin/                 # Admin dashboard pages
+│   ├── stats/                 # Stats/analytics pages
+│   └── upload-session/        # Session upload flow
+├── components/
+│   ├── ProtectedRoute.tsx     # Auth guard (Outlet pattern)
+│   ├── admin/
+│   │   └── AdminRoute.tsx     # Admin-only guard (role check)
+│   ├── dashboard/             # Dashboard widgets
+│   ├── landing/               # Landing page sections
+│   ├── layout/                # Layout wrappers
+│   ├── onboarding/            # Onboarding step components
+│   ├── paywall/               # Subscription upgrade prompts
+│   ├── profile/               # Profile-related components
+│   └── ui/                    # 50+ shadcn/ui primitives + custom
+├── hooks/
+│   ├── useAuth.tsx            # AuthContext provider + consumer
+│   ├── useSubscription.ts     # Subscription state (React Query)
+│   ├── use-mobile.tsx         # Responsive breakpoint hook
+│   └── use-toast.ts           # Toast notification hook
+├── lib/
+│   ├── supabase.ts            # Supabase client (singleton, anon key)
+│   ├── api.ts                 # Auth API functions (signUp, signIn)
+│   ├── adminApi.ts            # Admin RPC wrappers
+│   ├── coachApi.ts            # Coach profile CRUD
+│   ├── profileApi.ts          # Player/coach profile API
+│   ├── launchConfig.ts        # Launch wave system (cached)
+│   ├── sportThemes.ts         # Sport-specific themes + positions
+│   ├── i18n.ts                # i18next configuration
+│   ├── LanguageContext.tsx     # Language provider (per-user)
+│   ├── storage.ts             # Storage bucket resolution
+│   ├── countries.ts           # Country data
+│   ├── countryFlags.ts        # Country flag emojis
+│   └── utils.ts               # Tailwind merge utility (cn)
+├── integrations/supabase/
+│   ├── client.ts              # DEPRECATED — redirects to lib/supabase.ts
+│   └── types.ts               # Generated Supabase database types
+├── onboarding/                # 9 onboarding concept iterations + final
+│   ├── concept_1–9/
+│   └── final/
+└── locales/                   # i18n translation JSON files
+    ├── en.json
+    ├── es.json
+    ├── fr.json
+    ├── de.json
+    └── pt.json
+```
+
+### 3.2 Provider Hierarchy
+
+```tsx
+<QueryClientProvider>       // TanStack React Query
+  <AuthProvider>            // Supabase Auth state + role + profile
+    <LanguageProvider>      // i18n language context (per-user localStorage)
+      <ThemeProvider>       // next-themes (dark mode default)
+        <BrowserRouter>     // react-router-dom
+          <ErrorBoundary>   // Class component error boundary
+            <Routes />
+          </ErrorBoundary>
+        </BrowserRouter>
+      </ThemeProvider>
+    </LanguageProvider>
+  </AuthProvider>
+</QueryClientProvider>
+```
+
+### 3.3 Routing Architecture
+
+Routes are organized into three access tiers:
+
+| Tier | Guard Component | Behavior |
+|------|----------------|----------|
+| **Public** | None | Accessible without authentication |
+| **Protected** | `<ProtectedRoute />` | Redirects unauthenticated users to `/` |
+| **Admin** | `<AdminRoute />` | Redirects non-admins to `/dashboard` |
+
+**LaunchGate** — The root route (`/`) uses a `LaunchGate` component that:
+1. Waits for the active launch wave to be fetched
+2. If a wave is active and countdown is running → redirects to `/waitlist/v7`
+3. Otherwise → renders `<LandingV3 />`
+
+### 3.4 State Management Patterns
+
+| Concern | Pattern | Location |
+|---------|---------|----------|
+| Auth state | React Context + Supabase listener | `useAuth.tsx` |
+| Server data | TanStack React Query (`useQuery`) | Per-component |
+| Subscription | React Query with RPC | `useSubscription.ts` |
+| Language | React Context + localStorage (per-user) | `LanguageContext.tsx` |
+| Launch wave | Module-level cache (60s TTL) | `launchConfig.ts` |
+| Theme | next-themes (class strategy, dark default) | `ThemeProvider` |
+
+### 3.5 Supabase Client Configuration
+
+The client is initialized in `src/lib/supabase.ts` with important security and stability measures:
+
+- **Anon key only** — Service role key is NEVER shipped to the browser
+- **Key validation** — Runtime check that detects if a service_role key was accidentally placed in `VITE_SUPABASE_ANON_KEY`
+- **processLock** — Uses `processLock` instead of the default Web Locks API (`navigator.locks`) to prevent `AbortError` crashes during auth initialization. The Web Locks API has a 10-second timeout that races against cross-tab locks and kills profile/session loading.
+- **lockAcquireTimeout: -1** — Disables all lock acquisition timeouts so queued operations never time out
+
+### 3.6 Component Patterns
+
+**UI Primitives** — 50+ shadcn/ui components (`src/components/ui/`) built on Radix UI + Tailwind CSS + class-variance-authority (CVA). Custom additions include `FootballSpinner`, `Logo`, and `PlayerProfileCard`.
+
+**Loading States** — Consistent dark-themed spinner:
+```tsx
+<div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex items-center justify-center">
+  <div className="animate-spin rounded-full h-12 w-12 border-4 border-slate-700 border-t-orange-500" />
+</div>
+```
+
+**Error Boundary** — Top-level class component in `App.tsx` that catches render errors and displays them with an orange-themed error screen.
+
+---
+
+## 4. Backend Architecture
+
+### 4.1 Vercel Serverless Functions (`/api`)
+
+Each file in the `api/` directory becomes a Vercel serverless function endpoint.
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/waitlist-signup` | GET, POST | GET: waitlist count; POST: new signup + welcome email/WhatsApp |
+| `/api/send-launch-emails` | GET, POST | Trigger "We're Live!" launch blast (idempotent) |
+| `/api/create-checkout` | POST | Create Stripe Checkout Session |
+| `/api/billing-portal` | POST | Open Stripe Customer Portal |
+| `/api/stripe-webhook` | POST | Handle Stripe webhook events |
+| `/api/upload-session` | POST | Upload session file → Supabase Storage → enqueue processing |
+| `/api/update-session` | POST | Update session metadata |
+| `/api/update-sessions-batch` | POST | Batch update sessions |
+| `/api/launch-waves` | GET, POST | Manage launch waves (admin) |
+| `/api/support-request` | POST | Submit support ticket |
+| `/api/og` | GET | Dynamic Open Graph image generation |
+| `/api/cron/drip-emails` | POST | Daily drip email campaign (Vercel Cron) |
+
+### 4.2 Shared Server Utilities (`/api/_lib`)
+
+| Module | Purpose |
+|--------|---------|
+| `rate-limit.js` | In-memory sliding-window rate limiter (per-instance). Composite key: IP + Bearer token fragment. |
+| `validate.js` | Input validation: UUID check, string sanitization, file name sanitization, URL validation (HTTPS-only), allowlisted table/column names |
+| `whatsapp.js` | WhatsApp Business Cloud API wrapper (free-form text + template messages) |
+| `email-translations.js` | Multi-language email template strings for all drip stages |
+
+### 4.3 Serverless Function Pattern
+
+Every API route follows this canonical pattern:
+
+```javascript
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  { auth: { persistSession: false } }
+);
+
+export default async function handler(req, res) {
+  // 1. Method check (405 for unsupported methods)
+  // 2. CORS headers (dynamic origin allowlist + Vercel preview URLs)
+  // 3. Auth verification (Bearer token → supabase.auth.getUser())
+  // 4. Input validation (allowlisted fields, UUID checks, sanitization)
+  // 5. Rate limiting (createRateLimiter from _lib/rate-limit.js)
+  // 6. Business logic (Supabase queries, external API calls)
+  // 7. Response (JSON with appropriate status codes)
+}
+```
+
+**Key rules:**
+- Server functions use `SUPABASE_SERVICE_ROLE_KEY` (bypasses RLS for admin operations)
+- Auth is verified by extracting the Bearer token and calling `supabase.auth.getUser(token)`
+- All async work MUST be `await`ed before `res.json()` — Vercel kills pending Promises after response
+- Use `Promise.allSettled()` for parallel operations (email + WhatsApp sends)
+
+### 4.4 Railway Session Processor
+
+A separate Python application (`server/session-processor-v2/`, git submodule) hosted on Railway:
+
+- Receives webhook calls from the upload API
+- Downloads session files from Supabase Storage
+- Processes CSV/XLSX data and computes analytics
+- Writes processed results back to `player_sessions` table
+- Manages job status in `player_sessions_jobs` table
+
+### 4.5 Express Upload Server
+
+`server/index.ts` — A separate Express server (also Railway-hosted) that:
+- Accepts multipart file uploads
+- Validates file type, size (50 MB max), and player IDs
+- Uploads to Supabase Storage
+- Creates `player_sessions_raw` records
+- Triggers the Python processor via webhook
+- Includes SSRF protection (blocks private/loopback hosts)
+- Rate limited: 5 uploads per 15 minutes per IP
+
+---
+
+## 5. Data Models & Database
+
+### 5.1 Core Tables
+
+#### `profiles`
+General user profile (legacy, being superseded by role-specific tables).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `user_id` | UUID (FK → auth.users) | |
+| `full_name` | TEXT | |
+| `avatar_url` | TEXT | |
+| `age`, `sex`, `weight`, `height` | various | Physical attributes |
+| `position` | TEXT | Playing position |
+| `sport` | ENUM (`sport_type`) | |
+
+#### `players_profile`
+Player-specific profile with sport-related fields.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `user_id` | UUID (FK → auth.users) | Links to auth user |
+| `player_name` | TEXT | Display name |
+| `profile_picture_url` | TEXT | Avatar URL |
+| `age` | INT | |
+| `weight_kg`, `height_cm` | NUMERIC | Physical stats |
+| `primary_position` | TEXT | Primary playing position |
+| `team_name` | TEXT | Associated team |
+| `coach_id` | UUID (FK) | Linked coach |
+
+#### `coaches_profile`
+Coach-specific profile.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK, = auth.users.id) | |
+| `full_name` | TEXT | |
+| `profile_picture_url` | TEXT | |
+| `team_name` | TEXT | |
+| `club_affiliation` | TEXT | |
+| `years_of_experience` | INT | |
+| `certification_level` | TEXT | |
+| `specializations` | TEXT | |
+| `bio` | TEXT | |
+
+#### `user_roles`
+Maps users to their application role.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `user_id` | UUID (FK → auth.users) | UNIQUE |
+| `role` | ENUM (`app_role`) | `admin`, `coach`, `player` |
+
+#### `player_sessions`
+Processed session analytics data.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `player_id` | UUID (FK) | |
+| `session_date` | DATE | |
+| `session_type` | TEXT | Match, training, etc. |
+| `deleted_at` | TIMESTAMPTZ | Soft-delete timestamp |
+
+#### `player_sessions_raw`
+Raw uploaded session files (pre-processing).
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `session_id` | UUID | |
+| `player_id`, `player_profile_id` | UUID | |
+| `file_path`, `file_url` | TEXT | Storage references |
+| `bucket_name` | TEXT | Supabase Storage bucket |
+| `status` | TEXT | `pending`, `processing`, `completed`, `failed` |
+| `uploaded_by` | UUID | User who uploaded |
+| `deleted_at` | TIMESTAMPTZ | Soft-delete |
+
+#### `player_sessions_jobs`
+Processing job queue and status tracking.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `session_id` | UUID | |
+| `status` | TEXT | `queued`, `processing`, `completed`, `failed` |
+| `attempts` | INT | Retry count |
+
+#### `waitlist_entries`
+Pre-launch waitlist signups.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `name` | TEXT | Subscriber name |
+| `email` | TEXT (UNIQUE) | Email address |
+| `phone` | TEXT | WhatsApp number (+country code) |
+| `contact_method` | TEXT | `email` or `whatsapp` |
+| `role` | TEXT | `player` or `coach` |
+| `queue_number` | INT | Display position (starts at 100) |
+| `drip_stage` | INT | 0=welcome, 1=hype, 2=one-week, 3=tomorrow, 4=launched |
+| `notified_at` | TIMESTAMPTZ | When launch email was sent (NULL = not yet) |
+| `preferred_language` | TEXT | `en`, `fr`, `pt`, `es`, `de` |
+| `wave_id` | UUID (FK → launch_waves) | Associated launch wave |
+
+#### `launch_waves`
+Admin-configurable launch wave system.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `wave_name` | TEXT | Display name (e.g., "Wave 1") |
+| `status` | TEXT | `draft`, `scheduled`, `active`, `completed`, `cancelled` |
+| `launch_date` | TIMESTAMPTZ | Countdown target |
+| `drip_hype_days_after_signup` | INT | Stage 1 delay (default: 3) |
+| `drip_one_week_days_before` | INT | Stage 2 threshold (default: 7) |
+| `drip_tomorrow_days_before` | INT | Stage 3 threshold (default: 1) |
+| `total_subscribers` | INT | Running count |
+| `emails_sent` | INT | Emails sent for this wave |
+| `whatsapp_sent` | INT | WhatsApp messages sent |
+| `started_at`, `completed_at` | TIMESTAMPTZ | Lifecycle timestamps |
+
+#### `subscriptions`
+Stripe subscription state.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `user_id` | UUID (FK, UNIQUE) | |
+| `stripe_customer_id` | TEXT | |
+| `stripe_subscription_id` | TEXT | |
+| `plan` | TEXT | `free`, `pro_player`, `pro_coach` |
+| `status` | TEXT | `active`, `canceled`, `past_due`, `trialing` |
+| `current_period_start`, `current_period_end` | TIMESTAMPTZ | |
+| `cancel_at_period_end` | BOOLEAN | |
+| `player_slots` | INT | Coach plan: purchased player slots |
+
+#### `admin_events`
+Admin audit/monitoring events log.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| `id` | UUID (PK) | |
+| `event_type` | TEXT | e.g., `upload.started`, `signup.completed` |
+| `event_category` | TEXT | Grouping category |
+| `user_id` | UUID (FK) | Associated user |
+| `metadata` | JSONB | Flexible event data |
+| `severity` | TEXT | `info`, `warning`, `error` |
+| `error_message` | TEXT | Error details if applicable |
+
+### 5.2 Database Enums
+
+```sql
+app_role:   'admin' | 'coach' | 'player'
+sport_type: 'football' | 'basketball' | 'soccer' | 'baseball' | 'tennis' | 'hockey'
+```
+
+### 5.3 Key RPC Functions
+
+| Function | Returns | Purpose |
+|----------|---------|---------|
+| `get_user_role(_user_id)` | `app_role` | SECURITY DEFINER — get user's role safely |
+| `has_role(_role, _user_id)` | `boolean` | Check if user has specific role |
+| `get_active_launch_wave()` | `json` | Get current active/scheduled wave |
+| `get_my_subscription()` | `jsonb` | Current user's subscription + usage stats |
+| `get_admin_overview()` | `jsonb` | Admin dashboard aggregate stats |
+| `get_admin_users_list()` | `jsonb` | All users with profiles for admin |
+| `get_admin_clubs()` | `jsonb` | Coach teams with player/session counts |
+| `get_admin_uploads()` | `jsonb` | Upload activity for admin monitoring |
+| `purge_soft_deleted_sessions()` | `void` | Hard-delete rows soft-deleted > 60 days |
+
+### 5.4 Row-Level Security (RLS) Strategy
+
+All tables have RLS enabled. Policies follow a consistent pattern:
+
+| Pattern | Implementation |
+|---------|----------------|
+| **Own data** | `auth.uid() = user_id` |
+| **Admin read-all** | `get_user_role(auth.uid()) = 'admin'` |
+| **Service role bypass** | Service key used in serverless functions (no RLS) |
+| **Public insert** | Waitlist signup allows `anon` + `authenticated` INSERT |
+| **Admin-only writes** | Role updates restricted to admins only |
+| **Self-scoped events** | Admin events INSERT: `user_id IS NULL OR user_id = auth.uid()` |
+
+### 5.5 Soft Delete
+
+Sessions use soft-delete (`deleted_at TIMESTAMPTZ`):
+- Set `deleted_at = now()` instead of DELETE
+- Partial indexes filter `WHERE deleted_at IS NULL` for performance
+- `purge_soft_deleted_sessions()` hard-deletes rows after 60 days
+
+### 5.6 Supabase Storage
+
+| Bucket | Purpose |
+|--------|---------|
+| `raw_player_uploads_v2` | Primary bucket for raw session files |
+| `raw_player_uploads` | Legacy fallback bucket |
+
+Files are stored at: `{playerProfileId}/{sessionId}/{sanitizedFileName}`
+
+The `resolveStorageBucket()` helper (`src/lib/storage.ts`) dynamically checks which bucket exists and falls back gracefully.
+
+---
+
+## 6. APIs & Integrations
+
+### 6.1 Resend (Email)
+
+- **API Key**: `RESEND_API_KEY`
+- **From Address**: `FutballPro <onboarding@resend.dev>` (configurable via `RESEND_FROM_EMAIL`)
+- **Usage**: Welcome emails, drip campaign (stages 0–4), launch blast
+- **Templates**: Multi-language HTML templates in `api/_lib/email-translations.js`
+- **Pattern**: Direct `fetch()` to Resend REST API with HTML body
+
+### 6.2 WhatsApp Business (Meta Cloud API)
+
+- **API Version**: v21.0 (configurable via `WHATSAPP_API_VERSION`)
+- **Capabilities**:
+  - `sendWhatsApp(to, body)` — Free-form text within 24h conversation window
+  - `sendWhatsAppTemplate(to, templateName, ...)` — Approved templates (anytime)
+  - `sendWhatsAppFirstContact(to, name, lang, queueNumber)` — First contact with queue info
+  - `sendDripTemplate(to, stage, lang)` — Drip campaign stage messages
+- **Configuration check**: `isWhatsAppConfigured()` returns false if env vars are missing (graceful skip)
+
+### 6.3 Stripe
+
+- **Products**: `pro_player`, `pro_coach`
+- **Flow**: `useSubscription.checkout()` → `/api/create-checkout` → Stripe Checkout → `/api/stripe-webhook`
+- **Billing Portal**: `/api/billing-portal` → Stripe Customer Portal
+- **Webhook Events**: `checkout.session.completed`, `customer.subscription.updated/deleted`
+- **Guard**: Role-plan alignment enforced (players can't buy coach plan and vice versa)
+- **Customer ID**: Stored in `subscriptions.stripe_customer_id`, verified against current Stripe mode (test/live)
+
+### 6.4 Vercel Cron
+
+```json
+{
+  "crons": [{
+    "path": "/api/cron/drip-emails",
+    "schedule": "0 10 * * *"
+  }]
+}
+```
+
+Runs daily at 10:00 UTC. Authorized via `CRON_SECRET` Bearer token. Handles drip email stages 1–4.
+
+### 6.5 Rate Limiting
+
+In-memory sliding-window limiter (`api/_lib/rate-limit.js`):
+- Per Vercel serverless instance (not distributed)
+- Composite key: `{prefix}:{IP}:u:{tokenFragment}`
+- Auto-eviction at 5,000 entries
+- Configurable per endpoint (e.g., upload: 10 req / 15 min)
+
+---
+
+## 7. Authentication & Authorization
+
+### 7.1 Auth Flow
+
+1. **Sign Up** → `supabase.auth.signUp()` with email redirect to `/email-confirmed`
+2. **Email Verification** → User clicks link → lands on `/email-confirmed`
+3. **Sign In** → `supabase.auth.signInWithPassword()`
+4. **Session Management** → Supabase handles JWT refresh automatically
+5. **Sign Out** → `supabase.auth.signOut()` + clear all local state
+
+### 7.2 Auth State (`useAuth` hook)
+
+The `AuthProvider` listens to `supabase.auth.onAuthStateChange` and:
+- On `INITIAL_SESSION`: Defers `fetchUserData()` via `setTimeout(0)` to avoid internal lock conflicts
+- On `SIGNED_IN` / `TOKEN_REFRESHED` / `USER_UPDATED`: Refreshes profile data
+- On `SIGNED_OUT`: Clears all state
+
+### 7.3 Role Resolution
+
+Role is determined in a fallback chain:
+1. `supabase.rpc('get_user_role', { _user_id })` (SECURITY DEFINER)
+2. Direct query to `user_roles` table (fallback if RPC fails)
+3. Default to `'player'` if nothing found
+
+### 7.4 Profile Fetching
+
+Profile is loaded from the role-specific table:
+- `coach` → `coaches_profile` (keyed by `id = userId`)
+- `player` → `players_profile` (keyed by `user_id = userId`)
+
+Column selection uses progressive fallback — if a column doesn't exist (e.g., schema migration hasn't been applied), the query retries with a reduced column set.
+
+### 7.5 Route Guards
+
+| Component | Check | Redirect |
+|-----------|-------|----------|
+| `ProtectedRoute` | `user` exists | → `/` if unauthenticated |
+| `AdminRoute` | `role === 'admin'` | → `/dashboard` if not admin, → `/` if unauthenticated |
+
+Both show a themed spinner during the `loading` state.
+
+---
+
+## 8. Subscription & Billing
+
+### 8.1 Plans & Limits
+
+| Feature | Free | Pro Player | Pro Coach |
+|---------|------|------------|-----------|
+| Uploads/month | 3 | Unlimited | Unlimited |
+| Data rows/upload | 1 | Unlimited | Unlimited |
+| Player slots | — | — | Purchased (variable) |
+| ACWR analysis | ❌ | ✅ | ✅ |
+| Z-Score benchmarks | ❌ | ✅ | ✅ |
+| PDF export | ❌ | ✅ | ✅ |
+| Full history | ❌ | ✅ | ✅ |
+
+### 8.2 `useSubscription` Hook
+
+Provides reactive subscription state via React Query:
+- Queries `get_my_subscription()` RPC (60s stale time, refetch on window focus)
+- Exposes: `plan`, `isPro`, `canUpload`, `uploadsRemaining`, `canAddPlayer`, feature flags
+- Actions: `checkout(plan)`, `openBillingPortal()`, `refreshSubscription()`
+
+### 8.3 Server-Side Enforcement
+
+Upload limits are enforced both client-side (UX) and server-side (security):
+- `api/upload-session.js` checks `subscriptions.plan` before accepting uploads
+- Counts uploads this calendar month (including soft-deleted to prevent quota gaming)
+
+---
+
+## 9. Launch Wave System
+
+### 9.1 How It Works
+
+1. **Admin creates a wave** in the admin dashboard with a launch date and drip intervals
+2. **Waitlist signups** are tied to the active wave via `wave_id`
+3. **`launchConfig.ts`** fetches the active wave on app load (60s cache)
+4. **`LaunchGate`** component routes users to waitlist or landing based on wave status
+5. **Drip cron** runs daily and sends stage-appropriate emails/WhatsApp based on wave config
+
+### 9.2 Drip Email Stages
+
+| Stage | Trigger | Content |
+|-------|---------|---------|
+| 0 (Welcome) | Immediate on signup | Welcome + queue number |
+| 1 (Hype) | X days after signup | Excitement builder |
+| 2 (One Week) | X days before launch | Countdown reminder |
+| 3 (Tomorrow) | 1 day before launch | Final countdown |
+| 4 (Launched) | Launch date passed | "We're Live!" + CTA |
+
+Stage 4 is idempotent — uses `notified_at IS NULL` filter and marks wave as `completed`.
+
+### 9.3 Three-Layer Launch Trigger
+
+1. **Primary**: Daily cron detects `daysUntilLaunch <= 0` → sends stage 4
+2. **Backup (client)**: WaitlistV7 countdown reaches 0 → fires `/api/send-launch-emails`
+3. **Manual**: Admin can call `/api/send-launch-emails` directly
+
+---
+
+## 10. Internationalization (i18n)
+
+### 10.1 Configuration
+
+- **Library**: i18next + react-i18next
+- **Languages**: English, Español, Français, Deutsch, Português
+- **Fallback**: English (`en`)
+- **Persistence**: `localStorage` per user (`lang_user_{userId}`)
+- **Email/WhatsApp**: Multi-language templates via `api/_lib/email-translations.js`
+
+### 10.2 Language Provider
+
+`LanguageContext.tsx` wraps the app with:
+- `language` state (synced with i18next and localStorage)
+- `setLanguage(lang)` — updates i18next, localStorage, and context
+- `t(key)` — nested dot-notation translation lookup with key fallback
+- User-scoped persistence (each authenticated user keeps their own language)
+
+### 10.3 Translation Keys
+
+Translations use nested JSON structure:
+```json
+{
+  "hero": {
+    "title": "Professional Football Analytics",
+    "subtitle": "Track your performance..."
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  }
+}
+```
+
+Accessed via: `t('hero.title')` or `i18n.t('auth.signIn')`
+
+---
+
+## 11. Design System & UX Principles
+
+### 11.1 Design Tokens
+
+```
+Brand orange:  #f97316  (orange-500)        — Primary CTA, accents
+Brand red:     #dc2626  (red-600)           — Alerts, destructive actions
+Background:    #020617  (slate-950)          — Deepest background
+               #0f172a  (slate-900)          — Card backgrounds
+               #1e293b  (slate-800)          — Elevated surfaces
+Text primary:  #ffffff                       — Headings, body text
+Text muted:    #94a3b8  (slate-400)          — Secondary text
+Text subtle:   #64748b  (slate-500)          — Tertiary text
+Border:        rgba(255,255,255,0.07)        — Subtle dividers
+Success:       #22c55e  (green-500)
+Error:         #ef4444  (red-500)
+Warning:       #f59e0b  (amber-500)
+
+Font heading:  'Barlow Condensed' 700/800/900
+Font body:     'Barlow' 400/500/600
+```
+
+### 11.2 Tailwind Configuration
+
+- **Dark mode**: Class strategy (`darkMode: ["class"]`), default dark
+- **Container**: Centered, 2rem padding, max 1400px
+- **CSS Variables**: HSL color system (`hsl(var(--primary))`) for shadcn/ui integration
+- **Animations**: Accordion animations via `tailwindcss-animate` + Radix primitives
+- **Border radius**: Configurable via `--radius` CSS variable
+
+### 11.3 Component Library
+
+Built on **shadcn/ui** (Radix UI + Tailwind + CVA):
+
+| Category | Components |
+|----------|-----------|
+| **Layout** | Card, Separator, ScrollArea, ResizablePanels, Sheet, Drawer |
+| **Navigation** | NavigationMenu, Menubar, Tabs, Breadcrumb, Pagination |
+| **Forms** | Input, Textarea, Select, Checkbox, RadioGroup, Switch, Slider, DatePicker, InputOTP |
+| **Feedback** | Toast (Sonner), Alert, AlertDialog, Progress, Skeleton |
+| **Data** | Table, Badge, Avatar, HoverCard, Tooltip |
+| **Overlay** | Dialog, Popover, DropdownMenu, ContextMenu, Command (cmdk) |
+| **Custom** | FootballSpinner, Logo, PlayerProfileCard |
+
+### 11.4 UX Principles
+
+1. **Dark-first design** — All interfaces default to dark theme; optimized for the sports aesthetic
+2. **Mobile-first** — `use-mobile.tsx` hook for responsive breakpoints; touch-friendly targets
+3. **Progressive disclosure** — Onboarding flow reveals complexity gradually (9 concept iterations)
+4. **Optimistic UI** — React Query mutations with optimistic updates where safe
+5. **Graceful degradation** — Every external integration (WhatsApp, email) has fallback/skip behavior
+6. **Loading states everywhere** — Skeleton loaders, spinners, and disabled states during async ops
+7. **Error transparency** — Console-logged errors with `[module]` prefix tags for debugging
+8. **Sport-themed customization** — `sportThemes.ts` provides per-sport colors, icons, and position lists
+
+### 11.5 Design Knowledge Base
+
+The `docs/design/` folder contains 9 curated reference documents:
+
+| File | Topic |
+|------|-------|
+| `01-ui-ux-best-practices.md` | Core UI/UX principles, hierarchy, feedback |
+| `02-landing-page-frameworks.md` | Landing page structure, above-the-fold, CTA patterns |
+| `03-frontend-patterns.md` | Component patterns, state UI, loading/empty/error states |
+| `04-animations.md` | Motion design, micro-interactions, Tailwind animation |
+| `05-accessibility.md` | WCAG 2.1, ARIA, keyboard navigation, focus management |
+| `06-typography.md` | Type scale, font pairing, hierarchy, Barlow system |
+| `07-color-theory.md` | Palette, contrast, semantic color, dark mode |
+| `08-component-library.md` | Buttons, cards, modals, forms, nav patterns |
+| `09-mobile-design.md` | Mobile-first, bottom nav, touch targets, safe areas |
+
+---
+
+## 12. Deployment & Infrastructure
+
+### 12.1 Vercel (Frontend + API)
+
+```json
+// vercel.json
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}
+```
+
+- **Plan**: Hobby
+- **Build**: Vite → `dist/` directory
+- **SPA routing**: All non-API paths rewrite to `index.html`
+- **Cron**: `0 10 * * *` triggers `/api/cron/drip-emails`
+- **Environment**: `UV_LINK_MODE: copy` (Python dependency workaround)
+
+### 12.2 Railway (Session Processor)
+
+- **Service**: `session-processor-v2` (Python, Docker)
+- **Trigger**: Webhook POST from `/api/upload-session`
+- **URL**: `PROCESSOR_URL` env var
+- **Role**: Downloads raw files → processes → writes results to Supabase
+
+### 12.3 Build Configuration
+
+**Vite** (`vite.config.ts`):
+- Plugin: `@vitejs/plugin-react-swc` (fast HMR via SWC)
+- Dev plugin: `lovable-tagger` (development only)
+- Path alias: `@/*` → `./src/*`
+- Chunk size warning: 2000 KB
+- Production: Strips `console.*` and `debugger` statements via esbuild
+- Watch: Ignores `server/`, `tmp/`, `.git/`, `node_modules/`
+
+**TypeScript** (`tsconfig.json`):
+- `allowJs: true` — Mixed JS/TS codebase
+- `noImplicitAny: false` — Relaxed typing for rapid iteration
+- `strictNullChecks: false` — Disabled for flexibility
+- References: `tsconfig.app.json` (app code), `tsconfig.node.json` (tooling)
+
+---
+
+## 13. Security Practices
+
+### 13.1 Client-Side Security
+
+- **Anon key only** — Service role key never ships to the browser
+- **Runtime key validation** — Detects service_role key in VITE env vars and throws
+- **RLS enforcement** — All table access goes through Supabase RLS policies
+- **SECURITY DEFINER functions** — Role checks use `get_user_role()` which runs as definer
+
+### 13.2 Server-Side Security
+
+- **Input validation** — UUID regex, string length limits, file name sanitization, HTTPS-only URLs
+- **Path traversal prevention** — `sanitizeFileName()` strips directory components and special chars
+- **SSRF protection** — `validateFileUrl()` blocks private/loopback hosts
+- **Rate limiting** — Per-endpoint sliding window (IP + user token composite key)
+- **Auth verification** — Bearer token verified via `supabase.auth.getUser(token)` on every request
+- **CORS** — Dynamic origin allowlist + Vercel preview URL wildcard
+- **Formidable limits** — 50 MB max file, 1 file, 10 fields, 2 KB field size
+
+### 13.3 Database Security
+
+- **RLS on all tables** — No table is accessible without a matching policy
+- **Admin-only role updates** — Users cannot change their own role (policy dropped)
+- **Self-scoped event logging** — `admin_events` INSERT enforces `user_id = auth.uid()`
+- **Service role isolation** — Only server functions use service key; webhooks verify signatures
+- **Soft delete** — Data retained 60 days before hard purge (audit trail)
+
+### 13.4 Cron Security
+
+- **CRON_SECRET** — Vercel Cron sends secret as Bearer token; handler validates
+- **Idempotent operations** — Stage 4 launch uses `notified_at IS NULL` to prevent double-sends
+
+---
+
+## 14. Development Conventions
+
+### 14.1 File Naming
+
+| Type | Convention | Example |
+|------|-----------|---------|
+| Pages | PascalCase | `PlayerProfile.tsx` |
+| Components | PascalCase | `ProtectedRoute.tsx` |
+| Hooks | camelCase with `use` prefix | `useAuth.tsx` |
+| Lib/utils | camelCase | `launchConfig.ts` |
+| API routes | kebab-case | `waitlist-signup.js` |
+| SQL migrations | `YYYYMMDD[HHMMSS]_description.sql` | `20260310000001_create_admin_layer.sql` |
+
+### 14.2 Console Logging
+
+All console logs use module-prefixed tags for filtering:
+```javascript
+console.log('[useAuth] resolved role:', roleValue);
+console.error('[waitlist-signup] Update error:', updateErr);
+console.warn('[drip-emails] Could not fetch active wave:', waveErr.message);
+```
+
+Production builds strip all `console.*` and `debugger` statements via Vite esbuild config.
+
+### 14.3 Error Handling
+
+- **API routes**: Try/catch with meaningful error responses + console.error with module tags
+- **React components**: ErrorBoundary at App root; per-component error states
+- **Supabase queries**: `.maybeSingle()` instead of `.single()` to avoid errors on missing rows
+- **External APIs**: Graceful degradation (WhatsApp not configured → skip, don't crash)
+
+### 14.4 Database Query Patterns
+
+```typescript
+// Always use maybeSingle() for optional single-row lookups
+const { data, error } = await supabase
+  .from('table')
+  .select('*')
+  .eq('id', someId)
+  .maybeSingle();  // Returns null instead of error when no row
+
+// Progressive column fallback for schema migrations
+const trySelect = async (cols) => await supabase.from('table').select(cols).eq('id', id).maybeSingle();
+for (let attempt = 0; attempt < 3; attempt++) {
+  const res = await trySelect(columnsToTry.join(', '));
+  if (!res.error) break;
+  if (res.error.code === '42703') { /* remove missing column, retry */ }
+}
+```
+
+### 14.5 Avatar URL Normalization
+
+The codebase has two avatar column names (`avatar_url` and `profile_picture_url`). All API functions normalize:
+```typescript
+if (data && !data.avatar_url && data.profile_picture_url) {
+  data.avatar_url = data.profile_picture_url;
+}
+```
+
+### 14.6 Git Workflow
+
+- **Main branch**: `main` → auto-deploys to Vercel
+- **Submodules**: `server/session-processor-v2` (Python processor)
+- **Migrations**: SQL files in `supabase/migrations/` — applied manually via Supabase SQL Editor
+
+---
+
+## 15. Environment Variables
+
+### Frontend (VITE_* — exposed to browser)
+
+| Variable | Purpose |
+|----------|---------|
+| `VITE_SUPABASE_URL` | Supabase project URL |
+| `VITE_SUPABASE_ANON_KEY` | Supabase anon/public key (NEVER service_role) |
+| `VITE_BACKEND_URL` | Railway upload server URL |
+| `VITE_RAW_PLAYER_UPLOADS_BUCKET` | Storage bucket name override |
+
+### Server (secret — Vercel env vars)
+
+| Variable | Purpose |
+|----------|---------|
+| `SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service role key (bypasses RLS) |
+| `RESEND_API_KEY` | Resend email API key |
+| `RESEND_FROM_EMAIL` | From address (default: `FutballPro <onboarding@resend.dev>`) |
+| `WHATSAPP_PHONE_ID` | Meta WhatsApp Business Phone Number ID |
+| `WHATSAPP_ACCESS_TOKEN` | Meta WhatsApp permanent access token |
+| `WHATSAPP_API_VERSION` | Graph API version (default: `v21.0`) |
+| `STRIPE_SECRET_KEY` | Stripe secret key |
+| `STRIPE_PRICE_PRO_PLAYER` | Stripe Price ID for Pro Player plan |
+| `STRIPE_PRICE_PRO_COACH` | Stripe Price ID for Pro Coach plan |
+| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret |
+| `PROCESSOR_URL` | Railway session processor webhook URL |
+| `CRON_SECRET` | Vercel Cron authorization token |
+| `LAUNCH_EMAIL_SECRET` | Alternative auth for send-launch-emails endpoint |
+| `ALLOWED_ORIGINS` | CORS allowlist (comma-separated) |
+
+---
+
+## Appendix A: Migration History
+
+| Migration | Description |
+|-----------|-------------|
+| `20250324` | Create `launch_waves` table + `get_active_launch_wave()` RPC |
+| `20250614` | Create `waitlist_entries` table with RLS |
+| `20260102004743` | Add `age` to user profiles |
+| `20260102005235` | Add `contract_status` to user profiles |
+| `20260102005434` | Add `date_of_birth` to user profiles |
+| `20260102005619` | Add all missing columns to user profiles |
+| `20260102172600` | Create `session_uploads` table |
+| `20260117` | Create `coaches_profile` table |
+| `20260124` | Add `coach_id` to `players_profile` |
+| `20260125` | Make `user_id` nullable in `players_profile` |
+| `20260304000000` | Fix benchmark trigger table name |
+| `20260304000001` | Fix benchmark trigger columns |
+| `20260304000002` | Fix benchmark function overloads |
+| `20260306000000` | Add soft-delete (`deleted_at`) + purge function |
+| `20260310000001` | Create admin monitoring layer (events, policies, RPCs) |
+| `20260310000002` | Admin layer supplement (4 missing functions) |
+| `20260310000003` | Security hardening (lock down role updates, event scoping) |
+| `20260310000004` | Subscriptions & billing schema |
+| `20260326` | Add `preferred_language` to waitlist entries |
+| `20260615000001` | Fix upload count persistence |
+
+---
+
+## Appendix B: Key Workflows
+
+### B.1 Session Upload Flow
+
+```
+User selects file
+  → Client validates type/size
+  → POST /api/upload-session (multipart, with Bearer token)
+    → Rate limit check
+    → Auth verification (supabase.auth.getUser)
+    → Subscription limit check (free: 3/month)
+    → UUID validation on playerProfileId
+    → File sanitization (name, type, size)
+    → Upload buffer to Supabase Storage
+    → Insert into player_sessions_raw (status: pending)
+    → POST to PROCESSOR_URL webhook (fire-and-forget)
+    → Return { success, sessionId }
+```
+
+### B.2 Waitlist Signup Flow
+
+```
+User fills form on WaitlistV7
+  → POST /api/waitlist-signup
+    → Check existing entry (by email, then phone fallback)
+    → If exists: UPDATE contact info (keep original queue_number)
+    → If new: count + 100 = queue_number, INSERT
+    → Promise.allSettled([
+        sendEmail(welcomeHtml),
+        sendWhatsAppFirstContact(phone, name, lang, queueNumber)
+      ])
+    → Return { success, queueNumber, ... }
+  → Client displays queue number with confetti
+```
+
+### B.3 Daily Drip Cron
+
+```
+Vercel Cron → POST /api/cron/drip-emails (Bearer: CRON_SECRET)
+  → Fetch active wave (get_active_launch_wave RPC)
+  → Calculate daysUntilLaunch
+  → Fetch all subscribers (limit 500)
+  → For each subscriber:
+    → Stage 1: if drip_stage=0 and signup > X days ago
+    → Stage 2: if drip_stage=1 and daysUntilLaunch <= 7
+    → Stage 3: if drip_stage=2 and daysUntilLaunch <= 1
+    → Stage 4: if daysUntilLaunch <= 0 and notified_at IS NULL
+    → Send email + WhatsApp, update drip_stage
+  → Update wave counters (emails_sent, whatsapp_sent)
+  → If stage 4: mark wave as completed
+```
+
+---
+
+*Last updated: auto-generated from codebase analysis*
+*Repository: sports-stats (FutballPro)*

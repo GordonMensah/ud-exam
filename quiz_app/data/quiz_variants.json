@@ -1,0 +1,36 @@
+{
+  "1": [
+    {
+      "variant_id": "quiz_v01",
+      "question_ids": [
+        "ch001_q001"
+      ],
+      "questions": [
+        {
+          "id": "ch001_q001",
+          "chapter_id": 1,
+          "question": "Which option is explicitly supported by this chapter text?",
+          "options": {
+            "a": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (1)",
+            "b": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (2)",
+            "c": "In the beginning God created the heavens and the earth.",
+            "d": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (3)",
+            "e": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (4)"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "In the beginning God created the heavens and the earth.",
+            "reference": "Genesis Sample (Chapter 1)"
+          },
+          "difficulty": "easy"
+        }
+      ]
+    }
+  ]
+}
