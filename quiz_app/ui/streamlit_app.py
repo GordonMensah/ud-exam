@@ -20,10 +20,17 @@ from generator.epub_parser import parse_epub  # noqa: E402
 from generator.question_generator import generate_all_chapter_questions  # noqa: E402
 from generator.variant_generator import generate_exam_variants, generate_quiz_variants  # noqa: E402
 
-# Use /tmp on Railway/cloud (writable), fall back to local data/ for development
-_IS_CLOUD = not Path(_APP_ROOT).joinpath("data").exists() or not Path(_APP_ROOT).joinpath(".venv").exists()
-DATA_DIR = Path("/tmp/ud_exam_data") if _IS_CLOUD else Path(_APP_ROOT) / "data"
-BUNDLE_PATH = DATA_DIR / "books_bundle.json"
+# Data directory: use /tmp on cloud for writes, but fall back to app's data/ for reads
+_LOCAL_DATA = Path(_APP_ROOT) / "data"
+_CLOUD_DATA = Path("/tmp/ud_exam_data")
+_IS_CLOUD = not _LOCAL_DATA.exists() or not Path(_APP_ROOT).joinpath(".venv").exists()
+DATA_DIR = _CLOUD_DATA if _IS_CLOUD else _LOCAL_DATA
+DATA_DIR.mkdir(parents=True, exist_ok=True)
+
+# Bundle: on cloud, prefer /tmp copy (user-uploaded); fall back to shipped copy in app/data/
+_CLOUD_BUNDLE = _CLOUD_DATA / "books_bundle.json"
+_LOCAL_BUNDLE = _LOCAL_DATA / "books_bundle.json"
+BUNDLE_PATH = _CLOUD_BUNDLE if _CLOUD_BUNDLE.exists() else _LOCAL_BUNDLE
 LABELS = ["a", "b", "c", "d", "e"]
 
 # ── helpers ────────────────────────────────────────────────────────────────
@@ -298,7 +305,9 @@ def main() -> None:
                             f"✅ **{epub_file.name}** — {len(chapters)} chapters, {total} questions"
                         )
                         bar.progress((idx + 1) / len(uploaded))
-                    _save_json(BUNDLE_PATH, bundle_out)
+                    # On cloud, save to writable /tmp; locally save to data/
+                    save_target = _CLOUD_BUNDLE if _IS_CLOUD else BUNDLE_PATH
+                    _save_json(save_target, bundle_out)
                     st.success("Done! Scroll to Diagnostics tab to verify.")
 
         st.markdown("---")

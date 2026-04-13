@@ -18,9 +18,7 @@ ENV/
 # Streamlit
 .streamlit/secrets.toml
 
-# Data (generated at runtime — do not commit large JSON)
-quiz_app/data/books_bundle.json
-quiz_app/data/chapters.json
+# Data — large runtime-only files can be added here if needed
 
 # macOS
 .DS_Store
