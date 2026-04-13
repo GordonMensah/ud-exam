@@ -213,7 +213,18 @@ def _extract_refs_with_context(text: str) -> list:
 
     # Step 3: pair each quote with the CLOSEST ref, but only within that
     # ref's midpoint window (no bleed-over into neighbouring refs).
+    _INTERNAL_SENTENCE_RE = re.compile(r'[.!?]\s+[A-Z]')
     for q_pos, q_text in quotes_with_pos:
+        # Skip body-text fragments captured between two uses of the same
+        # quoted word (e.g. '"muddy" ... body text ... "muddy"').  Real
+        # scripture quotes are a single flowing clause; they do NOT contain
+        # an internal sentence boundary like ". B" or "! T".
+        if _INTERNAL_SENTENCE_RE.search(q_text):
+            continue
+        # Also skip quotes that start with a lowercase letter — these are
+        # mid-sentence continuations, not standalone verse passages.
+        if q_text and q_text[0].islower():
+            continue
         lo, hi = _midpoint_window(q_pos)
         eligible = [r for r in refs if lo <= r.position <= hi] or refs
         closest = min(eligible, key=lambda r: abs(r.position - q_pos))
@@ -231,7 +242,9 @@ def _extract_refs_with_context(text: str) -> list:
     #   Alpha-paren: "a) Give ample notice…" (after sentence-end)
     # Group 1 = label,  Group 2 = content text
     _NUMBERED_POINT_RE = re.compile(
-        r'(?:^|(?<=\.\s)|(?<=\?\s)|(?<=!\s)|(?<=:\s))'
+        # Lookbehind handles points after sentence-end punctuation AND after
+        # scripture references which end in a digit (e.g. "Proverbs 17:13 f)").
+        r'(?:^|(?<=\.\s)|(?<=\?\s)|(?<=!\s)|(?<=:\s)|(?<=\d\s))'
         r'(\d{1,3}|[ivx]{1,5}|[a-o])'   # label: arabic / lowercase roman / letter
         r'[.)]\s+'                         # separator: period or paren
         r'([A-Z][^.!?]{10,400})',          # content starts with capital
