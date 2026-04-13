@@ -88,6 +88,7 @@ class ScriptureRef:
     paired_quotes: list = field(default_factory=list)   # actual verse quotes
     commentary: list = field(default_factory=list)       # author's remarks near ref
     topics: list = field(default_factory=list)           # short topic descriptions
+    teaching_points: list = field(default_factory=list)  # numbered points from the book
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────
@@ -191,7 +192,41 @@ def _extract_refs_with_context(text: str) -> list:
         if dist < 500:  # within 500 chars
             closest.paired_quotes.append(q_text)
 
-    # Step 4: extract commentary (non-quoted sentences near each ref)
+    # Step 4: extract numbered teaching points ("12. Be genuinely happy...")
+    # These are the author's actual teaching content that scripture refs support.
+    _NUMBERED_POINT_RE = re.compile(
+        r'(?:^|\n)\s*(\d{1,3})\.\s+([A-Z][^\n]{15,200}?)(?=\n|$)',
+    )
+    points_with_pos = []
+    for m in _NUMBERED_POINT_RE.finditer(text):
+        point_text = m.group(2).strip().rstrip(".")
+        # Take just the first sentence of the point
+        first_sent = re.split(r'(?<=[.!?])\s+', point_text)[0].rstrip(".")
+        if 4 <= len(first_sent.split()) <= 25:
+            points_with_pos.append((m.start(), first_sent))
+
+    # Also extract sentences that start with key teaching verbs
+    _TEACHING_SENT_RE = re.compile(
+        r'(?:^|(?<=[.!?])\s+)'
+        r'((?:A (?:good|bad|loyal|disloyal|treacherous|faithful) '
+        r'(?:assistant|associate|leader|pastor|person|minister)|'
+        r'(?:Be |Do not |Ensure |Make |Always |Never |Genuinely |You must ))'
+        r'[^.]{10,120})',
+        re.MULTILINE,
+    )
+    for m in _TEACHING_SENT_RE.finditer(text):
+        t = m.group(1).strip().rstrip(".")
+        if 5 <= len(t.split()) <= 25:
+            points_with_pos.append((m.start(), t))
+
+    # Pair each teaching point with the CLOSEST ref (within 800 chars)
+    for pt_pos, pt_text in points_with_pos:
+        closest = min(refs, key=lambda r: abs(r.position - pt_pos))
+        dist = abs(closest.position - pt_pos)
+        if dist < 800:
+            closest.teaching_points.append(pt_text)
+
+    # Step 5: extract commentary and topics
     def _good_text(s):
         """Filter out fragments that are too short, have stray digits, or are garbled."""
         s = s.strip().rstrip(".,;:!?")
@@ -199,53 +234,42 @@ def _extract_refs_with_context(text: str) -> list:
             return None
         if _SCRIPTURE_RE.search(s):
             return None
-        # Reject fragments that are mostly digits/punctuation
         alpha = sum(1 for c in s if c.isalpha())
         if alpha < len(s) * 0.5:
             return None
-        # Reject fragments starting with lowercase (usually mid-sentence junk)
         if s[0].islower() and not s.startswith(("a ", "an ", "the ")):
             return None
-        # Must start with a letter
         if not s[0].isalpha():
             return None
         return s
 
     for ref in refs:
-        start = max(0, ref.position - 300)
-        end = min(len(text), ref.position + 300)
+        start = max(0, ref.position - 400)
+        end = min(len(text), ref.position + 400)
         window = text[start:end]
 
-        # Short topic descriptions (3-8 words)
+        # Short topic descriptions from sentences
         for sent in re.split(r"[.;!?]", window):
             cleaned = _good_text(sent)
             if not cleaned:
                 continue
             wc = len(cleaned.split())
-            if 3 <= wc <= 10:
+            if 3 <= wc <= 12:
                 ref.topics.append(cleaned)
 
-            # Also get sub-clauses
-            for clause in re.split(r",\s+", sent):
-                cleaned = _good_text(clause)
-                if not cleaned:
-                    continue
-                wc = len(cleaned.split())
-                if 3 <= wc <= 8:
-                    ref.topics.append(cleaned)
-
-        # Teaching/commentary statements (longer)
+        # Teaching/commentary statements (longer sentences near the ref)
         for sent in _SENTENCE_RE.split(window):
             cleaned = _good_text(sent)
             if not cleaned:
                 continue
             wc = len(cleaned.split())
-            if 5 <= wc <= 25:
-                ref.commentary.append(sent)
+            if 6 <= wc <= 30:
+                ref.commentary.append(cleaned)
 
         ref.paired_quotes = _dedup(ref.paired_quotes)
         ref.topics = _dedup(ref.topics)
         ref.commentary = _dedup(ref.commentary)
+        ref.teaching_points = _dedup(ref.teaching_points)
 
     return refs
 
@@ -258,23 +282,24 @@ def _extract_teachings(text: str) -> list:
         r"((?:The|A|An)\s+(?:\w+\s+)?(?:stage|sign|key|principle|mark|"
         r"danger|fruit|test|proof|characteristic|indicator|spirit|type|"
         r"form|nature|result|reason|cause|root|basis|foundation)\s+"
-        r"(?:of|for|behind|in)\s+.{5,50}?)(?:\.|,|;|$)",
+        r"(?:of|for|behind|in)\s+.{5,60}?)(?:\.|,|;|$)",
         # "A person/leader who X is Y"
         r"((?:A|The)\s+(?:person|leader|pastor|minister|assistant|man|woman|"
-        r"loyal\s+\w+|disloyal\s+\w+|faithful\s+\w+)\s+"
-        r"(?:who|that|which)\s+.{10,70}?)(?:\.|;|$)",
-        # "Loyalty is/demands/requires X"
-        r"(Loyalty\s+(?:is|demands|requires|has|means|involves)\s+.{5,50}?)(?:\.|,|;|$)",
-        # "Disloyalty is/leads/causes X"
-        r"(Disloyalty\s+(?:is|leads|causes|means|involves)\s+.{5,50}?)(?:\.|,|;|$)",
-        # Gerund phrases: "Understanding X", "Addressing Y"
-        r"([A-Z][a-z]+ing\s+(?:the|a|your|his)\s+.{5,45}?)(?:\.|,|;|$)",
+        r"loyal\s+\w+|disloyal\s+\w+|faithful\s+\w+|good\s+\w+|bad\s+\w+|"
+        r"treacherous\s+\w+)\s+"
+        r"(?:who|that|which|is|does|will|must|can|should)\s+.{10,80}?)(?:\.|;|$)",
+        # "Loyalty/Disloyalty is/demands/requires X"
+        r"((?:Loyalty|Disloyalty|Faithfulness)\s+"
+        r"(?:is|demands|requires|has|means|involves|leads|causes)\s+.{5,60}?)(?:\.|,|;|$)",
+        # Teaching imperatives: "Do not X", "Be X", "Ensure X", etc.
+        r"((?:Do not|Be |Ensure |Make |Always |Never |You must |You should )"
+        r"[a-z].{15,80}?)(?:\.|;|$)",
     ]
     for pat in patterns:
-        for m in re.finditer(pat, text, re.IGNORECASE):
+        for m in re.finditer(pat, text):
             t = m.group(1).strip().rstrip(".,;:!?")
             wc = len(t.split())
-            if 3 <= wc <= 20:
+            if 5 <= wc <= 25 and not _SCRIPTURE_RE.search(t):
                 teachings.append(t)
     return _dedup(teachings)
 
@@ -359,22 +384,26 @@ def _q_talks_about(ref, all_topics, rng, negated=False):
 
 # T3/T4: "[Ref] is [not] the biblical basis of"
 def _q_biblical_basis(ref, all_teachings, rng, negated=False):
-    my = ref.commentary[:10]
+    # Use teaching_points (numbered book points) first, fall back to commentary
+    my = ref.teaching_points[:10] or ref.commentary[:10]
     other = [t for t in all_teachings if t not in my]
     if len(my) < 1 or len(other) < 3:
         return None
     neg = "not " if negated else ""
     stem = f"{ref.full_ref} is {neg}the biblical basis of"
     if negated:
-        nt = rng.randint(2, 3); nf = 5 - nt
+        nt = rng.randint(2, 3)
+        nf = 5 - nt
         tp, fp = other, my
     else:
-        nt = rng.randint(1, 2); nf = 5 - nt
+        nt = rng.randint(1, 2)
+        nf = 5 - nt
         tp, fp = my, other
     if len(tp) < nt or len(fp) < nf:
         return None
     opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    return _mkq(stem, opts, ans, ref.full_ref, ref.commentary[0] if ref.commentary else "")
+    ctx = my[0] if my else ""
+    return _mkq(stem, opts, ans, ref.full_ref, ctx)
 
 
 # T5/T6: "The following quotations can[not] be found in [Ref]"
@@ -474,6 +503,13 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None):
     all_teachings = _extract_teachings(chapter.text)
     patterned = _extract_patterned_lists(chapter.text)
     names = _extract_names(chapter.text)
+
+    # Merge teaching_points from all refs into all_teachings pool
+    # This ensures FALSE options for biblical-basis questions are real
+    # teaching points from OTHER refs (not random fragments).
+    all_teachings = _dedup(
+        all_teachings + [tp for r in refs for tp in r.teaching_points]
+    )
 
     # Flat pools for wrong answers
     all_topics = _dedup([t for r in refs for t in r.topics])
