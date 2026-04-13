@@ -84,13 +84,15 @@ _CSS = """
     font-size: 1.02rem;
     margin-bottom: 10px;
 }
-/* Option table */
-.opt-table { width: 100%; border-collapse: collapse; }
-.opt-table td { padding: 5px 8px; font-size: 0.97rem; }
-.opt-table tr.odd  { background: #ffffff; }
-.opt-table tr.even { background: #fffde7; }
-.opt-table .lbl { width: 28px; font-weight: bold; color: #333; }
-.opt-table .txt { }
+/* Option row */
+.opt-row {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.97rem;
+}
+.opt-row-even { background: #fffde7; }
+.opt-row-odd  { background: #ffffff; }
+.opt-label { font-weight: bold; color: #333; }
 /* Timer */
 .timer-wrap {
     float: right;
@@ -124,8 +126,6 @@ _CSS = """
     border-radius: 4px; padding: 4px 10px;
     font-size: 0.9rem; margin-top: 4px;
 }
-/* hide Streamlit's default radio label */
-div[data-testid="stHorizontalBlock"] label { display:none !important; }
 </style>
 """
 
@@ -167,16 +167,10 @@ def _render_question(
             unsafe_allow_html=True,
         )
 
-        # Option table header
-        header_cols = st.columns([0.15, 4, 0.55, 0.55, 0.55])
-        header_cols[2].markdown("**True**")
-        header_cols[3].markdown("**False**")
-        header_cols[4].markdown("**Skip**")
-
-        # Option rows
+        # Option rows — one horizontal radio (True / False / Skip) per option
         for i, label in enumerate(LABELS):
             opt_text = question["options"][label]
-            row_bg = "#fffde7" if i % 2 == 1 else "#ffffff"
+            row_class = "opt-row-even" if i % 2 == 1 else "opt-row-odd"
 
             prev_val = prev_response.get(label)
             if prev_val is True:
@@ -186,45 +180,18 @@ def _render_question(
             else:
                 default_idx = 2
 
-            row_cols = st.columns([0.15, 4, 0.55, 0.55, 0.55])
-
-            with row_cols[0]:
-                st.markdown(
-                    f'<div style="background:{row_bg}; padding:8px 4px; font-weight:bold;">{label}.</div>',
-                    unsafe_allow_html=True,
-                )
-            with row_cols[1]:
-                st.markdown(
-                    f'<div style="background:{row_bg}; padding:8px 4px;">{opt_text}</div>',
-                    unsafe_allow_html=True,
-                )
-            with row_cols[2]:
-                t_val = st.radio(
-                    label=f"T_{qid}_{label}",
-                    options=["✔", ""],
-                    index=0 if default_idx == 0 else 1,
-                    key=f"T_{qid}_{label}",
-                    disabled=is_submitted,
-                    label_visibility="collapsed",
-                )
-            with row_cols[3]:
-                f_val = st.radio(
-                    label=f"F_{qid}_{label}",
-                    options=["✔", ""],
-                    index=0 if default_idx == 1 else 1,
-                    key=f"F_{qid}_{label}",
-                    disabled=is_submitted,
-                    label_visibility="collapsed",
-                )
-            with row_cols[4]:
-                s_val = st.radio(
-                    label=f"S_{qid}_{label}",
-                    options=["✔", ""],
-                    index=0 if default_idx == 2 else 1,
-                    key=f"S_{qid}_{label}",
-                    disabled=is_submitted,
-                    label_visibility="collapsed",
-                )
+            st.markdown(
+                f'<div class="opt-row {row_class}"><span class="opt-label">{label}.</span> {opt_text}</div>',
+                unsafe_allow_html=True,
+            )
+            st.radio(
+                label=f"{label}) True / False / Skip",
+                options=["True", "False", "Skip"],
+                index=default_idx,
+                key=f"ans_{qid}_{label}",
+                disabled=is_submitted,
+                horizontal=True,
+            )
 
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -233,11 +200,10 @@ def _render_question(
             if st.button("💾 Save Answer", key=f"save_{qid}"):
                 response = {}
                 for label in LABELS:
-                    t = st.session_state.get(f"T_{qid}_{label}", "")
-                    f = st.session_state.get(f"F_{qid}_{label}", "")
-                    if t == "✔":
+                    val = st.session_state.get(f"ans_{qid}_{label}", "Skip")
+                    if val == "True":
                         response[label] = True
-                    elif f == "✔":
+                    elif val == "False":
                         response[label] = False
                     else:
                         response[label] = None
