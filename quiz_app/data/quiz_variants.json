@@ -1,21 +1,973 @@
 {
-  "1": [
+  "2": [
     {
       "variant_id": "quiz_v01",
       "question_ids": [
-        "ch001_q001"
+        "ch002_q011",
+        "ch002_q002",
+        "ch002_q001",
+        "ch002_q015",
+        "ch002_q007"
       ],
       "questions": [
         {
-          "id": "ch001_q001",
-          "chapter_id": 1,
-          "question": "Which option is explicitly supported by this chapter text?",
+          "question": "The following quotations cannot be found in Proverbs 30:17",
           "options": {
-            "a": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (1)",
-            "b": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (2)",
-            "c": "In the beginning God created the heavens and the earth.",
-            "d": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (3)",
-            "e": "The text explicitly states the opposite of this claim: In the beginning God created the heavens and the earth. (4)"
+            "a": "He gains psychological support by gaining the support of some of the people he talked to.",
+            "b": "He sits and watches unconcerned and uninvolve",
+            "c": "You learnt what you know from somewhere.",
+            "d": "And you cannot succeed in fighting your own father.",
+            "e": "All of nature, including the wild ravens and eagles of the air will fight against you."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Proverbs 30:17 7th Stage Open Rebellion This is the stage where deceived insurrectionists fight openly against authority.",
+            "reference": "Proverbs 30:17"
+          },
+          "id": "ch002_q011",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The scripture \"Many of them do not know what is afoot.\" can be found in",
+          "options": {
+            "a": "Matthew 26:47",
+            "b": "Exodus 22:18",
+            "c": "John 13:16",
+            "d": "Leviticus 20:17",
+            "e": "Revelation 12:9"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Many of them do not know what is afoot.",
+            "reference": "Exodus 22:18"
+          },
+          "id": "ch002_q002",
+          "chapter_id": 2,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The scripture \"Your seat will be taken by another who is worthier than you.\" can be found in",
+          "options": {
+            "a": "2 Samuel 3:20",
+            "b": "2 Samuel 15:11",
+            "c": "Proverbs 30:17",
+            "d": "2 Samuel 18:14",
+            "e": "Matthew 26:47"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Your seat will be taken by another who is worthier than you.",
+            "reference": "2 Samuel 15:11"
+          },
+          "id": "ch002_q001",
+          "chapter_id": 2,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations cannot be found in 2 Samuel 3:26",
+          "options": {
+            "a": "e, that all of these things are impossible.",
+            "b": "There are people like that in church.",
+            "c": "Dear leader, look around you and observe those who have been wou",
+            "d": "Absalom was doubtlessly angry with his half-brother but said nothing for two whole years.",
+            "e": "st your master, teacher or your father."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "he [Joab] sent messengers after Abner, which brought him again… took him [Abner] aside… and smote him… 2 Samuel 3:26, 27 When the King opted for peace, his right-hand man decided to do otherwise.",
+            "reference": "2 Samuel 3:26"
+          },
+          "id": "ch002_q015",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations cannot be found in 2 Samuel 12:28",
+          "options": {
+            "a": "Don’t Despise Your Teacher Ministers despise their teachers just because they have acquired a little following and a new car.",
+            "b": "lation 12:9 Absalom And ten young men… compassed about and smote Absalom, and slew him.",
+            "c": "Independent Pastor Helps the Opposition There was another son named Adonijah who wanted to be king in the stead of Solomon.",
+            "d": "Branch Pastor Joab Threatens a Takeover The next example of Joab’s independence was when he fought against the royal city of Rabbah on behalf of King David.",
+            "e": "This verse is actually teaching us that it is a curse to be uninvolved when you have something to pitch in."
+          },
+          "answers": {
+            "a": true,
+            "b": true,
+            "c": true,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "2 Samuel 12:28 He wanted David to be there himself! What he was saying in other words was, I’m no fool to do all the hard work only for you to take the glory.",
+            "reference": "2 Samuel 12:28"
+          },
+          "id": "ch002_q007",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v02",
+      "question_ids": [
+        "ch002_q006",
+        "ch002_q008",
+        "ch002_q005",
+        "ch002_q013",
+        "ch002_q003"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations cannot be found in John 13:16",
+          "options": {
+            "a": "Jesus never travelled more than two hundred miles from the place where he was born.",
+            "b": "wn more property on this earth than Jesus did.",
+            "c": "Is he really called?",
+            "d": "The people of Israel were so impressed with the king’s son for two reasons.",
+            "e": "...Thou… full of wisdom… perfect in beauty… wast created."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "John 13:16 It is unfortunate that when we make little gains in the ministry, we begin to think that we are greater than anyone who has been before us.",
+            "reference": "John 13:16"
+          },
+          "id": "ch002_q006",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Revelation 12:7",
+          "options": {
+            "a": "I do not overlook silent and detached people who have nothing to say or contribute.",
+            "b": "ains psychological support by gaining the support of some of the people he talked to.",
+            "c": "God will not help you and in fact, He will fight against you.",
+            "d": "Absalom fought against his father.",
+            "e": "Disloyal people have an insidious way of discussing the shortcomings of their leaders."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "And there was war in heaven …and the dragon [the devil] fought… Revelation 12:7 2.",
+            "reference": "Revelation 12:7"
+          },
+          "id": "ch002_q008",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in John 14:12",
+          "options": {
+            "a": "And you cannot succeed in fighting your own father.",
+            "b": "I Was Frightened by My Church Members I was a young pastor with no theological training.",
+            "c": "Judas betrayed and fought against his Lord and master.",
+            "d": "Today, evangelists minister to larger crowds than Jesus ever did.",
+            "e": "n six months he could achieve things that take many years of experience to attain."
+          },
+          "answers": {
+            "a": true,
+            "b": true,
+            "c": true,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "John 14:12 History has proved this to be true.",
+            "reference": "John 14:12"
+          },
+          "id": "ch002_q005",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The scripture \"The Bible says folks will betray you when they are offended.\" can be found in",
+          "options": {
+            "a": "2 Samuel 18:14",
+            "b": "Matthew 24:10",
+            "c": "1 Kings 1:5",
+            "d": "Matthew 26:47",
+            "e": "Jeremiah 48:10"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "The Bible says folks will betray you when they are offended.",
+            "reference": "Matthew 24:10"
+          },
+          "id": "ch002_q013",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The statement \"From experience, I have come to learn that when a person is in the political stage of disloyalty, he has three favourite phrases: A lot of people are saying “so-and-so”.\" can be gleaned from",
+          "options": {
+            "a": "Psalm 131:1",
+            "b": "2 Samuel 13:28",
+            "c": "Leviticus 20:17",
+            "d": "1 Kings 2:25",
+            "e": "Ezekiel 28:14"
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Psalm 131:1 Gradually they are able to spread their dissenting feelings to a group of gullible Christians.",
+            "reference": "Psalm 131:1"
+          },
+          "id": "ch002_q003",
+          "chapter_id": 2,
+          "difficulty": "easy"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v03",
+      "question_ids": [
+        "ch002_q014",
+        "ch002_q004",
+        "ch002_q012",
+        "ch002_q010",
+        "ch002_q009"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in 2 Samuel 18:5",
+          "options": {
+            "a": "A certain man reported that he had seen Absalom hanging by his hair on a tree.",
+            "b": "Doing nothing and saying nothing!",
+            "c": "You must never forget that, in a certain sense, you have been set where you are by or through someone else.",
+            "d": "3rd Stage Passivity After being offended by one thing or the other, people become passive.",
+            "e": "And he [Adonijah] conferred with Joab … [who] helped him."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "2 Samuel 18:5 Thankfully, the battle turned in the favor of King David and Absalom had to flee.",
+            "reference": "2 Samuel 18:5"
+          },
+          "id": "ch002_q014",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in 2 Samuel 3:20",
+          "options": {
+            "a": "Although he was supposed to submit to the wishes of the king, he went ahead with his own plan.",
+            "b": "Why didn’t you kill him? I would have rewarded you handsomely.",
+            "c": "Today, evangelists minister to larger crowds than Jesus ever did.",
+            "d": "he first example of the independence of Joab was in the murder of Abner.",
+            "e": "You must remember that you have been helped by somebody to"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "2 Samuel 3:20, 21 But when Joab heard that this man had been entertained in the palace, he was furious.",
+            "reference": "2 Samuel 3:20"
+          },
+          "id": "ch002_q004",
+          "chapter_id": 2,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The scripture \"Absalom was doubtlessly angry with his half-brother but said nothing for two whole years.\" can be found in",
+          "options": {
+            "a": "Leviticus 20:17",
+            "b": "Ezekiel 28:12",
+            "c": "2 Samuel 18:15",
+            "d": "Ezekiel 28:14",
+            "e": "2 Samuel 13:22"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Absalom was doubtlessly angry with his half-brother but said nothing for two whole years.",
+            "reference": "2 Samuel 13:22"
+          },
+          "id": "ch002_q012",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Leviticus 20:17",
+          "options": {
+            "a": "God will divinely displace and replace you with someone else.",
+            "b": "If he had done his duty, he would have fulfilled the Law of Moses.",
+            "c": "lation 12:9 Absalom And ten young men… compassed about and smote Absalom, and slew him.",
+            "d": "You see, the more people that you can involve in something controversial, the more confidence you will gain.",
+            "e": "...Judas… came, and with him a great multitude with swords… Now he that betrayed him gave them a sign, saying, Whomsoever I shall kiss, that same is he: hold him fast."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Leviticus 20:17 The penalty for incest in those days was death.",
+            "reference": "Leviticus 20:17"
+          },
+          "id": "ch002_q010",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The scripture \"st your master, teacher or your father.\" can be found in",
+          "options": {
+            "a": "1 Kings 2:25",
+            "b": "John 13:16",
+            "c": "1 Kings 2:46",
+            "d": "2 Samuel 3:26",
+            "e": "1 Samuel 15:23"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "st your master, teacher or your father.",
+            "reference": "1 Samuel 15:23"
+          },
+          "id": "ch002_q009",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v04",
+      "question_ids": [
+        "ch002_q001",
+        "ch002_q003",
+        "ch002_q006",
+        "ch002_q007",
+        "ch002_q013"
+      ],
+      "questions": [
+        {
+          "question": "The scripture \"Your seat will be taken by another who is worthier than you.\" can be found in",
+          "options": {
+            "a": "2 Samuel 3:20",
+            "b": "2 Samuel 15:11",
+            "c": "Proverbs 30:17",
+            "d": "2 Samuel 18:14",
+            "e": "Matthew 26:47"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Your seat will be taken by another who is worthier than you.",
+            "reference": "2 Samuel 15:11"
+          },
+          "id": "ch002_q001",
+          "chapter_id": 2,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The statement \"From experience, I have come to learn that when a person is in the political stage of disloyalty, he has three favourite phrases: A lot of people are saying “so-and-so”.\" can be gleaned from",
+          "options": {
+            "a": "Psalm 131:1",
+            "b": "2 Samuel 13:28",
+            "c": "Leviticus 20:17",
+            "d": "1 Kings 2:25",
+            "e": "Ezekiel 28:14"
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Psalm 131:1 Gradually they are able to spread their dissenting feelings to a group of gullible Christians.",
+            "reference": "Psalm 131:1"
+          },
+          "id": "ch002_q003",
+          "chapter_id": 2,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations cannot be found in John 13:16",
+          "options": {
+            "a": "Jesus never travelled more than two hundred miles from the place where he was born.",
+            "b": "wn more property on this earth than Jesus did.",
+            "c": "Is he really called?",
+            "d": "The people of Israel were so impressed with the king’s son for two reasons.",
+            "e": "...Thou… full of wisdom… perfect in beauty… wast created."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "John 13:16 It is unfortunate that when we make little gains in the ministry, we begin to think that we are greater than anyone who has been before us.",
+            "reference": "John 13:16"
+          },
+          "id": "ch002_q006",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in 2 Samuel 12:28",
+          "options": {
+            "a": "Don’t Despise Your Teacher Ministers despise their teachers just because they have acquired a little following and a new car.",
+            "b": "lation 12:9 Absalom And ten young men… compassed about and smote Absalom, and slew him.",
+            "c": "Independent Pastor Helps the Opposition There was another son named Adonijah who wanted to be king in the stead of Solomon.",
+            "d": "Branch Pastor Joab Threatens a Takeover The next example of Joab’s independence was when he fought against the royal city of Rabbah on behalf of King David.",
+            "e": "This verse is actually teaching us that it is a curse to be uninvolved when you have something to pitch in."
+          },
+          "answers": {
+            "a": true,
+            "b": true,
+            "c": true,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "2 Samuel 12:28 He wanted David to be there himself! What he was saying in other words was, I’m no fool to do all the hard work only for you to take the glory.",
+            "reference": "2 Samuel 12:28"
+          },
+          "id": "ch002_q007",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The scripture \"The Bible says folks will betray you when they are offended.\" can be found in",
+          "options": {
+            "a": "2 Samuel 18:14",
+            "b": "Matthew 24:10",
+            "c": "1 Kings 1:5",
+            "d": "Matthew 26:47",
+            "e": "Jeremiah 48:10"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "The Bible says folks will betray you when they are offended.",
+            "reference": "Matthew 24:10"
+          },
+          "id": "ch002_q013",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v05",
+      "question_ids": [
+        "ch002_q015",
+        "ch002_q002",
+        "ch002_q009",
+        "ch002_q012",
+        "ch002_q014"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations cannot be found in 2 Samuel 3:26",
+          "options": {
+            "a": "e, that all of these things are impossible.",
+            "b": "There are people like that in church.",
+            "c": "Dear leader, look around you and observe those who have been wou",
+            "d": "Absalom was doubtlessly angry with his half-brother but said nothing for two whole years.",
+            "e": "st your master, teacher or your father."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "he [Joab] sent messengers after Abner, which brought him again… took him [Abner] aside… and smote him… 2 Samuel 3:26, 27 When the King opted for peace, his right-hand man decided to do otherwise.",
+            "reference": "2 Samuel 3:26"
+          },
+          "id": "ch002_q015",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The scripture \"Many of them do not know what is afoot.\" can be found in",
+          "options": {
+            "a": "Matthew 26:47",
+            "b": "Exodus 22:18",
+            "c": "John 13:16",
+            "d": "Leviticus 20:17",
+            "e": "Revelation 12:9"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Many of them do not know what is afoot.",
+            "reference": "Exodus 22:18"
+          },
+          "id": "ch002_q002",
+          "chapter_id": 2,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The scripture \"st your master, teacher or your father.\" can be found in",
+          "options": {
+            "a": "1 Kings 2:25",
+            "b": "John 13:16",
+            "c": "1 Kings 2:46",
+            "d": "2 Samuel 3:26",
+            "e": "1 Samuel 15:23"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "st your master, teacher or your father.",
+            "reference": "1 Samuel 15:23"
+          },
+          "id": "ch002_q009",
+          "chapter_id": 2,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The scripture \"Absalom was doubtlessly angry with his half-brother but said nothing for two whole years.\" can be found in",
+          "options": {
+            "a": "Leviticus 20:17",
+            "b": "Ezekiel 28:12",
+            "c": "2 Samuel 18:15",
+            "d": "Ezekiel 28:14",
+            "e": "2 Samuel 13:22"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Absalom was doubtlessly angry with his half-brother but said nothing for two whole years.",
+            "reference": "2 Samuel 13:22"
+          },
+          "id": "ch002_q012",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in 2 Samuel 18:5",
+          "options": {
+            "a": "A certain man reported that he had seen Absalom hanging by his hair on a tree.",
+            "b": "Doing nothing and saying nothing!",
+            "c": "You must never forget that, in a certain sense, you have been set where you are by or through someone else.",
+            "d": "3rd Stage Passivity After being offended by one thing or the other, people become passive.",
+            "e": "And he [Adonijah] conferred with Joab … [who] helped him."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "2 Samuel 18:5 Thankfully, the battle turned in the favor of King David and Absalom had to flee.",
+            "reference": "2 Samuel 18:5"
+          },
+          "id": "ch002_q014",
+          "chapter_id": 2,
+          "difficulty": "hard"
+        }
+      ]
+    }
+  ],
+  "4": [
+    {
+      "variant_id": "quiz_v01",
+      "question_ids": [
+        "ch004_q011",
+        "ch004_q002",
+        "ch004_q001",
+        "ch004_q015",
+        "ch004_q007"
+      ],
+      "questions": [
+        {
+          "question": "The statement \"If you do not withhold information, it may save your life some day.\" can be gleaned from",
+          "options": {
+            "a": "2 Timothy 1:6",
+            "b": "1 Corinthians 1:11",
+            "c": "2 Timothy 3:14",
+            "d": "Matthew 12:30",
+            "e": "Esther 2:21"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "And the thing was known to Mordecai, who told it… Esther 2:21, 22 When you know of something evil, you are expected to tell it! Mordecai’s act of loyalty was recorded in the annals of the nation.",
+            "reference": "Esther 2:21"
+          },
+          "id": "ch004_q011",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "James 4:4 is the biblical basis of",
+          "options": {
+            "a": "church or anything like that",
+            "b": "To be a committed member of a ministry team requires what I call full persuasion.",
+            "c": "She said, “If you stop doing the work of the ministry, people will stop talking about you!” And that is very true.",
+            "d": "Am I somebody who is what he claims to be?",
+            "e": "If you are going to be loyal to me, you will have to be sure about me."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "James 4:4 Notice that certain friendships are equivalent to enmity with God.",
+            "reference": "James 4:4"
+          },
+          "id": "ch004_q002",
+          "chapter_id": 4,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations cannot be found in 1 Corinthians 5:1",
+          "options": {
+            "a": "Most importantly, Timothy should remember the type of person from whom he learnt what he knows.",
+            "b": "Why should I listen to the tale of some silly personality, whose agenda I’m not sure of?",
+            "c": "Observe how another family reported to Paul abou",
+            "d": "oyal if he tells me about any corruption that is taking place.",
+            "e": "Apostle Paul wrote to the Corinthians and said, It is reported commonly that there is fornication among you..."
+          },
+          "answers": {
+            "a": true,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "1 Corinthians 5:1 Notice that Paul did not have a word of knowledge about the extent of immorality going on in the church.",
+            "reference": "1 Corinthians 5:1"
+          },
+          "id": "ch004_q001",
+          "chapter_id": 4,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Romans 16:17",
+          "options": {
+            "a": "…Bigthan and Teresh… …sought to lay hand on the king Ahasuerus.",
+            "b": "How can you ask us to stay away from a brother?",
+            "c": "I’m reminding you of something.",
+            "d": "I had heard this pastor preaching and teaching many times and have been very moved by the gift of God upon his life.",
+            "e": "The day I stop following Christ is the day you must stop following me."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Romans 16:17 All through the Scriptures, you will find the historical records of Lucifer, the rebel; Absalom, the papa killer; and Adonijah, the usurper.",
+            "reference": "Romans 16:17"
+          },
+          "id": "ch004_q015",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations cannot be found in 2 Timothy 3:10",
+          "options": {
+            "a": "She said, “If you stop doing the work of the ministry, people will stop talking about you!” And that is very true.",
+            "b": "You have known my lifestyle and my character.",
+            "c": "Sometimes it is good to explain certain issues as they develop.",
+            "d": "This will help you to know whether to remain loyal to them or not.",
+            "e": "Jesus said, If any man come to me, and hate not his father, and mother, and wife, and children, and brethren, and sisters, yea, and his own life also, he cannot be my disciple."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "But thou hast fully known my doctrine, manner of life, purpose, faith, longsuffering, charity, patience, Persecutions, afflictions… 2 Timothy 3:10, 11 Paul said, “You have known my lifestyle and my character.",
+            "reference": "2 Timothy 3:10"
+          },
+          "id": "ch004_q007",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v02",
+      "question_ids": [
+        "ch004_q006",
+        "ch004_q008",
+        "ch004_q005",
+        "ch004_q013",
+        "ch004_q003"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations cannot be found in 2 Timothy 3:14",
+          "options": {
+            "a": "New Testament in Modern English …claiming to be an anointed king...",
+            "b": "This person obviously is not a deep thinker.",
+            "c": "Analyze the individual who is being criticized and whether it makes sense.",
+            "d": "Notice that Jonathan almost lost his life because of his loyalty to David.",
+            "e": "One time, someone said that I was preaching for money, trying to get rich quickly."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "But continue thou in the things which thou hast learned and hast been assured of, knowing of whom thou hast learned them; 2 Timothy 3:14 When people begin to come up with all forms of seditious stories and slanderous reports, think carefully about what they are saying.",
+            "reference": "2 Timothy 3:14"
+          },
+          "id": "ch004_q006",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Luke 6:40",
+          "options": {
+            "a": "You must know what you stand for and you must be prepared to die for it.",
+            "b": "When Jesus chose leaders, one of them turned out to be a devil.",
+            "c": "If you stop doing the work of the ministry, people will stop talking about you!",
+            "d": "This person obviously is not a deep thinker.",
+            "e": "Friendship with this means enmity with that!"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Luke 6:40",
+            "reference": "Luke 6:40"
+          },
+          "id": "ch004_q008",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The statement \"But the Bible says, we should look diligently to see if there is any fornicator amongst us.\" can be gleaned from",
+          "options": {
+            "a": "Esther 2:21",
+            "b": "2 Timothy 3:14",
+            "c": "1 Corinthians 11:1",
+            "d": "Luke 6:40",
+            "e": "Luke 14:26"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Luke 14:26 There are certain things that are virtually impossible to see openly.",
+            "reference": "Luke 14:26"
+          },
+          "id": "ch004_q005",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in 1 Timothy 5:19",
+          "options": {
+            "a": "I had heard this pastor preaching and teaching many times and have been very moved by the gift of God upon his life.",
+            "b": "This report did not even come from the pastor, but from an ordinary church member called Chloe.",
+            "c": "I Supported Him Till… Some years ago, a man of God I loved was accused of committing adultery with a member of his church.",
+            "d": "Twentieth Century New Testament …a fomenter of discord...",
+            "e": "Why should I listen to the tale of some silly personality, whose agenda I’m not sure of?"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "1 Timothy 5:19 Loyalty demands continuous analysis in the face of constant accusations, rumours and slanderous stories.",
+            "reference": "1 Timothy 5:19"
+          },
+          "id": "ch004_q013",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Acts 24:5",
+          "options": {
+            "a": "When I meet people I have heard unfavorable rumours about, I find them to be quite different from how they have been portrayed.",
+            "b": "Of course, I would take an accusation like that more seriously if it came from more than one person.",
+            "c": "Berkeley Version of the New Testament …a public pest...",
+            "d": "The king could not sleep one night and was reading some materials from the archives.",
+            "e": "New Testament in Modern Speech …a veritable plague..."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "The New Testament in Modern English Paul Was Accused In Acts 24:5, Paul was accused of being …a source of mischief.",
+            "reference": "Acts 24:5"
+          },
+          "id": "ch004_q003",
+          "chapter_id": 4,
+          "difficulty": "easy"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v03",
+      "question_ids": [
+        "ch004_q014",
+        "ch004_q004",
+        "ch004_q012",
+        "ch004_q010",
+        "ch004_q009"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations cannot be found in Luke 23:2",
+          "options": {
+            "a": "Twentieth Century New Testament …telling them that it is wrong to pay taxes...",
+            "b": "Am I somebody who is what he claims to be?",
+            "c": "Twentieth Century New Testament …teaching our people sedition...",
+            "d": "stians claim that they are simply friends with a rebellious person.",
+            "e": "Apostle Paul wrote to the Corinthians and said, It is reported commonly that there is fornication among you..."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "Jesus Was Accused In Luke 23:2, Jesus was accused by many people of, …misleading our people.",
+            "reference": "Luke 23:2"
+          },
+          "id": "ch004_q014",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The statement \"ssed young lady doing in my man of God’s hotel room?\" can be gleaned from",
+          "options": {
+            "a": "Acts 17:11",
+            "b": "2 Timothy 3:10",
+            "c": "2 Timothy 1:13",
+            "d": "2 Timothy 1:12",
+            "e": "Romans 16:17"
           },
           "answers": {
             "a": false,
@@ -25,10 +977,1672 @@
             "e": false
           },
           "source": {
-            "text": "In the beginning God created the heavens and the earth.",
-            "reference": "Genesis Sample (Chapter 1)"
+            "text": "Analyze the Form of Words You Have Heard Hold fast the form of sound words, which thou hast heard of me… 2 Timothy 1:13 You are supposed to check on what pastors preach to you from the pulpit.",
+            "reference": "2 Timothy 1:13"
           },
+          "id": "ch004_q004",
+          "chapter_id": 4,
           "difficulty": "easy"
+        },
+        {
+          "question": "The statement \"Many years ago, when Jim Jones led hundreds of people to commit suicide, the whole world wa\" can be gleaned from",
+          "options": {
+            "a": "1 Corinthians 1:11",
+            "b": "Luke 6:40",
+            "c": "Luke 14:26",
+            "d": "Acts 24:5",
+            "e": "1 Corinthians 11:1"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "1 Corinthians 11:1 (NIV) In other words, Paul was saying, follow me only as long as I follow Christ.",
+            "reference": "1 Corinthians 11:1"
+          },
+          "id": "ch004_q012",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations cannot be found in 1 Samuel 20:13",
+          "options": {
+            "a": "Even though his actions were directed against his own family, it was the right thing to do.",
+            "b": "If it’s your brother or your sister it must be right.",
+            "c": "My loyalty to Christ has meant that I cannot maintain some of my old frie",
+            "d": "Paul wrote to remind him of what happened in the past.",
+            "e": "Did he ever attempt to desecrate the temple?"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "…but if it please my father to do thee evil, then I will shew it thee, and send thee away, that thou mayest go in peace… 1 Samuel 20:13 Lesson #5 Loyalty Will Cost You Relationships and Friendships Everything has a price.",
+            "reference": "1 Samuel 20:13"
+          },
+          "id": "ch004_q010",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The scripture \"Twentieth Century New Testament …teaching our people sedition...\" can be found in",
+          "options": {
+            "a": "Acts 24:5",
+            "b": "1 Samuel 20:32",
+            "c": "Ecclesiastes 1:9",
+            "d": "Luke 23:2",
+            "e": "Esther 2:21"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Twentieth Century New Testament …teaching our people sedition...",
+            "reference": "Luke 23:2"
+          },
+          "id": "ch004_q009",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v04",
+      "question_ids": [
+        "ch004_q001",
+        "ch004_q003",
+        "ch004_q006",
+        "ch004_q007",
+        "ch004_q013"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations cannot be found in 1 Corinthians 5:1",
+          "options": {
+            "a": "Most importantly, Timothy should remember the type of person from whom he learnt what he knows.",
+            "b": "Why should I listen to the tale of some silly personality, whose agenda I’m not sure of?",
+            "c": "Observe how another family reported to Paul abou",
+            "d": "oyal if he tells me about any corruption that is taking place.",
+            "e": "Apostle Paul wrote to the Corinthians and said, It is reported commonly that there is fornication among you..."
+          },
+          "answers": {
+            "a": true,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "1 Corinthians 5:1 Notice that Paul did not have a word of knowledge about the extent of immorality going on in the church.",
+            "reference": "1 Corinthians 5:1"
+          },
+          "id": "ch004_q001",
+          "chapter_id": 4,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Acts 24:5",
+          "options": {
+            "a": "When I meet people I have heard unfavorable rumours about, I find them to be quite different from how they have been portrayed.",
+            "b": "Of course, I would take an accusation like that more seriously if it came from more than one person.",
+            "c": "Berkeley Version of the New Testament …a public pest...",
+            "d": "The king could not sleep one night and was reading some materials from the archives.",
+            "e": "New Testament in Modern Speech …a veritable plague..."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "The New Testament in Modern English Paul Was Accused In Acts 24:5, Paul was accused of being …a source of mischief.",
+            "reference": "Acts 24:5"
+          },
+          "id": "ch004_q003",
+          "chapter_id": 4,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations cannot be found in 2 Timothy 3:14",
+          "options": {
+            "a": "New Testament in Modern English …claiming to be an anointed king...",
+            "b": "This person obviously is not a deep thinker.",
+            "c": "Analyze the individual who is being criticized and whether it makes sense.",
+            "d": "Notice that Jonathan almost lost his life because of his loyalty to David.",
+            "e": "One time, someone said that I was preaching for money, trying to get rich quickly."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "But continue thou in the things which thou hast learned and hast been assured of, knowing of whom thou hast learned them; 2 Timothy 3:14 When people begin to come up with all forms of seditious stories and slanderous reports, think carefully about what they are saying.",
+            "reference": "2 Timothy 3:14"
+          },
+          "id": "ch004_q006",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in 2 Timothy 3:10",
+          "options": {
+            "a": "She said, “If you stop doing the work of the ministry, people will stop talking about you!” And that is very true.",
+            "b": "You have known my lifestyle and my character.",
+            "c": "Sometimes it is good to explain certain issues as they develop.",
+            "d": "This will help you to know whether to remain loyal to them or not.",
+            "e": "Jesus said, If any man come to me, and hate not his father, and mother, and wife, and children, and brethren, and sisters, yea, and his own life also, he cannot be my disciple."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "But thou hast fully known my doctrine, manner of life, purpose, faith, longsuffering, charity, patience, Persecutions, afflictions… 2 Timothy 3:10, 11 Paul said, “You have known my lifestyle and my character.",
+            "reference": "2 Timothy 3:10"
+          },
+          "id": "ch004_q007",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in 1 Timothy 5:19",
+          "options": {
+            "a": "I had heard this pastor preaching and teaching many times and have been very moved by the gift of God upon his life.",
+            "b": "This report did not even come from the pastor, but from an ordinary church member called Chloe.",
+            "c": "I Supported Him Till… Some years ago, a man of God I loved was accused of committing adultery with a member of his church.",
+            "d": "Twentieth Century New Testament …a fomenter of discord...",
+            "e": "Why should I listen to the tale of some silly personality, whose agenda I’m not sure of?"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "1 Timothy 5:19 Loyalty demands continuous analysis in the face of constant accusations, rumours and slanderous stories.",
+            "reference": "1 Timothy 5:19"
+          },
+          "id": "ch004_q013",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v05",
+      "question_ids": [
+        "ch004_q015",
+        "ch004_q002",
+        "ch004_q009",
+        "ch004_q012",
+        "ch004_q014"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in Romans 16:17",
+          "options": {
+            "a": "…Bigthan and Teresh… …sought to lay hand on the king Ahasuerus.",
+            "b": "How can you ask us to stay away from a brother?",
+            "c": "I’m reminding you of something.",
+            "d": "I had heard this pastor preaching and teaching many times and have been very moved by the gift of God upon his life.",
+            "e": "The day I stop following Christ is the day you must stop following me."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Romans 16:17 All through the Scriptures, you will find the historical records of Lucifer, the rebel; Absalom, the papa killer; and Adonijah, the usurper.",
+            "reference": "Romans 16:17"
+          },
+          "id": "ch004_q015",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "James 4:4 is the biblical basis of",
+          "options": {
+            "a": "church or anything like that",
+            "b": "To be a committed member of a ministry team requires what I call full persuasion.",
+            "c": "She said, “If you stop doing the work of the ministry, people will stop talking about you!” And that is very true.",
+            "d": "Am I somebody who is what he claims to be?",
+            "e": "If you are going to be loyal to me, you will have to be sure about me."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "James 4:4 Notice that certain friendships are equivalent to enmity with God.",
+            "reference": "James 4:4"
+          },
+          "id": "ch004_q002",
+          "chapter_id": 4,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The scripture \"Twentieth Century New Testament …teaching our people sedition...\" can be found in",
+          "options": {
+            "a": "Acts 24:5",
+            "b": "1 Samuel 20:32",
+            "c": "Ecclesiastes 1:9",
+            "d": "Luke 23:2",
+            "e": "Esther 2:21"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Twentieth Century New Testament …teaching our people sedition...",
+            "reference": "Luke 23:2"
+          },
+          "id": "ch004_q009",
+          "chapter_id": 4,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The statement \"Many years ago, when Jim Jones led hundreds of people to commit suicide, the whole world wa\" can be gleaned from",
+          "options": {
+            "a": "1 Corinthians 1:11",
+            "b": "Luke 6:40",
+            "c": "Luke 14:26",
+            "d": "Acts 24:5",
+            "e": "1 Corinthians 11:1"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "1 Corinthians 11:1 (NIV) In other words, Paul was saying, follow me only as long as I follow Christ.",
+            "reference": "1 Corinthians 11:1"
+          },
+          "id": "ch004_q012",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations cannot be found in Luke 23:2",
+          "options": {
+            "a": "Twentieth Century New Testament …telling them that it is wrong to pay taxes...",
+            "b": "Am I somebody who is what he claims to be?",
+            "c": "Twentieth Century New Testament …teaching our people sedition...",
+            "d": "stians claim that they are simply friends with a rebellious person.",
+            "e": "Apostle Paul wrote to the Corinthians and said, It is reported commonly that there is fornication among you..."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "Jesus Was Accused In Luke 23:2, Jesus was accused by many people of, …misleading our people.",
+            "reference": "Luke 23:2"
+          },
+          "id": "ch004_q014",
+          "chapter_id": 4,
+          "difficulty": "hard"
+        }
+      ]
+    }
+  ],
+  "5": [
+    {
+      "variant_id": "quiz_v01",
+      "question_ids": [
+        "ch005_q011",
+        "ch005_q002",
+        "ch005_q001",
+        "ch005_q015",
+        "ch005_q007"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in 1 Kings 21:7",
+          "options": {
+            "a": "those who do not get involved in projects done in honour of their superiors.",
+            "b": "Notice anyone who becomes reluctant in what he is doing, because he is not doing what he prefers to do.",
+            "c": "His support of the pastor is demonstrated when he constantly vocalizes his agreement by saying “Amen”.",
+            "d": "Signs of Disloyalty.",
+            "e": "Do not only consider the leader; observe his wife carefully."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "And Jezebel his wife said unto him, Dost thou now govern the kingdom… arise and eat bread… 1 Kings 21:7 These “Jezebellic” inspirations will spur a good pastor on into things which he never really intended to do.",
+            "reference": "1 Kings 21:7"
+          },
+          "id": "ch005_q011",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in 1 Timothy 6:20",
+          "options": {
+            "a": "rs later, they do exactly what they said they would do.",
+            "b": "They were sent on errands to buy food and to relay simple messages.",
+            "c": "In fact, once when the king was looking for a prophet, they immediately thought of fin",
+            "d": "In another part of the Bible, Jesus’ own brothers suggested that he go public with his ministry.",
+            "e": "Timothy was obviously prepared for training and retraining."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "O Timothy, keep that which is committed to thy trust… 1 Timothy 6:20 10.",
+            "reference": "1 Timothy 6:20"
+          },
+          "id": "ch005_q002",
+          "chapter_id": 5,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations cannot be found in 2 Samuel 15:4",
+          "options": {
+            "a": "David was the king because God made him king.",
+            "b": "Some pastors behave more like Prime Ministers than shepherds of God’s flock.",
+            "c": "do this better” or “If I had the chance, I would also be able to minister like that, and probably even better” such a person is a dangerous person to have around.",
+            "d": "A leader who is unduly quiet, reserved and detached Take note of people who always have no comment to make and nothing to contribute.",
+            "e": "The Bible says that Absalom said nothing for two years."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "Oh that I were made judge in the land, that every man which hath any suit or cause might come unto me, and I would do him justice! 2 Samuel 15:4 A person is not doing what he is doing because he is the best at doing it.",
+            "reference": "2 Samuel 15:4"
+          },
+          "id": "ch005_q001",
+          "chapter_id": 5,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations cannot be found in 1 Samuel 15:20",
+          "options": {
+            "a": "Attendance at all important meetings is essential to maintaining loyalty.",
+            "b": "A person who gives excuses and continually justifies himself When a simple instruction turns into a prolonged debate, you are dealing with a possible anarchist.",
+            "c": "It seems they are never wrong about anything.",
+            "d": "[They] answered… Here is Elisha… which poured water on the hands of Elijah.",
+            "e": "But in the midst of all this I have to remain focused and perform all my duties."
+          },
+          "answers": {
+            "a": true,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "In spite of undeniable evidence Saul insisted, …I have obeyed the voice of the LORD… 1 Samuel 15:20 This stubborn denial is what made the Lord reject and replace Saul with King David.",
+            "reference": "1 Samuel 15:20"
+          },
+          "id": "ch005_q015",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The scripture \"After a while such people will be different from the rest of your team.\" can be found in",
+          "options": {
+            "a": "1 Timothy 3:6",
+            "b": "John 20:24",
+            "c": "1 Corinthians 12:28",
+            "d": "John 10:14",
+            "e": "Matthew 16:23"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "After a while such people will be different from the rest of your team.",
+            "reference": "John 20:24"
+          },
+          "id": "ch005_q007",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v02",
+      "question_ids": [
+        "ch005_q006",
+        "ch005_q008",
+        "ch005_q005",
+        "ch005_q013",
+        "ch005_q003"
+      ],
+      "questions": [
+        {
+          "question": "The statement \"A person who manipulates his way into leadership without serving his way into that leadership position Every leader is supposed to serve his way into a leadership position.\" can be gleaned from",
+          "options": {
+            "a": "John 12:6",
+            "b": "2 Samuel 16:11",
+            "c": "2 Timothy 4:10",
+            "d": "1 Timothy 6:20",
+            "e": "Psalm 137:1"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Psalm 137:1 27.",
+            "reference": "Psalm 137:1"
+          },
+          "id": "ch005_q006",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The scripture \"that when Jesus entered Jerusalem on Palm Sunday he was hailed and praised.\" can be found in",
+          "options": {
+            "a": "John 7:3",
+            "b": "Matthew 16:23",
+            "c": "John 2:24",
+            "d": "1 Samuel 15:23",
+            "e": "Revelation 21:5"
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "that when Jesus entered Jerusalem on Palm Sunday he was hailed and praised.",
+            "reference": "John 7:3"
+          },
+          "id": "ch005_q008",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The scripture \"Jezebellic\" can be found in",
+          "options": {
+            "a": "Psalm 15:4",
+            "b": "Proverbs 22:10",
+            "c": "John 10:14",
+            "d": "2 Timothy 4:10",
+            "e": "1 Timothy 3:11"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Jezebellic",
+            "reference": "John 10:14"
+          },
+          "id": "ch005_q005",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in 1 Corinthians 12:28",
+          "options": {
+            "a": "Sometimes the assistant may look even more capable at certain things than the head.",
+            "b": "Although he was a prince, he wanted to be king himself.",
+            "c": "Remember that Absalom was prepared to attack his own father.",
+            "d": "When those surrounding Christ seemed to praise him and acknowledge him as a great leader, Jesus did not trust himself to them.",
+            "e": "It is God who sets and it is God who will remove, if He so pleases."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "And God hath set some in the church… 1 Corinthians 12:28 7.",
+            "reference": "1 Corinthians 12:28"
+          },
+          "id": "ch005_q013",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 22:14",
+          "options": {
+            "a": "And this was evident in their songs, …we wept, when we remembered Zion.",
+            "b": "If the non-involvement is not out of a genuine lack of money, it is usually out of disloyalty.",
+            "c": "But I do monitor the tithes of my leaders.",
+            "d": "This was because Joab himself was a rebel.",
+            "e": "Many years ago, a rebel in the making made favourable comments about an"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 22:14 Time reveals the difference between those chosen and those called.",
+            "reference": "Matthew 22:14"
+          },
+          "id": "ch005_q003",
+          "chapter_id": 5,
+          "difficulty": "easy"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v03",
+      "question_ids": [
+        "ch005_q014",
+        "ch005_q004",
+        "ch005_q012",
+        "ch005_q010",
+        "ch005_q009"
+      ],
+      "questions": [
+        {
+          "question": "The scripture \"Notice anyone who becomes reluctant in what he is doing, because he is not doing what he prefers to do.\" can be found in",
+          "options": {
+            "a": "Luke 16:12",
+            "b": "1 Samuel 15:20",
+            "c": "John 12:5",
+            "d": "Philippians 2:14",
+            "e": "Psalm 137:1"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Notice anyone who becomes reluctant in what he is doing, because he is not doing what he prefers to do.",
+            "reference": "Philippians 2:14"
+          },
+          "id": "ch005_q014",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The scripture \"In his anger at your correction, he may walk out on you in rebellion.\" can be found in",
+          "options": {
+            "a": "1 Kings 21:7",
+            "b": "2 Samuel 16:11",
+            "c": "1 Timothy 5:2",
+            "d": "John 12:6",
+            "e": "1 Kings 1:7"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "In his anger at your correction, he may walk out on you in rebellion.",
+            "reference": "1 Timothy 5:2"
+          },
+          "id": "ch005_q004",
+          "chapter_id": 5,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 18:3",
+          "options": {
+            "a": "I am not the pastor of my church because I am the best pastor.",
+            "b": "He did not even mention that he was called to be an evangelist!",
+            "c": "This is what Absalom did to his brother Amnon.",
+            "d": "And if ye have not been faithful in that which is another man’s, who shall give you that which is your own?",
+            "e": "that he go public with his ministry."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Except ye… become as little children… ye shall not enter… Matthew 18:3 The Cafeteria Evangelist Never forget Philip the evangelist who was first sent to work in the church cafeteria.",
+            "reference": "Matthew 18:3"
+          },
+          "id": "ch005_q012",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The statement \"He may then realize that this fellow has not served his way through the normal ranks.\" can be gleaned from",
+          "options": {
+            "a": "Psalm 15:4",
+            "b": "1 Samuel 15:20",
+            "c": "2 Kings 3:11",
+            "d": "2 Samuel 13:22",
+            "e": "1 Timothy 5:2"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "2 Kings 3:11 Certain people pose as mature and already seasoned leaders who don’t need to serve.",
+            "reference": "2 Kings 3:11"
+          },
+          "id": "ch005_q010",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations cannot be found in Genesis 3:12",
+          "options": {
+            "a": "do it in my former church.” This person must be watched.",
+            "b": "leaders meet, they will accuse each other of being at fault.",
+            "c": "Good Leaders Say, “It’s My Fault!” When two good leaders meet they will fight to take the responsibility for any mishap.",
+            "d": "And how the wife shifted the blame to the serpent.",
+            "e": "Do not think that unfaithfulness will remain in the arena of marital relationships."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "…The woman whom thou gavest to be with me, she gave me… Genesis 3:12 31.",
+            "reference": "Genesis 3:12"
+          },
+          "id": "ch005_q009",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v04",
+      "question_ids": [
+        "ch005_q001",
+        "ch005_q003",
+        "ch005_q006",
+        "ch005_q007",
+        "ch005_q013"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations cannot be found in 2 Samuel 15:4",
+          "options": {
+            "a": "David was the king because God made him king.",
+            "b": "Some pastors behave more like Prime Ministers than shepherds of God’s flock.",
+            "c": "do this better” or “If I had the chance, I would also be able to minister like that, and probably even better” such a person is a dangerous person to have around.",
+            "d": "A leader who is unduly quiet, reserved and detached Take note of people who always have no comment to make and nothing to contribute.",
+            "e": "The Bible says that Absalom said nothing for two years."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "Oh that I were made judge in the land, that every man which hath any suit or cause might come unto me, and I would do him justice! 2 Samuel 15:4 A person is not doing what he is doing because he is the best at doing it.",
+            "reference": "2 Samuel 15:4"
+          },
+          "id": "ch005_q001",
+          "chapter_id": 5,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 22:14",
+          "options": {
+            "a": "And this was evident in their songs, …we wept, when we remembered Zion.",
+            "b": "If the non-involvement is not out of a genuine lack of money, it is usually out of disloyalty.",
+            "c": "But I do monitor the tithes of my leaders.",
+            "d": "This was because Joab himself was a rebel.",
+            "e": "Many years ago, a rebel in the making made favourable comments about an"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 22:14 Time reveals the difference between those chosen and those called.",
+            "reference": "Matthew 22:14"
+          },
+          "id": "ch005_q003",
+          "chapter_id": 5,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The statement \"A person who manipulates his way into leadership without serving his way into that leadership position Every leader is supposed to serve his way into a leadership position.\" can be gleaned from",
+          "options": {
+            "a": "John 12:6",
+            "b": "2 Samuel 16:11",
+            "c": "2 Timothy 4:10",
+            "d": "1 Timothy 6:20",
+            "e": "Psalm 137:1"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Psalm 137:1 27.",
+            "reference": "Psalm 137:1"
+          },
+          "id": "ch005_q006",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The scripture \"After a while such people will be different from the rest of your team.\" can be found in",
+          "options": {
+            "a": "1 Timothy 3:6",
+            "b": "John 20:24",
+            "c": "1 Corinthians 12:28",
+            "d": "John 10:14",
+            "e": "Matthew 16:23"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "After a while such people will be different from the rest of your team.",
+            "reference": "John 20:24"
+          },
+          "id": "ch005_q007",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in 1 Corinthians 12:28",
+          "options": {
+            "a": "Sometimes the assistant may look even more capable at certain things than the head.",
+            "b": "Although he was a prince, he wanted to be king himself.",
+            "c": "Remember that Absalom was prepared to attack his own father.",
+            "d": "When those surrounding Christ seemed to praise him and acknowledge him as a great leader, Jesus did not trust himself to them.",
+            "e": "It is God who sets and it is God who will remove, if He so pleases."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "And God hath set some in the church… 1 Corinthians 12:28 7.",
+            "reference": "1 Corinthians 12:28"
+          },
+          "id": "ch005_q013",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v05",
+      "question_ids": [
+        "ch005_q015",
+        "ch005_q002",
+        "ch005_q009",
+        "ch005_q012",
+        "ch005_q014"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations cannot be found in 1 Samuel 15:20",
+          "options": {
+            "a": "Attendance at all important meetings is essential to maintaining loyalty.",
+            "b": "A person who gives excuses and continually justifies himself When a simple instruction turns into a prolonged debate, you are dealing with a possible anarchist.",
+            "c": "It seems they are never wrong about anything.",
+            "d": "[They] answered… Here is Elisha… which poured water on the hands of Elijah.",
+            "e": "But in the midst of all this I have to remain focused and perform all my duties."
+          },
+          "answers": {
+            "a": true,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "In spite of undeniable evidence Saul insisted, …I have obeyed the voice of the LORD… 1 Samuel 15:20 This stubborn denial is what made the Lord reject and replace Saul with King David.",
+            "reference": "1 Samuel 15:20"
+          },
+          "id": "ch005_q015",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in 1 Timothy 6:20",
+          "options": {
+            "a": "rs later, they do exactly what they said they would do.",
+            "b": "They were sent on errands to buy food and to relay simple messages.",
+            "c": "In fact, once when the king was looking for a prophet, they immediately thought of fin",
+            "d": "In another part of the Bible, Jesus’ own brothers suggested that he go public with his ministry.",
+            "e": "Timothy was obviously prepared for training and retraining."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "O Timothy, keep that which is committed to thy trust… 1 Timothy 6:20 10.",
+            "reference": "1 Timothy 6:20"
+          },
+          "id": "ch005_q002",
+          "chapter_id": 5,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations cannot be found in Genesis 3:12",
+          "options": {
+            "a": "do it in my former church.” This person must be watched.",
+            "b": "leaders meet, they will accuse each other of being at fault.",
+            "c": "Good Leaders Say, “It’s My Fault!” When two good leaders meet they will fight to take the responsibility for any mishap.",
+            "d": "And how the wife shifted the blame to the serpent.",
+            "e": "Do not think that unfaithfulness will remain in the arena of marital relationships."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "…The woman whom thou gavest to be with me, she gave me… Genesis 3:12 31.",
+            "reference": "Genesis 3:12"
+          },
+          "id": "ch005_q009",
+          "chapter_id": 5,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 18:3",
+          "options": {
+            "a": "I am not the pastor of my church because I am the best pastor.",
+            "b": "He did not even mention that he was called to be an evangelist!",
+            "c": "This is what Absalom did to his brother Amnon.",
+            "d": "And if ye have not been faithful in that which is another man’s, who shall give you that which is your own?",
+            "e": "that he go public with his ministry."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Except ye… become as little children… ye shall not enter… Matthew 18:3 The Cafeteria Evangelist Never forget Philip the evangelist who was first sent to work in the church cafeteria.",
+            "reference": "Matthew 18:3"
+          },
+          "id": "ch005_q012",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The scripture \"Notice anyone who becomes reluctant in what he is doing, because he is not doing what he prefers to do.\" can be found in",
+          "options": {
+            "a": "Luke 16:12",
+            "b": "1 Samuel 15:20",
+            "c": "John 12:5",
+            "d": "Philippians 2:14",
+            "e": "Psalm 137:1"
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Notice anyone who becomes reluctant in what he is doing, because he is not doing what he prefers to do.",
+            "reference": "Philippians 2:14"
+          },
+          "id": "ch005_q014",
+          "chapter_id": 5,
+          "difficulty": "hard"
+        }
+      ]
+    }
+  ],
+  "6": [
+    {
+      "variant_id": "quiz_v01",
+      "question_ids": [
+        "ch006_q011",
+        "ch006_q002",
+        "ch006_q001",
+        "ch006_q015",
+        "ch006_q007"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "b": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "c": "deas that the visionary would come up with.",
+            "d": "The Bible also tells us, …the tree is known by his fruit.",
+            "e": "I remember the day I heard each of these statements"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q011",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "You are now too much of a big shot to be “pushed” around.",
+            "b": "The fruit of the tree reveals its true nature.",
+            "c": "I remember the day I heard each of these statements",
+            "d": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "e": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q002",
+          "chapter_id": 6,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "b": "In this chapter, I am going to share with you some interesting quotations th",
+            "c": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "d": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "e": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q001",
+          "chapter_id": 6,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "b": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "c": "The fruit of the tree reveals its true nature.",
+            "d": "In this chapter, I am going to share with you some interesting quotations th",
+            "e": "When a leader declares that he will not move, decide to move him away from you permanently."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q015",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations cannot be found in Matthew 12:34",
+          "options": {
+            "a": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "b": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "c": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "d": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "e": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G"
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q007",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v02",
+      "question_ids": [
+        "ch006_q006",
+        "ch006_q008",
+        "ch006_q005",
+        "ch006_q013",
+        "ch006_q003"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "b": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "c": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "d": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "e": "deas that the visionary would come up with."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q006",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "b": "In this chapter, I am going to share with you some interesting quotations th",
+            "c": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "d": "You are now too much of a big shot to be “pushed” around.",
+            "e": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q008",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "The fruit of the tree reveals its true nature.",
+            "b": "You are now too much of a big shot to be “pushed” around.",
+            "c": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "d": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "e": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q005",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "b": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "c": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "d": "In this chapter, I am going to share with you some interesting quotations th",
+            "e": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q013",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Numbers 16:12",
+          "options": {
+            "a": "The fruit of the tree reveals its true nature.",
+            "b": "In this chapter, I am going to share with you some interesting quotations th",
+            "c": "The Bible also tells us, …the tree is known by his fruit.",
+            "d": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "e": "deas that the visionary would come up with."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "And Moses sent to call Dathan and Abiram, the sons of Eliab: which said, We will not come up: Numbers 16:12 When a person is too big to be sent, then he probably is too big for the organization.",
+            "reference": "Numbers 16:12"
+          },
+          "id": "ch006_q003",
+          "chapter_id": 6,
+          "difficulty": "easy"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v03",
+      "question_ids": [
+        "ch006_q014",
+        "ch006_q004",
+        "ch006_q012",
+        "ch006_q010",
+        "ch006_q009"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "b": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "c": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "d": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "e": "The fruit of the tree reveals its true nature."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q014",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Numbers 16:12",
+          "options": {
+            "a": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "b": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "c": "The fruit of the tree reveals its true nature.",
+            "d": "The Bible also tells us, …the tree is known by his fruit.",
+            "e": "He had assisted for years but now a disloyal spirit made him criticize every move of his head."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "And Moses sent to call Dathan and Abiram, the sons of Eliab: which said, We will not come up: Numbers 16:12 When a person is too big to be sent, then he probably is too big for the organization.",
+            "reference": "Numbers 16:12"
+          },
+          "id": "ch006_q004",
+          "chapter_id": 6,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Numbers 16:12",
+          "options": {
+            "a": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "b": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "c": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "d": "I remember the day I heard each of these statements",
+            "e": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "And Moses sent to call Dathan and Abiram, the sons of Eliab: which said, We will not come up: Numbers 16:12 When a person is too big to be sent, then he probably is too big for the organization.",
+            "reference": "Numbers 16:12"
+          },
+          "id": "ch006_q012",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Numbers 16:12",
+          "options": {
+            "a": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "b": "I remember the day I heard each of these statements",
+            "c": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "d": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "e": "The fruit of the tree reveals its true nature."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "And Moses sent to call Dathan and Abiram, the sons of Eliab: which said, We will not come up: Numbers 16:12 When a person is too big to be sent, then he probably is too big for the organization.",
+            "reference": "Numbers 16:12"
+          },
+          "id": "ch006_q010",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "b": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "c": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "d": "The Bible also tells us, …the tree is known by his fruit.",
+            "e": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q009",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v04",
+      "question_ids": [
+        "ch006_q001",
+        "ch006_q003",
+        "ch006_q006",
+        "ch006_q007",
+        "ch006_q013"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "b": "In this chapter, I am going to share with you some interesting quotations th",
+            "c": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "d": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "e": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q001",
+          "chapter_id": 6,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Numbers 16:12",
+          "options": {
+            "a": "The fruit of the tree reveals its true nature.",
+            "b": "In this chapter, I am going to share with you some interesting quotations th",
+            "c": "The Bible also tells us, …the tree is known by his fruit.",
+            "d": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "e": "deas that the visionary would come up with."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "And Moses sent to call Dathan and Abiram, the sons of Eliab: which said, We will not come up: Numbers 16:12 When a person is too big to be sent, then he probably is too big for the organization.",
+            "reference": "Numbers 16:12"
+          },
+          "id": "ch006_q003",
+          "chapter_id": 6,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "b": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "c": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "d": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "e": "deas that the visionary would come up with."
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": false,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q006",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations cannot be found in Matthew 12:34",
+          "options": {
+            "a": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "b": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "c": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "d": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "e": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G"
+          },
+          "answers": {
+            "a": true,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q007",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "b": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "c": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "d": "In this chapter, I am going to share with you some interesting quotations th",
+            "e": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q013",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        }
+      ]
+    },
+    {
+      "variant_id": "quiz_v05",
+      "question_ids": [
+        "ch006_q015",
+        "ch006_q002",
+        "ch006_q009",
+        "ch006_q012",
+        "ch006_q014"
+      ],
+      "questions": [
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them.",
+            "b": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "c": "The fruit of the tree reveals its true nature.",
+            "d": "In this chapter, I am going to share with you some interesting quotations th",
+            "e": "When a leader declares that he will not move, decide to move him away from you permanently."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q015",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "You are now too much of a big shot to be “pushed” around.",
+            "b": "The fruit of the tree reveals its true nature.",
+            "c": "I remember the day I heard each of these statements",
+            "d": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "e": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G"
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q002",
+          "chapter_id": 6,
+          "difficulty": "easy"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:34",
+          "options": {
+            "a": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "b": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "c": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "d": "The Bible also tells us, …the tree is known by his fruit.",
+            "e": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": true,
+            "d": true,
+            "e": false
+          },
+          "source": {
+            "text": "Matthew 12:34 Many people do not know that their words give them away, especially when spoken in an unguarded moment.",
+            "reference": "Matthew 12:34"
+          },
+          "id": "ch006_q009",
+          "chapter_id": 6,
+          "difficulty": "medium"
+        },
+        {
+          "question": "The following quotations can be found in Numbers 16:12",
+          "options": {
+            "a": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "b": "Chapter 6 From the Lips of Treacherous Men …out of the abundance of the heart the mouth speaketh.",
+            "c": "These sayings, coming from the lips of disloyal people, strike me whenever I hear them.",
+            "d": "I remember the day I heard each of these statements",
+            "e": "Remember that during the rebellion of Korah, Dathan and Abiram refused to go when Moses called for them."
+          },
+          "answers": {
+            "a": false,
+            "b": false,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "And Moses sent to call Dathan and Abiram, the sons of Eliab: which said, We will not come up: Numbers 16:12 When a person is too big to be sent, then he probably is too big for the organization.",
+            "reference": "Numbers 16:12"
+          },
+          "id": "ch006_q012",
+          "chapter_id": 6,
+          "difficulty": "hard"
+        },
+        {
+          "question": "The following quotations can be found in Matthew 12:33",
+          "options": {
+            "a": "In an army, if the Colonel or General asks the troops to move out in attack, no member of the platoon dare ask the Colonel or the G",
+            "b": "In this chapter, I am going to share with you some interesting quotations that I have noted down over the years.",
+            "c": "He had assisted for years but now a disloyal spirit made him criticize every move of his head.",
+            "d": "When a leader declares that he will not move, decide to move him away from you permanently.",
+            "e": "The fruit of the tree reveals its true nature."
+          },
+          "answers": {
+            "a": false,
+            "b": true,
+            "c": false,
+            "d": false,
+            "e": true
+          },
+          "source": {
+            "text": "Matthew 12:33 The next time you stand under a big tree wondering what species it is, just look out for the fruit.",
+            "reference": "Matthew 12:33"
+          },
+          "id": "ch006_q014",
+          "chapter_id": 6,
+          "difficulty": "hard"
         }
       ]
     }
