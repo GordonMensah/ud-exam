@@ -185,9 +185,37 @@ def _extract_refs_with_context(text: str) -> list:
         if 5 <= len(q) <= 150 and not _SCRIPTURE_RE.search(q):
             quotes_with_pos.append((m.start(), q))
 
-    # Step 3: pair each quote with the CLOSEST ref
+    # Build a position-sorted list of refs once for midpoint calculations.
+    _refs_by_pos = sorted(refs, key=lambda r: r.position)
+
+    def _midpoint_window(pos: int) -> tuple:
+        """Return (lo, hi) clipped to the midpoints between adjacent refs.
+
+        This ensures a quote (or commentary sentence) that sits between two
+        refs is assigned only to the ref it is genuinely closest to, rather
+        than being pulled into a ±N-char window that crosses into the next
+        ref's territory.
+        """
+        lo, hi = 0, len(text)
+        for i, r in enumerate(_refs_by_pos):
+            if r.position <= pos:
+                lo = (_refs_by_pos[i - 1].position + r.position) // 2 if i > 0 else 0
+            else:
+                hi = (r.position + _refs_by_pos[i - 1].position) // 2 if i > 0 else r.position
+                break
+        # Also cap at the boundary of the "winning" ref vs next ref
+        for i, r in enumerate(_refs_by_pos):
+            if r.position > pos:
+                hi = min(hi, (_refs_by_pos[i - 1].position + r.position) // 2) if i > 0 else hi
+                break
+        return lo, hi
+
+    # Step 3: pair each quote with the CLOSEST ref, but only within that
+    # ref's midpoint window (no bleed-over into neighbouring refs).
     for q_pos, q_text in quotes_with_pos:
-        closest = min(refs, key=lambda r: abs(r.position - q_pos))
+        lo, hi = _midpoint_window(q_pos)
+        eligible = [r for r in refs if lo <= r.position <= hi] or refs
+        closest = min(eligible, key=lambda r: abs(r.position - q_pos))
         dist = abs(closest.position - q_pos)
         if dist < 500:  # within 500 chars
             closest.paired_quotes.append(q_text)
@@ -279,6 +307,9 @@ def _extract_refs_with_context(text: str) -> list:
             return None
         return s
 
+    # Sort refs by position so we can find adjacent refs for window clamping.
+    refs_by_pos = sorted(refs, key=lambda r: r.position)
+
     for ref in refs:
         # Clamp the context window to the same numbered-point block.
         # Find the point boundary just before and just after this ref.
@@ -290,6 +321,18 @@ def _extract_refs_with_context(text: str) -> list:
             elif bp > ref.position:
                 block_end = bp
                 break
+
+        # Further clamp to the midpoint between adjacent refs so that text
+        # sitting between two refs goes to the ref it is actually closer to.
+        # This prevents "Hearken now unto my voice..." (between Exodus 4:18
+        # and Exodus 18:7) from appearing in Exodus 4:18's commentary.
+        idx = refs_by_pos.index(ref)
+        if idx > 0:
+            prev_pos = refs_by_pos[idx - 1].position
+            block_start = max(block_start, (prev_pos + ref.position) // 2)
+        if idx < len(refs_by_pos) - 1:
+            next_pos = refs_by_pos[idx + 1].position
+            block_end = min(block_end, (ref.position + next_pos) // 2)
 
         start = max(block_start, ref.position - 400)
         end = min(block_end, ref.position + 400)
