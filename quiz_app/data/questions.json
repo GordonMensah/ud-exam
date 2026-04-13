@@ -1446,5 +1446,367 @@
       "chapter_id": 6,
       "difficulty": "hard"
     }
+  ],
+  "9": [
+    {
+      "question": "The scripture \"familiarity breeds contempt\" can be found in",
+      "options": {
+        "a": "Mark 10:30",
+        "b": "John 6:13",
+        "c": "Luke 10:21",
+        "d": "Mark 14:3",
+        "e": "Matthew 21:1"
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": true,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "familiarity breeds contempt",
+        "reference": "Luke 10:21"
+      },
+      "id": "ch009_q001",
+      "chapter_id": 9,
+      "difficulty": "easy"
+    },
+    {
+      "question": "The scripture \"Perhaps Judas thought that by going into full-time ministry he would have the luxury of owning his own donkey or mule (car).\" can be found in",
+      "options": {
+        "a": "Matthew 21:5",
+        "b": "Mark 14:3",
+        "c": "Mark 10:30",
+        "d": "John 6:10",
+        "e": "John 6:11"
+      },
+      "answers": {
+        "a": false,
+        "b": true,
+        "c": false,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "Perhaps Judas thought that by going into full-time ministry he would have the luxury of owning his own donkey or mule (car).",
+        "reference": "Mark 14:3"
+      },
+      "id": "ch009_q002",
+      "chapter_id": 9,
+      "difficulty": "easy"
+    },
+    {
+      "question": "The scripture \"And Judas… went unto the chief priest\" can be found in",
+      "options": {
+        "a": "John 12:6",
+        "b": "Matthew 21:5",
+        "c": "Mark 10:30",
+        "d": "Luke 9:58",
+        "e": "Matthew 26:8"
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": true,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "And Judas… went unto the chief priest",
+        "reference": "Mark 10:30"
+      },
+      "id": "ch009_q003",
+      "chapter_id": 9,
+      "difficulty": "easy"
+    },
+    {
+      "question": "The statement \"He initially felt that joining the ministry team would elevate his status and give him opportunities to minister.\" can be gleaned from",
+      "options": {
+        "a": "Matthew 18:7",
+        "b": "John 6:10",
+        "c": "Mark 14:10",
+        "d": "Mark 10:30",
+        "e": "Acts 20:29"
+      },
+      "answers": {
+        "a": false,
+        "b": true,
+        "c": false,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "John 6:10 Judas the Waiter …the disciples [distributed food] to them that were set down… John 6:11 Judas the Errand Boy …then sent Jesus two disciples.",
+        "reference": "John 6:10"
+      },
+      "id": "ch009_q004",
+      "chapter_id": 9,
+      "difficulty": "easy"
+    },
+    {
+      "question": "The statement \"Usually only depressed people keep talking about death.\" can be gleaned from",
+      "options": {
+        "a": "John 6:12",
+        "b": "Matthew 26:8",
+        "c": "Matthew 21:1",
+        "d": "John 6:13",
+        "e": "Psalm 131:1"
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": false,
+        "d": false,
+        "e": true
+      },
+      "source": {
+        "text": "Psalm 131:1 They often have a warped idea about the kind of wealth that the church must have.",
+        "reference": "Psalm 131:1"
+      },
+      "id": "ch009_q005",
+      "chapter_id": 9,
+      "difficulty": "medium"
+    },
+    {
+      "question": "The scripture \"The only person to ride on a donkey was Jesus himself, and even that was at the end of his ministry.\" can be found in",
+      "options": {
+        "a": "John 11:35",
+        "b": "Matthew 21:1",
+        "c": "Psalm 131:1",
+        "d": "Matthew 21:5",
+        "e": "John 6:12"
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": false,
+        "d": true,
+        "e": false
+      },
+      "source": {
+        "text": "The only person to ride on a donkey was Jesus himself, and even that was at the end of his ministry.",
+        "reference": "Matthew 21:5"
+      },
+      "id": "ch009_q006",
+      "chapter_id": 9,
+      "difficulty": "medium"
+    },
+    {
+      "question": "The following quotations cannot be found in John 6:11",
+      "options": {
+        "a": "This is the limit! I cannot take this stingy treatment any longer.",
+        "b": "Perhaps Judas felt that the emphasis and direction of the ministry had changed.",
+        "c": "To his surprise, he became an errand boy, a waiter, an usher and a scavenger.",
+        "d": "Considering the hatred that the Jews had for Christ, he realized that if he could sell off Christ he could make it in a big way.",
+        "e": "And it was Judas himself who was the thief."
+      },
+      "answers": {
+        "a": true,
+        "b": true,
+        "c": false,
+        "d": true,
+        "e": true
+      },
+      "source": {
+        "text": "John 6:10 Judas the Waiter …the disciples [distributed food] to them that were set down… John 6:11 Judas the Errand Boy …then sent Jesus two disciples.",
+        "reference": "John 6:11"
+      },
+      "id": "ch009_q007",
+      "chapter_id": 9,
+      "difficulty": "medium"
+    },
+    {
+      "question": "The following quotations can be found in John 12:5",
+      "options": {
+        "a": "He felt a big one-time deal would earn him a lot of money.",
+        "b": "He now found Jesus’ financial and administrative policies defective.",
+        "c": "Usually only depressed people keep talking about death.",
+        "d": "A number of people defect from their ministry jobs when they discover that good cars are not as readily available as they imagined.",
+        "e": "As the treasurer, Judas knew how money was being spent in the ministry."
+      },
+      "answers": {
+        "a": false,
+        "b": true,
+        "c": false,
+        "d": false,
+        "e": true
+      },
+      "source": {
+        "text": "Why was not this… given to the poor? John 12:5 9.",
+        "reference": "John 12:5"
+      },
+      "id": "ch009_q008",
+      "chapter_id": 9,
+      "difficulty": "medium"
+    },
+    {
+      "question": "The following quotations can be found in John 12:6",
+      "options": {
+        "a": "Perhaps he thought that the power and anointing on Jesus Christ was waning because Jesus kept talking about his death.",
+        "b": "I want to tell you a secret, a revelation that you must always remember.",
+        "c": "Why was not this… given to the poor?",
+        "d": "nts and expensive high quality food.",
+        "e": "And it was Judas himself who was the thief."
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": false,
+        "d": false,
+        "e": true
+      },
+      "source": {
+        "text": "…he [Judas] was a thief… John 12:6 10.",
+        "reference": "John 12:6"
+      },
+      "id": "ch009_q009",
+      "chapter_id": 9,
+      "difficulty": "medium"
+    },
+    {
+      "question": "The statement \"Many of those who count the money do not pay the church bills.\" can be gleaned from",
+      "options": {
+        "a": "Psalm 41:9",
+        "b": "John 6:10",
+        "c": "Mark 14:3",
+        "d": "Mark 10:30",
+        "e": "Psalm 131:1"
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": false,
+        "d": false,
+        "e": true
+      },
+      "source": {
+        "text": "Psalm 131:1 They often have a warped idea about the kind of wealth that the church must have.",
+        "reference": "Psalm 131:1"
+      },
+      "id": "ch009_q010",
+      "chapter_id": 9,
+      "difficulty": "hard"
+    },
+    {
+      "question": "The following quotations can be found in Matthew 21:1",
+      "options": {
+        "a": "At a point, Judas thought to himself: this is not what I bargained for.",
+        "b": "Judas was probably disappointed at the poor accommodation that the ministry office provided for him.",
+        "c": "Many disloyal people are casualties of the “odd one out” experience.",
+        "d": "He is not as powerful as he was three years ago.” “When I first knew this man he would powerfully confront the Pharisees and Sadducees.",
+        "e": "familiarity breeds contempt"
+      },
+      "answers": {
+        "a": true,
+        "b": true,
+        "c": false,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "Matthew 21:1 Judas the Scavenger …Gather up the fragments that remain… John 6:12 Judas Was Humiliated He was humiliated before thousands of people as he carried baskets of food from place to place.",
+        "reference": "Matthew 21:1"
+      },
+      "id": "ch009_q011",
+      "chapter_id": 9,
+      "difficulty": "hard"
+    },
+    {
+      "question": "The following quotations can be found in Psalm 41:9",
+      "options": {
+        "a": "ontinually I remember one man who continually accused his wife of adultery.",
+        "b": "Why spend so much money on one man?",
+        "c": "The Bible says that he is not an ordinary friend, but a familiar friend.",
+        "d": "A number of people defect from their ministry jobs when they discover that good cars are not as readily available as they imagined.",
+        "e": "After all, we started this ministry together a few years ago."
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": true,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "Psalm 41:9 Dear leader and pastor, you cannot escape this reality.",
+        "reference": "Psalm 41:9"
+      },
+      "id": "ch009_q012",
+      "chapter_id": 9,
+      "difficulty": "hard"
+    },
+    {
+      "question": "The scripture \"Judas probably thought that he had had better times when he was not working for Christ.\" can be found in",
+      "options": {
+        "a": "Luke 10:21",
+        "b": "John 6:13",
+        "c": "Mark 10:30",
+        "d": "Psalm 41:9",
+        "e": "John 6:12"
+      },
+      "answers": {
+        "a": false,
+        "b": true,
+        "c": false,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "Judas probably thought that he had had better times when he was not working for Christ.",
+        "reference": "John 6:13"
+      },
+      "id": "ch009_q013",
+      "chapter_id": 9,
+      "difficulty": "hard"
+    },
+    {
+      "question": "The statement \"They just know the income of the church, but they do not know the expenditure.\" can be gleaned from",
+      "options": {
+        "a": "Mark 8:31",
+        "b": "Matthew 26:8",
+        "c": "Psalm 131:1",
+        "d": "Matthew 21:5",
+        "e": "John 12:5"
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": true,
+        "d": false,
+        "e": false
+      },
+      "source": {
+        "text": "Psalm 131:1 They often have a warped idea about the kind of wealth that the church must have.",
+        "reference": "Psalm 131:1"
+      },
+      "id": "ch009_q014",
+      "chapter_id": 9,
+      "difficulty": "hard"
+    },
+    {
+      "question": "The following quotations can be found in Luke 9:58",
+      "options": {
+        "a": "If Jesus had a Judas, you will too!” He went on, “No matter what you do, you will have to experience betrayal because your master experienced it.” This made me think deeply.",
+        "b": "He felt a big one-time deal would earn him a lot of money.",
+        "c": "And Judas… went unto the chief priests, to betray him unto them…they were glad, and promised to give him money...",
+        "d": "Sometimes people know things that do not help them.",
+        "e": "Judas was probably disappointed at the poor accommodation that the ministry office provided for him."
+      },
+      "answers": {
+        "a": false,
+        "b": false,
+        "c": false,
+        "d": false,
+        "e": true
+      },
+      "source": {
+        "text": "Luke 9:58 Judas thought to himself, “Jesus has not taken into consideration some important administrative details.",
+        "reference": "Luke 9:58"
+      },
+      "id": "ch009_q015",
+      "chapter_id": 9,
+      "difficulty": "hard"
+    }
   ]
 }
