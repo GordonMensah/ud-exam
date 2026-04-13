@@ -126,6 +126,25 @@ _CSS = """
     border-radius: 4px; padding: 4px 10px;
     font-size: 0.9rem; margin-top: 4px;
 }
+/* Radio buttons — ensure visible */
+div[data-testid="stRadio"] > div {
+    flex-direction: row !important;
+    gap: 1.5rem !important;
+}
+div[data-testid="stRadio"] label {
+    font-size: 0.95rem !important;
+    color: #333 !important;
+    cursor: pointer !important;
+}
+div[data-testid="stRadio"] label span[data-testid="stMarkdownContainer"] p {
+    font-size: 0.95rem !important;
+    color: #333 !important;
+}
+div[data-testid="stRadio"] input[type="radio"] {
+    accent-color: #0d6efd !important;
+    width: 16px !important;
+    height: 16px !important;
+}
 </style>
 """
 
@@ -184,16 +203,15 @@ def _render_question(
                 f'<div class="opt-row {row_class}"><span class="opt-label">{label}.</span> {opt_text}</div>',
                 unsafe_allow_html=True,
             )
-            c1, c2, c3 = st.columns(3)
-            with c1:
-                st.checkbox("True", value=(default_idx == 0),
-                             key=f"T_{qid}_{label}", disabled=is_submitted)
-            with c2:
-                st.checkbox("False", value=(default_idx == 1),
-                             key=f"F_{qid}_{label}", disabled=is_submitted)
-            with c3:
-                st.checkbox("Skip", value=(default_idx == 2),
-                             key=f"S_{qid}_{label}", disabled=is_submitted)
+            st.radio(
+                f"response_{label}",
+                options=["True", "False", "Skip"],
+                index=default_idx,
+                key=f"R_{qid}_{label}",
+                horizontal=True,
+                disabled=is_submitted,
+                label_visibility="collapsed",
+            )
 
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -202,11 +220,10 @@ def _render_question(
             if st.button("💾 Save Answer", key=f"save_{qid}"):
                 response = {}
                 for label in LABELS:
-                    t_checked = st.session_state.get(f"T_{qid}_{label}", False)
-                    f_checked = st.session_state.get(f"F_{qid}_{label}", False)
-                    if t_checked:
+                    val = st.session_state.get(f"R_{qid}_{label}", "Skip")
+                    if val == "True":
                         response[label] = True
-                    elif f_checked:
+                    elif val == "False":
                         response[label] = False
                     else:
                         response[label] = None
