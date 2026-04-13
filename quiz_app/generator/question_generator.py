@@ -1,12 +1,14 @@
 """Question generation logic for scripture-focused exam-style questions.
 
 Generates questions matching the UO-SAT exam format:
-- "[Scripture ref] is the biblical basis of"
-- "[Scripture ref] talks about"
 - "The following quotations can be found in [Scripture ref]"
 - "The following quotations cannot be found in [Scripture ref]"
-- "The statement '...' can be gleaned from"
-- "According to [source], the following are [concept]"
+- "[Scripture ref] is the biblical basis of"
+- "[Scripture ref] is not the biblical basis of"
+- "[Scripture ref] talks about"
+- 'The scripture "..." can be found in'
+- 'The statement "..." can be gleaned from'
+- "According to several authorities on [Book], the following are [topic]"
 """
 
 from __future__ import annotations
@@ -14,7 +16,7 @@ from __future__ import annotations
 import random
 import re
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, List, Optional, Tuple
 
 from .epub_parser import Chapter
 
@@ -103,7 +105,10 @@ def _get_sentence_containing(full_text: str, start: int, end: int) -> str:
     return full_text[s:e].strip()
 
 
+# ── Extraction helpers ──────────────────────────────────────────────────────
+
 def extract_scripture_refs(text: str) -> list:
+    """Find all scripture references in text with surrounding context."""
     refs = []
     seen = set()
     for m in _SCRIPTURE_RE.finditer(text):
@@ -124,18 +129,72 @@ def extract_scripture_refs(text: str) -> list:
     return refs
 
 
-def _extract_key_phrases(text: str) -> list:
+def _extract_short_phrases(text: str, min_len: int = 15, max_len: int = 90) -> list:
+    """Extract short, meaningful phrases from text near a scripture.
+
+    These are actual sentence fragments from the book — the kind of thing
+    that sounds like it could be a quotation from a verse.
+    """
     phrases = []
+    # 1. Actual quoted text in the book (curly/straight quotes)
     for m in _QUOTED_TEXT_RE.finditer(text):
-        phrases.append(m.group(1).strip())
-    for sent in _SENTENCE_SPLIT_RE.split(text):
+        p = m.group(1).strip()
+        if min_len <= len(p) <= max_len:
+            phrases.append(p)
+
+    # 2. Short sentence fragments (split on period/semicolon)
+    for sent in re.split(r"[.;!?]", text):
         sent = sent.strip()
-        if 30 < len(sent) < 200 and not _SCRIPTURE_RE.search(sent):
-            phrases.append(sent)
-    return phrases
+        if not sent:
+            continue
+        # Also split on commas to get sub-clauses
+        for clause in re.split(r",\s+(?:and\s+|but\s+|or\s+|for\s+|that\s+)?", sent):
+            clause = clause.strip()
+            if min_len <= len(clause) <= max_len and not _SCRIPTURE_RE.search(clause):
+                phrases.append(clause)
+
+    # Deduplicate while keeping order
+    seen = set()
+    unique = []
+    for p in phrases:
+        low = p.lower()
+        if low not in seen:
+            seen.add(low)
+            unique.append(p)
+    return unique
+
+
+def _extract_teachings(text: str) -> list:
+    """Extract teaching-style phrases like 'you must...', 'a loyal...',
+    'the sign of...' etc — things that could be right or wrong answers
+    about what a passage teaches.
+    """
+    teachings = []
+    patterns = [
+        r"((?:you|we)\s+(?:must|should|need\s+to|ought\s+to|have\s+to)\s+.{10,80}?)(?:\.|,|;|$)",
+        r"(it\s+is\s+(?:important|necessary|essential|wrong|right)\s+to\s+.{10,80}?)(?:\.|,|;|$)",
+        r"(a\s+(?:loyal|disloyal|faithful|unfaithful|good|bad)\s+\w+\s+.{10,80}?)(?:\.|,|;|$)",
+        r"(the\s+(?:sign|mark|characteristic|quality|trait)\s+of\s+.{10,80}?)(?:\.|,|;|$)",
+    ]
+    for pat in patterns:
+        for m in re.finditer(pat, text, re.IGNORECASE):
+            t = m.group(1).strip().rstrip(".,;")
+            if 15 < len(t) < 100:
+                teachings.append(t)
+
+    # Deduplicate
+    seen = set()
+    unique = []
+    for t in teachings:
+        low = t.lower()
+        if low not in seen:
+            seen.add(low)
+            unique.append(t)
+    return unique
 
 
 def _extract_concepts(text: str) -> list:
+    """Extract concept phrases for 'according to' and 'biblical basis' templates."""
     concepts = []
     patterns = [
         r"the\s+(?:biblical\s+)?(?:basis|foundation|principle)\s+of\s+(.{5,60}?)(?:\.|,|;)",
@@ -151,27 +210,12 @@ def _extract_concepts(text: str) -> list:
     return concepts
 
 
-def _extract_names(text: str) -> list:
-    name_re = re.compile(r"\b([A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})?)\b")
-    exclude = {
-        "The", "This", "That", "These", "Those", "There", "Here", "Where",
-        "When", "What", "Which", "Who", "How", "Why", "Because", "Therefore",
-        "However", "Also", "Many", "Some", "Other", "Another", "Every",
-        "According", "Chapter", "Verse", "Bible", "Scripture",
-    }
-    names = []
-    for m in name_re.finditer(text):
-        n = m.group(1)
-        if n not in exclude and n not in names:
-            names.append(n)
-    return names
-
-
 # ── Question template builders ─────────────────────────────────────────────
 
 def _shuffle_build(
-    true_items: list, false_items: list, rng: random.Random
+    true_items: list, false_items: list, rng: random.Random,
 ) -> tuple:
+    """Build 5 options dict + answers dict from true/false item lists."""
     labels = ["a", "b", "c", "d", "e"]
     items = [(t, True) for t in true_items] + [(f, False) for f in false_items]
     rng.shuffle(items)
@@ -180,107 +224,167 @@ def _shuffle_build(
     return options, answers
 
 
-def _build_biblical_basis_q(
-    ref: ScriptureRef, correct: list, wrong: list,
-    rng: random.Random, negated: bool = False,
+def _build_quotation_q(
+    ref: ScriptureRef,
+    correct_phrases: list,
+    wrong_phrases: list,
+    rng: random.Random,
+    negated: bool = False,
 ) -> dict:
-    if not correct or len(wrong) < 3:
+    """'The following quotations can/cannot be found in [Ref]'
+
+    Options are short phrases — some actually near the verse, some from
+    other parts of the book.
+    """
+    if len(correct_phrases) < 2 or len(wrong_phrases) < 2:
         return None
-    stem = f"{ref.full_ref} is {'not ' if negated else ''}the biblical basis of"
+
     if negated:
-        nt, nf = rng.randint(2, 4), 0
+        stem = f"The following quotations cannot be found in {ref.full_ref}"
+        nt = rng.randint(2, 3)
         nf = 5 - nt
-        tp, fp = wrong, correct
+        tp, fp = wrong_phrases, correct_phrases
     else:
-        nt = rng.randint(1, 2)
+        stem = f"The following quotations can be found in {ref.full_ref}"
+        nt = rng.randint(2, 3)
         nf = 5 - nt
-        tp, fp = correct, wrong
+        tp, fp = correct_phrases, wrong_phrases
+
     if len(tp) < nt or len(fp) < nf:
         return None
     opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    return {"question": stem, "options": opts, "answers": ans,
-            "source": {"text": ref.context_sentence, "reference": ref.full_ref}}
+    return {
+        "question": stem, "options": opts, "answers": ans,
+        "source": {"text": ref.context_sentence, "reference": ref.full_ref},
+    }
+
+
+def _build_biblical_basis_q(
+    ref: ScriptureRef,
+    correct_teachings: list,
+    wrong_teachings: list,
+    rng: random.Random,
+    negated: bool = False,
+) -> dict:
+    """'[Ref] is / is not the biblical basis of'"""
+    if len(correct_teachings) < 1 or len(wrong_teachings) < 3:
+        return None
+
+    stem = f"{ref.full_ref} is {'not ' if negated else ''}the biblical basis of"
+    if negated:
+        nt = rng.randint(2, 3)
+        nf = 5 - nt
+        tp, fp = wrong_teachings, correct_teachings
+    else:
+        nt = rng.randint(1, 2)
+        nf = 5 - nt
+        tp, fp = correct_teachings, wrong_teachings
+
+    if len(tp) < nt or len(fp) < nf:
+        return None
+    opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+    return {
+        "question": stem, "options": opts, "answers": ans,
+        "source": {"text": ref.context_sentence, "reference": ref.full_ref},
+    }
 
 
 def _build_talks_about_q(
-    ref: ScriptureRef, correct: list, wrong: list, rng: random.Random,
+    ref: ScriptureRef,
+    correct_phrases: list,
+    wrong_phrases: list,
+    rng: random.Random,
 ) -> dict:
-    if not correct or len(wrong) < 3:
+    """'[Ref] talks about'"""
+    if len(correct_phrases) < 1 or len(wrong_phrases) < 3:
         return None
+
     stem = f"{ref.full_ref} talks about"
     nt = rng.randint(1, 2)
     nf = 5 - nt
-    if len(correct) < nt or len(wrong) < nf:
+    if len(correct_phrases) < nt or len(wrong_phrases) < nf:
         return None
-    opts, ans = _shuffle_build(rng.sample(correct, k=nt), rng.sample(wrong, k=nf), rng)
-    return {"question": stem, "options": opts, "answers": ans,
-            "source": {"text": ref.context_sentence, "reference": ref.full_ref}}
-
-
-def _build_quotation_q(
-    ref: ScriptureRef, correct: list, wrong: list,
-    rng: random.Random, negated: bool = False,
-) -> dict:
-    if not correct or len(wrong) < 3:
-        return None
-    if negated:
-        stem = f"The following quotations cannot be found in {ref.full_ref}"
-        nt, nf = rng.randint(2, 4), 0
-        nf = 5 - nt
-        tp, fp = wrong, correct
-    else:
-        stem = f"The following quotations can be found in {ref.full_ref}"
-        nt = rng.randint(1, 2)
-        nf = 5 - nt
-        tp, fp = correct, wrong
-    if len(tp) < nt or len(fp) < nf:
-        return None
-    opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    return {"question": stem, "options": opts, "answers": ans,
-            "source": {"text": ref.context_sentence, "reference": ref.full_ref}}
-
-
-def _build_gleaned_from_q(
-    statement: str, correct_ref: ScriptureRef, other_refs: list, rng: random.Random,
-) -> dict:
-    if len(other_refs) < 4:
-        return None
-    stem = f'The statement "{statement}" can be gleaned from'
-    wrong = [r.full_ref for r in rng.sample(other_refs, k=4)]
-    opts, ans = _shuffle_build([correct_ref.full_ref], wrong, rng)
-    return {"question": stem, "options": opts, "answers": ans,
-            "source": {"text": correct_ref.context_sentence, "reference": correct_ref.full_ref}}
+    opts, ans = _shuffle_build(
+        rng.sample(correct_phrases, k=nt),
+        rng.sample(wrong_phrases, k=nf),
+        rng,
+    )
+    return {
+        "question": stem, "options": opts, "answers": ans,
+        "source": {"text": ref.context_sentence, "reference": ref.full_ref},
+    }
 
 
 def _build_scripture_found_q(
-    quote: str, correct_ref: ScriptureRef, all_refs: list, rng: random.Random,
+    quote: str,
+    correct_ref: ScriptureRef,
+    all_refs: list,
+    rng: random.Random,
 ) -> dict:
+    """'The scripture "..." can be found in'
+
+    Options are scripture references — one correct, four wrong.
+    """
     other = [r for r in all_refs if r.full_ref != correct_ref.full_ref]
     if len(other) < 4:
         return None
+
     stem = f'The scripture "{quote}" can be found in'
+
+    # Prefer refs from the same book (trickier) then others
     same_bk = [r for r in other if r.book == correct_ref.book]
     diff_bk = [r for r in other if r.book != correct_ref.book]
     pool = same_bk + diff_bk
     picked = rng.sample(pool, k=min(4, len(pool)))
     while len(picked) < 4:
         picked.append(rng.choice(other))
+
     wrong = [r.full_ref for r in picked[:4]]
     opts, ans = _shuffle_build([correct_ref.full_ref], wrong, rng)
-    return {"question": stem, "options": opts, "answers": ans,
-            "source": {"text": quote, "reference": correct_ref.full_ref}}
+    return {
+        "question": stem, "options": opts, "answers": ans,
+        "source": {"text": quote, "reference": correct_ref.full_ref},
+    }
+
+
+def _build_gleaned_from_q(
+    statement: str,
+    correct_ref: ScriptureRef,
+    other_refs: list,
+    rng: random.Random,
+) -> dict:
+    """'The statement "..." can be gleaned from'
+
+    Options are scripture references.
+    """
+    if len(other_refs) < 4:
+        return None
+
+    stem = f'The statement "{statement}" can be gleaned from'
+    wrong = [r.full_ref for r in rng.sample(other_refs, k=4)]
+    opts, ans = _shuffle_build([correct_ref.full_ref], wrong, rng)
+    return {
+        "question": stem, "options": opts, "answers": ans,
+        "source": {"text": correct_ref.context_sentence, "reference": correct_ref.full_ref},
+    }
 
 
 def _build_according_to_q(
-    source_title: str, topic: str, correct: list, wrong: list,
-    rng: random.Random, negated: bool = False,
+    source_title: str,
+    topic: str,
+    correct: list,
+    wrong: list,
+    rng: random.Random,
+    negated: bool = False,
 ) -> dict:
+    """'According to several authorities on [Book], the following are [not] [topic]'"""
     if len(correct) < 1 or len(wrong) < 3:
         return None
+
     neg = "not " if negated else ""
-    stem = f"According to {source_title}, the following are {neg}{topic}"
+    stem = f"According to several authorities on the {source_title}, the following are {neg}{topic}"
     if negated:
-        nt, nf = rng.randint(2, 4), 0
+        nt = rng.randint(2, 3)
         nf = 5 - nt
         tp, fp = wrong, correct
     else:
@@ -290,8 +394,10 @@ def _build_according_to_q(
     if len(tp) < nt or len(fp) < nf:
         return None
     opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    return {"question": stem, "options": opts, "answers": ans,
-            "source": {"text": f"See {source_title}", "reference": source_title}}
+    return {
+        "question": stem, "options": opts, "answers": ans,
+        "source": {"text": f"See {source_title}", "reference": source_title},
+    }
 
 
 # ── Pool generation ────────────────────────────────────────────────────────
@@ -306,12 +412,16 @@ def _difficulty_for(index: int, total: int) -> str:
 
 
 def generate_question_pool(
-    chapter: Chapter,
+    chapter,
     pool_size: int = None,
     seed: int = None,
     config: QuestionConfig = None,
 ) -> list:
-    """Generate a scripture-based question pool for one chapter."""
+    """Generate a scripture-based question pool for one chapter.
+
+    Each question uses actual text from the book near the scripture reference
+    as options — NOT abstract concepts.
+    """
     cfg = config or QuestionConfig()
     target = pool_size or cfg.default_pool_size
     target = max(cfg.pool_min, min(cfg.pool_max, target))
@@ -319,19 +429,18 @@ def generate_question_pool(
     rng = random.Random(seed)
 
     refs = extract_scripture_refs(chapter.text)
-    all_quotes = _extract_key_phrases(chapter.text)
-    all_concepts = _extract_concepts(chapter.text)
-    all_names = _extract_names(chapter.text)
 
-    ref_concepts = {}
-    ref_quotes = {}
+    # ── Build per-ref phrase banks ──────────────────────────────────────
+    ref_phrases = {}
+    ref_teachings = {}
     for ref in refs:
-        ref_concepts[ref.full_ref] = _extract_concepts(ref.nearby_text)
-        ref_quotes[ref.full_ref] = _extract_key_phrases(ref.nearby_text)
+        ref_phrases[ref.full_ref] = _extract_short_phrases(ref.nearby_text)
+        ref_teachings[ref.full_ref] = _extract_teachings(ref.nearby_text)
 
-    flat_concepts = list({c for cs in ref_concepts.values() for c in cs})
-    flat_quotes = list({q for qs in ref_quotes.values() for q in qs})
-    sentences = [s.strip() for s in _SENTENCE_SPLIT_RE.split(chapter.text) if 20 < len(s.strip()) < 150]
+    # All phrases from the entire chapter (for wrong answers)
+    all_phrases = _extract_short_phrases(chapter.text)
+    all_teachings = _extract_teachings(chapter.text)
+    all_concepts = _extract_concepts(chapter.text)
 
     questions = []
     qid = 1
@@ -349,64 +458,88 @@ def generate_question_pool(
 
     rng.shuffle(refs)
 
+    # ── Template distribution (weighted) ────────────────────────────────
+    # 0 = quotation_can, 1 = quotation_cannot, 2 = biblical_basis,
+    # 3 = biblical_basis_not, 4 = talks_about, 5 = scripture_found,
+    # 6 = gleaned_from
+    TEMPLATES = list(range(7))
+    WEIGHTS = [3, 3, 2, 2, 2, 2, 2]  # favour quotation templates
+
     for ref in refs:
         if len(questions) >= target:
             break
-        mc = ref_concepts.get(ref.full_ref, [])
-        mq = ref_quotes.get(ref.full_ref, [])
-        oc = [c for c in flat_concepts if c not in mc]
-        oq = [q for q in flat_quotes if q not in mq]
-        oref = [r for r in refs if r.full_ref != ref.full_ref]
 
-        t = rng.randint(0, 6)
-        if t == 0 and mc:
-            _add(_build_biblical_basis_q(ref, mc, oc or sentences[:10], rng))
-        elif t == 1 and mc:
-            _add(_build_biblical_basis_q(ref, mc, oc or sentences[:10], rng, negated=True))
-        elif t == 2 and mc:
-            _add(_build_talks_about_q(ref, mc, oc or sentences[:10], rng))
-        elif t == 3 and mq:
-            _add(_build_quotation_q(ref, mq, oq or sentences[:10], rng))
-        elif t == 4 and mq:
-            _add(_build_quotation_q(ref, mq, oq or sentences[:10], rng, negated=True))
-        elif t == 5 and mq and oref:
-            _add(_build_scripture_found_q(rng.choice(mq), ref, refs, rng))
-        elif t == 6 and (mq or mc) and oref:
-            stmt = rng.choice(mq) if mq else rng.choice(mc)
-            _add(_build_gleaned_from_q(stmt, ref, oref, rng))
+        my_phrases = ref_phrases.get(ref.full_ref, [])
+        my_teach = ref_teachings.get(ref.full_ref, [])
+        other_phrases = [p for p in all_phrases if p not in my_phrases]
+        other_teach = [t for t in all_teachings if t not in my_teach]
+        other_refs = [r for r in refs if r.full_ref != ref.full_ref]
 
+        t = rng.choices(TEMPLATES, weights=WEIGHTS, k=1)[0]
+
+        if t == 0 and my_phrases:
+            _add(_build_quotation_q(ref, my_phrases, other_phrases, rng, negated=False))
+        elif t == 1 and my_phrases:
+            _add(_build_quotation_q(ref, my_phrases, other_phrases, rng, negated=True))
+        elif t == 2 and my_teach:
+            _add(_build_biblical_basis_q(ref, my_teach, other_teach or other_phrases, rng))
+        elif t == 3 and my_teach:
+            _add(_build_biblical_basis_q(ref, my_teach, other_teach or other_phrases, rng, negated=True))
+        elif t == 4 and my_phrases:
+            _add(_build_talks_about_q(ref, my_phrases, other_phrases, rng))
+        elif t == 5 and my_phrases and other_refs:
+            _add(_build_scripture_found_q(rng.choice(my_phrases), ref, refs, rng))
+        elif t == 6 and my_phrases and other_refs:
+            stmt = rng.choice(my_phrases)
+            _add(_build_gleaned_from_q(stmt, ref, other_refs, rng))
+
+    # ── Fill remaining slots ────────────────────────────────────────────
     attempts = 0
-    while len(questions) < target and refs and attempts < target * 4:
+    while len(questions) < target and refs and attempts < target * 6:
         attempts += 1
         ref = rng.choice(refs)
-        mc = ref_concepts.get(ref.full_ref, [])
-        mq = ref_quotes.get(ref.full_ref, [])
-        oc = [c for c in flat_concepts if c not in mc]
-        oq = [q for q in flat_quotes if q not in mq]
-        oref = [r for r in refs if r.full_ref != ref.full_ref]
 
-        t = rng.randint(0, 6)
-        if t <= 1 and mc:
-            _add(_build_biblical_basis_q(ref, mc, oc or sentences[:10], rng, negated=t == 1))
-        elif t == 2 and mc:
-            _add(_build_talks_about_q(ref, mc, oc or sentences[:10], rng))
-        elif t <= 4 and mq:
-            _add(_build_quotation_q(ref, mq, oq or sentences[:10], rng, negated=t == 4))
-        elif t == 5 and mq:
-            _add(_build_scripture_found_q(rng.choice(mq), ref, refs, rng))
-        elif t == 6 and (mq or mc) and oref:
-            stmt = rng.choice(mq) if mq else rng.choice(mc)
-            _add(_build_gleaned_from_q(stmt, ref, oref, rng))
+        my_phrases = ref_phrases.get(ref.full_ref, [])
+        my_teach = ref_teachings.get(ref.full_ref, [])
+        other_phrases = [p for p in all_phrases if p not in my_phrases]
+        other_teach = [t for t in all_teachings if t not in my_teach]
+        other_refs = [r for r in refs if r.full_ref != ref.full_ref]
 
-    # Fallback for chapters with few scripture refs
-    if len(questions) < target and all_names:
-        topics = ["reasons why loyalty is important", "signs of disloyalty",
-                  "stages of rebellion", "key principles", "important truths"]
+        t = rng.choices(TEMPLATES, weights=WEIGHTS, k=1)[0]
+
+        if t == 0 and my_phrases:
+            _add(_build_quotation_q(ref, my_phrases, other_phrases, rng, negated=False))
+        elif t == 1 and my_phrases:
+            _add(_build_quotation_q(ref, my_phrases, other_phrases, rng, negated=True))
+        elif t == 2 and my_teach:
+            _add(_build_biblical_basis_q(ref, my_teach, other_teach or other_phrases, rng))
+        elif t == 3 and my_teach:
+            _add(_build_biblical_basis_q(ref, my_teach, other_teach or other_phrases, rng, negated=True))
+        elif t == 4 and my_phrases:
+            _add(_build_talks_about_q(ref, my_phrases, other_phrases, rng))
+        elif t == 5 and my_phrases and other_refs:
+            _add(_build_scripture_found_q(rng.choice(my_phrases), ref, refs, rng))
+        elif t == 6 and my_phrases and other_refs:
+            stmt = rng.choice(my_phrases)
+            _add(_build_gleaned_from_q(stmt, ref, other_refs, rng))
+
+    # ── Fallback for chapters with very few refs ────────────────────────
+    if len(questions) < target and all_concepts:
+        topics = [
+            "things which a loyal assistant should do",
+            "signs of disloyalty",
+            "stages of rebellion",
+            "key principles of loyalty",
+            "important truths about faithfulness",
+        ]
         while len(questions) < target:
             topic = rng.choice(topics)
-            cn = rng.sample(all_names, k=min(3, len(all_names)))
-            cw = rng.sample(sentences[:20], k=min(4, len(sentences))) if sentences else ["N/A"] * 4
-            _add(_build_according_to_q(chapter.title, topic, cn, cw, rng, negated=rng.choice([True, False])))
+            cn = rng.sample(all_teachings[:15], k=min(3, len(all_teachings))) if all_teachings else all_phrases[:3]
+            cw = rng.sample(all_phrases[:20], k=min(4, len(all_phrases))) if all_phrases else ["N/A"] * 4
+            _add(_build_according_to_q(
+                chapter.title, topic, cn, cw, rng,
+                negated=rng.choice([True, False]),
+            ))
 
     return questions
 

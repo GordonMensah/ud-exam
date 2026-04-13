@@ -167,7 +167,7 @@ def _render_question(
             unsafe_allow_html=True,
         )
 
-        # Option rows — one horizontal radio (True / False / Skip) per option
+        # Option rows — table-style: option text | ○True | ○False | ○Skip
         for i, label in enumerate(LABELS):
             opt_text = question["options"][label]
             row_class = "opt-row-even" if i % 2 == 1 else "opt-row-odd"
@@ -184,14 +184,16 @@ def _render_question(
                 f'<div class="opt-row {row_class}"><span class="opt-label">{label}.</span> {opt_text}</div>',
                 unsafe_allow_html=True,
             )
-            st.radio(
-                label=f"{label}) True / False / Skip",
-                options=["True", "False", "Skip"],
-                index=default_idx,
-                key=f"ans_{qid}_{label}",
-                disabled=is_submitted,
-                horizontal=True,
-            )
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.checkbox("True", value=(default_idx == 0),
+                             key=f"T_{qid}_{label}", disabled=is_submitted)
+            with c2:
+                st.checkbox("False", value=(default_idx == 1),
+                             key=f"F_{qid}_{label}", disabled=is_submitted)
+            with c3:
+                st.checkbox("Skip", value=(default_idx == 2),
+                             key=f"S_{qid}_{label}", disabled=is_submitted)
 
         st.markdown("</div>", unsafe_allow_html=True)
 
@@ -200,10 +202,11 @@ def _render_question(
             if st.button("💾 Save Answer", key=f"save_{qid}"):
                 response = {}
                 for label in LABELS:
-                    val = st.session_state.get(f"ans_{qid}_{label}", "Skip")
-                    if val == "True":
+                    t_checked = st.session_state.get(f"T_{qid}_{label}", False)
+                    f_checked = st.session_state.get(f"F_{qid}_{label}", False)
+                    if t_checked:
                         response[label] = True
-                    elif val == "False":
+                    elif f_checked:
                         response[label] = False
                     else:
                         response[label] = None
