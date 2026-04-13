@@ -34,19 +34,19 @@ _BOOK_NAMES = (
     r"1\s*Timothy|2\s*Timothy|Titus|Philemon|Hebrews|James|"
     r"1\s*Peter|2\s*Peter|1\s*John|2\s*John|3\s*John|Jude|Revelation|"
     # ── Portuguese ───────────────────────────────────────────────────────
-    r"G\u00eanesis|G\u00en|\u00caxodo|Ex|Lev\u00edtico|N\u00fameros|"
-    r"Deuteron\u00f4mio|Josu\u00e9|Ju\u00edzes|Rute|"
+    r"Gênesis|Êxodo|Ex|Levítico|Números|"
+    r"Deuteronômio|Josué|Juízes|Rute|"
     r"1\s*Samuel|2\s*Samuel|1\s*Reis|2\s*Reis|"
-    r"1\s*Cr\u00f4nicas|2\s*Cr\u00f4nicas|Esdras|Neem\u00edas|Ester|"
-    r"Jó|Salmos|Prov\u00e9rbios|Eclesiastes|"
-    r"C\u00e2nticos|Isa\u00edas|Jeremias|Lamenta\u00e7\u00f5es|Ezequiel|Daniel|"
-    r"Os\u00e9ias|Joel|Am\u00f3s|Obadias|Jonas|Miquéias|Naum|Habacuque|"
+    r"1\s*Crônicas|2\s*Crônicas|Esdras|Neemias|Ester|"
+    r"Jó|Salmos|Provérbios|Eclesiastes|"
+    r"Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|"
+    r"Oséias|Joel|Amós|Obadias|Jonas|Miquéias|Naum|Habacuque|"
     r"Sofonias|Ageu|Zacarias|Malaquias|"
-    r"Mateus|Marcos|Lucas|Jo\u00e3o|Atos|Romanos|"
-    r"1\s*Cor\u00edntios|2\s*Cor\u00edntios|G\u00e1latas|Ef\u00e9sios|Filipenses|"
+    r"Mateus|Marcos|Lucas|João|Atos|Romanos|"
+    r"1\s*Coríntios|2\s*Coríntios|Gálatas|Efésios|Filipenses|"
     r"Colossenses|1\s*Tessalonicenses|2\s*Tessalonicenses|"
-    r"1\s*Tim\u00f3teo|2\s*Tim\u00f3teo|Tito|Flem\u00f4n|Hebreus|Tiago|"
-    r"1\s*Pedro|2\s*Pedro|1\s*Jo\u00e3o|2\s*Jo\u00e3o|3\s*Jo\u00e3o|Judas|Apocalipse"
+    r"1\s*Timóteo|2\s*Timóteo|Tito|Filemom|Hebreus|Tiago|"
+    r"1\s*Pedro|2\s*Pedro|1\s*João|2\s*João|3\s*João|Judas|Apocalipse"
 )
 
 _SCRIPTURE_RE = re.compile(
@@ -54,7 +54,7 @@ _SCRIPTURE_RE = re.compile(
     re.IGNORECASE,
 )
 
-_QUOTED_TEXT_RE = re.compile(r'[\u201c\u201d""]([^\u201c\u201d""]{10,120})[\u201c\u201d""]')
+_QUOTED_TEXT_RE = re.compile(r'["\u201c\u201d]([^"\u201c\u201d]{10,120})["\u201c\u201d]')
 
 _SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
 
