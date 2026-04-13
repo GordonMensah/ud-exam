@@ -45,9 +45,48 @@ _SKIP_PATTERNS = re.compile(
 
 # Pattern that positively identifies a real chapter.
 _CHAPTER_RE = re.compile(
-    r"\b(chapter|ch\.?|part|lesson|section|unit)\s*\d",
+    r"\b(chapter|ch\.?|part|lesson|unit)\s*\d",
     re.IGNORECASE,
 )
+
+# Extract the chapter number and optional subtitle from cleaned text.
+# Text is whitespace-normalized (spaces only, no newlines).
+# Subtitle: grab words until we hit a sentence boundary (lowercase word
+# followed by lowercase, or punctuation like ? or .).
+_CHAPTER_NUM_RE = re.compile(
+    r"\bChapter\s+(\d+)\s+",
+    re.IGNORECASE,
+)
+
+
+def _extract_chapter_subtitle(text: str) -> str:
+    """Extract the short subtitle after 'Chapter N ' in cleaned text."""
+    m = _CHAPTER_NUM_RE.search(text[:200])
+    if not m:
+        return ""
+    after = text[m.end():m.end() + 80]
+    # Take words until we hit a sentence-ending pattern.
+    # Titles are like: "A Loyal Assistant", "Why Judas Betrayed Christ"
+    # Body text starts with: "The assisting minister is anyone..."
+    words = after.split()
+    title_words = []
+    for i, w in enumerate(words):
+        # Stop at sentence punctuation
+        if any(w.endswith(c) for c in (".", "?", "!", ":")):
+            # Include this word if it's short (like "Loyalty?")
+            cleaned = w.rstrip(".:?!")
+            if cleaned and len(title_words) < 5:
+                title_words.append(cleaned)
+            break
+        # Stop when we see two consecutive lowercase words (body text)
+        if (i > 0 and w[0].islower()
+                and i + 1 < len(words) and words[i + 1][0].islower()):
+            break
+        # Stop after collecting enough title words
+        if len(title_words) >= 5:
+            break
+        title_words.append(w)
+    return " ".join(title_words).strip()
 
 
 def _clean_text(text: str) -> str:
@@ -87,21 +126,31 @@ def parse_epub(epub_path: str | Path, min_chapter_chars: int = 200) -> list[Chap
     """
     book = epub.read_epub(str(epub_path))
 
+    # --- Build TOC title lookup (filename stem → TOC title) -----------------
+    toc_titles: dict[str, str] = {}
+    for entry in book.toc:
+        if hasattr(entry, "href") and hasattr(entry, "title"):
+            stem = Path(entry.href.split("#")[0]).stem
+            toc_titles[stem] = entry.title.strip()
+        elif isinstance(entry, tuple):
+            _sec, links = entry
+            for link in links:
+                stem = Path(link.href.split("#")[0]).stem
+                toc_titles[stem] = link.title.strip()
+
     # --- First pass: collect all candidate sections -------------------------
-    raw_sections: list[tuple[str, str, str]] = []  # (title, text, filename)
+    raw_sections: list[tuple[str, str, str]] = []  # (title, text, filename_stem)
     for item in book.get_items_of_type(ITEM_DOCUMENT):
         raw_html = item.get_content().decode("utf-8", errors="ignore")
         soup = BeautifulSoup(raw_html, "html.parser")
         text = _clean_text(soup.get_text(" "))
         if not text:
             continue
-        filename = Path(item.get_name()).stem.replace("_", " ").title()
-        title = _extract_title(soup, filename)
-        raw_sections.append((title, text, filename))
+        stem = Path(item.get_name()).stem
+        title = toc_titles.get(stem, _extract_title(soup, stem))
+        raw_sections.append((title, text, stem))
 
     # --- Detect where real chapters begin -----------------------------------
-    # Strategy: find the first section whose title matches "Chapter N" style.
-    # If none match, fall back to skipping by keyword only.
     first_chapter_idx = 0
     for idx, (title, _text, _fn) in enumerate(raw_sections):
         if _is_chapter_heading(title):
@@ -110,20 +159,41 @@ def parse_epub(epub_path: str | Path, min_chapter_chars: int = 200) -> list[Chap
 
     # --- Second pass: filter and number -------------------------------------
     chapters: list[Chapter] = []
-    chapter_num = 1
-    for idx, (title, text, filename) in enumerate(raw_sections):
+    fallback_num = 1
+    for idx, (title, text, stem) in enumerate(raw_sections):
         # Skip everything before the first real chapter
         if idx < first_chapter_idx:
             continue
         # Skip front/back matter that appears after chapter start
-        if _is_front_or_back_matter(title, filename):
+        if _is_front_or_back_matter(title, stem):
             continue
         # Skip very short sections (page breaks, blank pages)
         if len(text) < min_chapter_chars:
             continue
 
-        chapters.append(Chapter(chapter_id=chapter_num, title=title, text=text))
-        chapter_num += 1
+        # Extract actual book chapter number from text (e.g. "Chapter 7")
+        ch_match = _CHAPTER_NUM_RE.search(text[:200])
+        if ch_match:
+            chapter_num = int(ch_match.group(1))
+            # Prefer TOC title if available; fall back to text extraction
+            toc_title = toc_titles.get(stem, "")
+            if toc_title:
+                # Normalize "Chapter N:Title" → "Chapter N: Title"
+                display_title = re.sub(r":\s*", ": ", toc_title)
+            else:
+                subtitle = _extract_chapter_subtitle(text)
+                display_title = f"Chapter {chapter_num}"
+                if subtitle:
+                    display_title += f": {subtitle}"
+        else:
+            # No "Chapter N" found – skip (e.g. copyright page)
+            if not _is_chapter_heading(title):
+                continue
+            chapter_num = fallback_num
+            display_title = title
+
+        chapters.append(Chapter(chapter_id=chapter_num, title=display_title, text=text))
+        fallback_num = chapter_num + 1
 
     return chapters
 
