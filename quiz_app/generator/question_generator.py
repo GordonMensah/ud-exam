@@ -135,10 +135,11 @@ def _tricky_wrong_refs(correct: ScriptureRef, all_refs: list, rng: random.Random
             wrong.append(_norm_ref(correct.book, new_ch, vs, ve))
 
     # Strategy 3: same book+chapter, different verse (nearby)
+    # Always use a single-verse ref here to avoid inverted ranges like '17:16-13'.
     for offset in [1, -1, 2, -2, 3, -3]:
         new_vs = vs + offset
         if new_vs > 0:
-            wrong.append(_norm_ref(correct.book, ch, new_vs, ve if ve == vs else ve))
+            wrong.append(_norm_ref(correct.book, ch, new_vs, new_vs))
 
     # Strategy 4: actual other refs from the text
     text_refs = [r.full_ref for r in all_refs if r.full_ref != correct.full_ref]
@@ -233,7 +234,7 @@ def _extract_refs_with_context(text: str) -> list:
         r'(?:^|(?<=\.\s)|(?<=\?\s)|(?<=!\s)|(?<=:\s))'
         r'(\d{1,3}|[ivx]{1,5}|[a-o])'   # label: arabic / lowercase roman / letter
         r'[.)]\s+'                         # separator: period or paren
-        r'([A-Z][^.!?]{10,200})',          # content starts with capital
+        r'([A-Z][^.!?]{10,400})',          # content starts with capital
     )
 
     # Collect ALL numbered-point boundary positions so we can detect when
@@ -291,8 +292,18 @@ def _extract_refs_with_context(text: str) -> list:
             closest.teaching_points.append(pt_text)
 
     # Step 5: extract commentary and topics
+    # Phrases that signal author meta-commentary rather than verse content.
+    _META_PREFIXES = (
+        "it is my prayer", "let us all", "the answer is",
+        "as i said", "i believe", "i have seen", "i have rarely",
+        "in other words", "this is another reason", "we all",
+        "this will invite", "it cannot possibly", "the reason why",
+        "it is important to note", "please note", "note that",
+        "you will notice", "you will see", "you will find",
+    )
+
     def _good_text(s):
-        """Filter out fragments that are too short, have stray digits, or are garbled."""
+        """Filter out fragments that are too short, garbled, or authorial meta-commentary."""
         s = s.strip().rstrip(".,;:!?")
         if not s or len(s) < 15:
             return None
@@ -305,6 +316,14 @@ def _extract_refs_with_context(text: str) -> list:
             return None
         if not s[0].isalpha():
             return None
+        # Reject authorial meta-commentary ("It is my prayer...", "Let us all...")
+        s_lower = s.lower()
+        if any(s_lower.startswith(p) for p in _META_PREFIXES):
+            return None
+        # Reject apparent mid-word truncations: last word ends in letters but
+        # the original sentence clearly continued (e.g. "or retra").
+        # Heuristic: if the raw text ended at a window boundary and the last
+        # word is ≤4 chars and not a known short word, discard.
         return s
 
     # Sort refs by position so we can find adjacent refs for window clamping.
@@ -337,6 +356,14 @@ def _extract_refs_with_context(text: str) -> list:
         start = max(block_start, ref.position - 400)
         end = min(block_end, ref.position + 400)
         window = text[start:end]
+        # Trim to last sentence boundary so we never get partial sentences
+        # from the window edge (avoids truncated options like "or retra").
+        last_boundary = max(
+            (window.rfind(c) for c in ('.', '!', '?')),
+            default=-1,
+        )
+        if last_boundary > 20:
+            window = window[:last_boundary + 1]
 
         # Short topic descriptions from sentences
         for sent in re.split(r"[.;!?]", window):
