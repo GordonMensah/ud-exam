@@ -296,7 +296,10 @@ def main() -> None:
             st.markdown("### ⚙️ Quiz Settings")
             book_q = st.selectbox("Book", sorted(bundle.keys()), key="book_q")
             book_data_q = bundle[book_q]
-            ch_ids = sorted(book_data_q["quiz_variants"].keys(), key=int)
+            ch_ids = sorted(
+                [k for k, v in book_data_q["quiz_variants"].items() if v],
+                key=int,
+            )
             if not ch_ids:
                 st.warning("No quiz variants found.")
             else:
@@ -304,7 +307,7 @@ def main() -> None:
                 ch_vars = book_data_q["quiz_variants"][ch_id]
                 var_labels = [v["variant_id"] for v in ch_vars]
                 var_sel = st.selectbox("Variant", var_labels, key="qvar_sel")
-                quiz_qs = next(v["questions"] for v in ch_vars if v["variant_id"] == var_sel)
+                quiz_qs = next((v["questions"] for v in ch_vars if v["variant_id"] == var_sel), [])
 
                 if st.button("▶ Start Quiz", use_container_width=True, key="start_quiz"):
                     st.session_state.quiz_engine = QuizEngine(quiz_qs, mode="test")
@@ -341,7 +344,7 @@ def main() -> None:
             else:
                 exam_var_labels = [v["variant_id"] for v in exam_vars]
                 exam_var_sel = st.selectbox("Exam Variant", exam_var_labels, key="evar_sel")
-                exam_qs = next(v["questions"] for v in exam_vars if v["variant_id"] == exam_var_sel)
+                exam_qs = next((v["questions"] for v in exam_vars if v["variant_id"] == exam_var_sel), [])
                 timer_mins = st.number_input("⏱ Timer (min)", min_value=1, value=60, step=5, key="timer_min")
 
                 if st.button("▶ Start Exam", use_container_width=True, key="start_exam"):
