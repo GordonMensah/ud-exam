@@ -1,40 +1,26 @@
-"""Question generation matching the UO-SAT exam format exactly.
+"""UO-SAT exam-style question generation.
 
-Templates (derived from actual UO-SAT screenshots):
-─────────────────────────────────────────────────────────────────────────────
-T1  "[Ref] talks about"                → options = short topic phrases (3-12 words)
-T2  "[Ref] does not talk about"        → same style, negated
-T3  "[Ref] is the biblical basis of"   → options = teaching/doctrine statements from book
-T4  "[Ref] is not the biblical basis of" → same, negated
-T5  "The following quotations can be found in [Ref]"
-                                        → options = short KJV-style verse quotes
-T6  "The following quotations cannot be found in [Ref]"
-                                        → same, negated
-T7  'The scripture "…" can be found in'
-                                        → options = scripture references (tricky similar ones)
-T8  'The scripture "…" cannot be found in'
-                                        → same, negated
-T9  'The statement "…" can be gleaned from'
-                                        → options = scripture references
-T10 "According to several authorities on the Doctrine of …,
-     the following are [topic]"        → options = patterned list items
-T11 "According to …, the following are not [topic]"
-                                        → same, negated
+Key principles (learned from actual UO-SAT screenshots):
+─────────────────────────────────────────────────────────
+1. Quoted text near a ref IS the verse → pair it with the CLOSEST ref.
+2. Wrong ref options must be TRICKY (same chapter/diff book, same book/diff verse).
+3. "talks about" options = short 3-8 word topic descriptions.
+4. "quotations can/cannot be found" options = actual short verse phrases.
+5. "biblical basis of" options = book teaching statements.
+6. "according to" options = patterned lists (all follow the same prefix).
 """
 
 from __future__ import annotations
 
 import random
 import re
-from dataclasses import dataclass
-from typing import Optional
+from dataclasses import dataclass, field
 
-from .epub_parser import Chapter
+from .epub_parser import Chapter  # noqa: F401
 
-# ── Scripture reference regex ──────────────────────────────────────────────
+# ── Regex ──────────────────────────────────────────────────────────────────
 
 _BOOK_NAMES = (
-    # English
     r"Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|"
     r"1\s*Samuel|2\s*Samuel|1\s*Kings|2\s*Kings|1\s*Chronicles|2\s*Chronicles|"
     r"Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|"
@@ -46,18 +32,13 @@ _BOOK_NAMES = (
     r"Colossians|1\s*Thessalonians|2\s*Thessalonians|"
     r"1\s*Timothy|2\s*Timothy|Titus|Philemon|Hebrews|James|"
     r"1\s*Peter|2\s*Peter|1\s*John|2\s*John|3\s*John|Jude|Revelation|"
-    # Portuguese
-    r"Gênesis|Êxodo|Ex|Levítico|Números|"
-    r"Deuteronômio|Josué|Juízes|Rute|"
-    r"1\s*Samuel|2\s*Samuel|1\s*Reis|2\s*Reis|"
-    r"1\s*Crônicas|2\s*Crônicas|Esdras|Neemias|Ester|"
-    r"Jó|Salmos|Provérbios|Eclesiastes|"
-    r"Cânticos|Isaías|Jeremias|Lamentações|Ezequiel|Daniel|"
-    r"Oséias|Joel|Amós|Obadias|Jonas|Miquéias|Naum|Habacuque|"
-    r"Sofonias|Ageu|Zacarias|Malaquias|"
-    r"Mateus|Marcos|Lucas|João|Atos|Romanos|"
-    r"1\s*Coríntios|2\s*Coríntios|Gálatas|Efésios|Filipenses|"
-    r"Colossenses|1\s*Tessalonicenses|2\s*Tessalonicenses|"
+    r"Gênesis|Êxodo|Levítico|Números|Deuteronômio|Josué|Juízes|Rute|"
+    r"1\s*Reis|2\s*Reis|1\s*Crônicas|2\s*Crônicas|Esdras|Neemias|Ester|"
+    r"Jó|Salmos|Provérbios|Eclesiastes|Cânticos|Isaías|Jeremias|"
+    r"Lamentações|Ezequiel|Oséias|Amós|Obadias|Jonas|Miquéias|Naum|"
+    r"Habacuque|Sofonias|Ageu|Zacarias|Malaquias|Mateus|Marcos|Lucas|"
+    r"João|Atos|Romanos|1\s*Coríntios|2\s*Coríntios|Gálatas|Efésios|"
+    r"Filipenses|Colossenses|1\s*Tessalonicenses|2\s*Tessalonicenses|"
     r"1\s*Timóteo|2\s*Timóteo|Tito|Filemom|Hebreus|Tiago|"
     r"1\s*Pedro|2\s*Pedro|1\s*João|2\s*João|3\s*João|Judas|Apocalipse"
 )
@@ -67,10 +48,31 @@ _SCRIPTURE_RE = re.compile(
     re.IGNORECASE,
 )
 
-_QUOTED_TEXT_RE = re.compile(r'["\u201c\u201d]([^"\u201c\u201d]{8,150})["\u201c\u201d]')
+_QUOTE_RE = re.compile(
+    r'(?:["\u201c\u201d]|\.{3}|…)([^"\u201c\u201d]{6,150}?)(?:["\u201c\u201d]|\.{3}|…)',
+)
+
 _SENTENCE_RE = re.compile(r"(?<=[.!?])\s+")
 
 LABELS = ["a", "b", "c", "d", "e"]
+
+# All Bible books for generating tricky wrong refs
+_ALL_BOOKS = [
+    "Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy",
+    "Joshua", "Judges", "Ruth", "1 Samuel", "2 Samuel",
+    "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles",
+    "Ezra", "Nehemiah", "Esther", "Job", "Psalm", "Proverbs",
+    "Ecclesiastes", "Song of Solomon", "Isaiah", "Jeremiah",
+    "Lamentations", "Ezekiel", "Daniel", "Hosea", "Joel", "Amos",
+    "Obadiah", "Jonah", "Micah", "Nahum", "Habakkuk", "Zephaniah",
+    "Haggai", "Zechariah", "Malachi",
+    "Matthew", "Mark", "Luke", "John", "Acts", "Romans",
+    "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians",
+    "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians",
+    "1 Timothy", "2 Timothy", "Titus", "Philemon", "Hebrews",
+    "James", "1 Peter", "2 Peter", "1 John", "2 John", "3 John",
+    "Jude", "Revelation",
+]
 
 
 # ── Data classes ───────────────────────────────────────────────────────────
@@ -82,379 +84,343 @@ class ScriptureRef:
     verse_start: int
     verse_end: int
     full_ref: str
-    context_sentence: str
-    nearby_text: str          # ~400 chars window around the ref
+    position: int  # char offset in the chapter text
+    paired_quotes: list = field(default_factory=list)   # actual verse quotes
+    commentary: list = field(default_factory=list)       # author's remarks near ref
+    topics: list = field(default_factory=list)           # short topic descriptions
 
 
-@dataclass
-class QuestionConfig:
-    pool_min: int = 10
-    pool_max: int = 20
-    default_pool_size: int = 15
+# ── Helpers ────────────────────────────────────────────────────────────────
 
-
-# ── Utility helpers ────────────────────────────────────────────────────────
-
-def _normalize_ref(book: str, ch: int, vs: int, ve: int) -> str:
+def _norm_ref(book: str, ch: int, vs: int, ve: int) -> str:
     r = f"{book} {ch}:{vs}"
     if ve and ve != vs:
         r += f"-{ve}"
     return r
 
 
-def _window(text: str, start: int, end: int, w: int = 400) -> str:
-    return text[max(0, start - w): min(len(text), end + w)].strip()
+def _dedup(items: list) -> list:
+    seen, out = set(), []
+    for x in items:
+        low = x.strip().lower()
+        if low not in seen and len(low) > 2:
+            seen.add(low)
+            out.append(x.strip())
+    return out
 
 
-def _sentence_at(text: str, start: int, end: int) -> str:
-    s = text.rfind(".", 0, start)
-    s = s + 1 if s != -1 else 0
-    e = text.find(".", end)
-    e = e + 1 if e != -1 else len(text)
-    return text[s:e].strip()
+def _tricky_wrong_refs(correct: ScriptureRef, all_refs: list, rng: random.Random, n: int = 4) -> list:
+    """Generate tricky wrong references that LOOK similar to the correct one.
+
+    Strategies (matching UO-SAT patterns):
+    1. Same chapter:verse, different book  (Genesis 31:20 → Leviticus 31:20)
+    2. Same book, different chapter:verse  (Revelation 21:14 → Revelation 2:14)
+    3. Same book+chapter, different verse  (2 Samuel 15:2 → 2 Samuel 15:5)
+    4. Fall back to other refs from the text
+    """
+    wrong = []
+    ch, vs, ve = correct.chapter, correct.verse_start, correct.verse_end
+
+    # Strategy 1: same chapter:verse, different book
+    other_books = [b for b in _ALL_BOOKS if b.lower() != correct.book.lower()]
+    rng.shuffle(other_books)
+    for b in other_books[:3]:
+        wrong.append(_norm_ref(b, ch, vs, ve))
+
+    # Strategy 2: same book, different chapter (nearby)
+    for offset in [1, -1, 2, -2, 10, -10]:
+        new_ch = ch + offset
+        if new_ch > 0:
+            wrong.append(_norm_ref(correct.book, new_ch, vs, ve))
+
+    # Strategy 3: same book+chapter, different verse (nearby)
+    for offset in [1, -1, 2, -2, 3, -3]:
+        new_vs = vs + offset
+        if new_vs > 0:
+            wrong.append(_norm_ref(correct.book, ch, new_vs, ve if ve == vs else ve))
+
+    # Strategy 4: actual other refs from the text
+    text_refs = [r.full_ref for r in all_refs if r.full_ref != correct.full_ref]
+    wrong.extend(text_refs)
+
+    # Remove duplicates and the correct answer
+    wrong = [w for w in dict.fromkeys(wrong) if w != correct.full_ref]
+    return rng.sample(wrong, k=min(n, len(wrong))) if len(wrong) >= n else wrong[:n]
 
 
-# ── Extraction functions ───────────────────────────────────────────────────
+# ── Extraction ─────────────────────────────────────────────────────────────
 
-def extract_scripture_refs(text: str) -> list:
-    refs, seen = [], set()
+def _extract_refs_with_context(text: str) -> list:
+    """Extract all scripture refs and pair them with nearby quotes + commentary.
+
+    Key fix: a quoted phrase is paired with the CLOSEST scripture ref,
+    not just any ref. This ensures "mine own familiar friend..." pairs
+    with Psalm 41:9 (the actual verse source).
+    """
+    # Step 1: find all refs with positions
+    refs = []
+    seen = set()
     for m in _SCRIPTURE_RE.finditer(text):
-        book, ch = m.group(1).strip(), int(m.group(2))
+        book = m.group(1).strip()
+        ch = int(m.group(2))
         vs = int(m.group(3))
         ve = int(m.group(4)) if m.group(4) else vs
-        full = _normalize_ref(book, ch, vs, ve)
+        full = _norm_ref(book, ch, vs, ve)
         if full in seen:
             continue
         seen.add(full)
         refs.append(ScriptureRef(
             book=book, chapter=ch, verse_start=vs, verse_end=ve,
-            full_ref=full,
-            context_sentence=_sentence_at(text, m.start(), m.end()),
-            nearby_text=_window(text, m.start(), m.end()),
+            full_ref=full, position=m.start(),
         ))
+
+    if not refs:
+        return refs
+
+    # Step 2: find all quoted phrases with positions
+    quotes_with_pos = []
+    for m in _QUOTE_RE.finditer(text):
+        q = m.group(1).strip()
+        if 5 <= len(q) <= 150 and not _SCRIPTURE_RE.search(q):
+            quotes_with_pos.append((m.start(), q))
+
+    # Step 3: pair each quote with the CLOSEST ref
+    for q_pos, q_text in quotes_with_pos:
+        closest = min(refs, key=lambda r: abs(r.position - q_pos))
+        dist = abs(closest.position - q_pos)
+        if dist < 500:  # within 500 chars
+            closest.paired_quotes.append(q_text)
+
+    # Step 4: extract commentary (non-quoted sentences near each ref)
+    def _good_text(s):
+        """Filter out fragments that are too short, have stray digits, or are garbled."""
+        s = s.strip().rstrip(".,;:!?")
+        if not s or len(s) < 15:
+            return None
+        if _SCRIPTURE_RE.search(s):
+            return None
+        # Reject fragments that are mostly digits/punctuation
+        alpha = sum(1 for c in s if c.isalpha())
+        if alpha < len(s) * 0.5:
+            return None
+        # Reject fragments starting with lowercase (usually mid-sentence junk)
+        if s[0].islower() and not s.startswith(("a ", "an ", "the ")):
+            return None
+        # Must start with a letter
+        if not s[0].isalpha():
+            return None
+        return s
+
+    for ref in refs:
+        start = max(0, ref.position - 300)
+        end = min(len(text), ref.position + 300)
+        window = text[start:end]
+
+        # Short topic descriptions (3-8 words)
+        for sent in re.split(r"[.;!?]", window):
+            cleaned = _good_text(sent)
+            if not cleaned:
+                continue
+            wc = len(cleaned.split())
+            if 3 <= wc <= 10:
+                ref.topics.append(cleaned)
+
+            # Also get sub-clauses
+            for clause in re.split(r",\s+", sent):
+                cleaned = _good_text(clause)
+                if not cleaned:
+                    continue
+                wc = len(cleaned.split())
+                if 3 <= wc <= 8:
+                    ref.topics.append(cleaned)
+
+        # Teaching/commentary statements (longer)
+        for sent in _SENTENCE_RE.split(window):
+            cleaned = _good_text(sent)
+            if not cleaned:
+                continue
+            wc = len(cleaned.split())
+            if 5 <= wc <= 25:
+                ref.commentary.append(sent)
+
+        ref.paired_quotes = _dedup(ref.paired_quotes)
+        ref.topics = _dedup(ref.topics)
+        ref.commentary = _dedup(ref.commentary)
+
     return refs
 
 
-def _extract_short_topics(text: str) -> list:
-    """Extract SHORT topic descriptions (3-12 words) suitable for
-    "talks about" / "does not talk about" options.
-
-    Examples: "Idol worshippers", "A witch not being suffered to live",
-    "Divisions in the church", "Walking by faith and not by sight".
-    """
-    topics = []
-
-    # Gerund phrases: "teaching against disloyalty", "walking by faith"
-    for m in re.finditer(
-        r"\b([A-Z][a-z]+ing\s+(?:against|about|for|with|by|in|on|to|of|the|a)\s+"
-        r"[a-z].{3,50}?)(?:[.,;:!?]|\s+and\s+|\s+but\s+|\s+or\s+|$)",
-        text,
-    ):
-        t = m.group(1).strip().rstrip(".,;:!?")
-        wc = len(t.split())
-        if 3 <= wc <= 12:
-            topics.append(t)
-
-    # Noun phrases starting with articles: "The need to examine oneself"
-    for m in re.finditer(
-        r"\b((?:The|A|An)\s+[a-z].{5,55}?)(?:[.,;:!?]|$)", text,
-    ):
-        t = m.group(1).strip().rstrip(".,;:!?")
-        wc = len(t.split())
-        if 3 <= wc <= 12 and not _SCRIPTURE_RE.search(t):
-            topics.append(t)
-
-    # Short clauses from sentences (split on period, take <=12 word ones)
-    for sent in _SENTENCE_RE.split(text):
-        sent = sent.strip()
-        if not sent or _SCRIPTURE_RE.search(sent):
-            continue
-        wc = len(sent.split())
-        if 3 <= wc <= 12:
-            topics.append(sent)
-        # Also try sub-clauses
-        for part in re.split(r"[,;]\s+", sent):
-            part = part.strip().rstrip(".,;:!?")
-            wc = len(part.split())
-            if 3 <= wc <= 10 and not _SCRIPTURE_RE.search(part):
-                topics.append(part)
-
-    return _dedup(topics)
-
-
-def _extract_verse_quotes(text: str) -> list:
-    """Extract short KJV-style quotations suitable for
-    "The following quotations can/cannot be found in [Ref]".
-
-    Examples: "Thou hast been in Eden", "he that gathereth not",
-    "The Lord forbid that I should stretch forth mine hand".
-    """
-    quotes = []
-
-    # Actual quoted text
-    for m in _QUOTED_TEXT_RE.finditer(text):
-        q = m.group(1).strip()
-        wc = len(q.split())
-        if 4 <= wc <= 20:
-            quotes.append(q)
-
-    # KJV-style phrases (thee/thou/hath/shalt/doth etc.)
-    kjv_pattern = (
-        r"(?:(?:thou|thee|thy|ye|hath|doth|shalt|wilt|art|"
-        r"saith|sayeth|cometh|goeth|maketh|taketh|giveth|"
-        r"doeth|keepeth|loveth|knoweth|seeketh|walketh|"
-        r"bringeth|casteth|setteth)\s+.{5,60}?"
-        r"|.{5,30}?\s+(?:thereof|therein|thereon|wherefore|"
-        r"whereby|henceforth|hitherto|forthwith))"
-    )
-    for m in re.finditer(kjv_pattern, text, re.IGNORECASE):
-        q = m.group(0).strip().rstrip(".,;:!?")
-        wc = len(q.split())
-        if 4 <= wc <= 18:
-            quotes.append(q)
-
-    # Capitalized sentence starters that look like verse quotes
-    for m in re.finditer(
-        r"(?:^|\.\s+)([A-Z][a-z]+\s+(?:that|who|which|is|was|shall|"
-        r"will|hast|art)\s+.{8,60}?)(?:\.|,|;|$)",
-        text, re.MULTILINE,
-    ):
-        q = m.group(1).strip().rstrip(".,;:!?")
-        wc = len(q.split())
-        if 4 <= wc <= 16 and not _SCRIPTURE_RE.search(q):
-            quotes.append(q)
-
-    return _dedup(quotes)
-
-
 def _extract_teachings(text: str) -> list:
-    """Extract teaching/doctrine statements for
-    "is the biblical basis of" options.
-
-    Examples: "A person who approves of someone who makes wrong decisions
-    is potentially disloyal", "The execution stage of disloyalty",
-    "A godly resignation".
-    """
+    """Extract teaching statements from the full chapter for 'biblical basis' options."""
     teachings = []
-
-    # Doctrine-style: "The X stage of Y", "The sign of Y"
-    for m in re.finditer(
-        r"((?:the|a|an)\s+(?:sign|stage|mark|characteristic|quality|"
-        r"trait|principle|key|spirit|danger|fruit|test|proof|evidence|"
-        r"indicator|pattern|type|form|kind|nature|result|consequence|"
-        r"reason|cause|effect|root|basis|foundation)\s+"
-        r"(?:of|for|behind|in)\s+.{5,60}?)(?:\.|,|;|$)",
-        text, re.IGNORECASE,
-    ):
-        t = m.group(1).strip().rstrip(".,;:!?")
-        if 4 <= len(t.split()) <= 15:
-            teachings.append(t)
-
-    # "A person who X is potentially disloyal" / "A loyal person does X"
-    for m in re.finditer(
-        r"(a\s+(?:person|leader|pastor|minister|assistant|man|woman|"
-        r"loyal\s+\w+|disloyal\s+\w+|faithful\s+\w+|unfaithful\s+\w+)"
-        r"\s+(?:who|that|which)\s+.{10,80}?)(?:\.|;|$)",
-        text, re.IGNORECASE,
-    ):
-        t = m.group(1).strip().rstrip(".,;:!?")
-        if 5 <= len(t.split()) <= 20:
-            teachings.append(t)
-
-    # Short doctrinal phrases: "Understanding the schemes of the enemy"
-    for m in re.finditer(
-        r"([A-Z][a-z]+ing\s+(?:the|a|an|your|his|her|our|their)\s+"
-        r".{5,50}?)(?:\.|,|;|$)",
-        text,
-    ):
-        t = m.group(1).strip().rstrip(".,;:!?")
-        if 3 <= len(t.split()) <= 12:
-            teachings.append(t)
-
+    patterns = [
+        # "The X stage/sign/key/principle of Y"
+        r"((?:The|A|An)\s+(?:\w+\s+)?(?:stage|sign|key|principle|mark|"
+        r"danger|fruit|test|proof|characteristic|indicator|spirit|type|"
+        r"form|nature|result|reason|cause|root|basis|foundation)\s+"
+        r"(?:of|for|behind|in)\s+.{5,50}?)(?:\.|,|;|$)",
+        # "A person/leader who X is Y"
+        r"((?:A|The)\s+(?:person|leader|pastor|minister|assistant|man|woman|"
+        r"loyal\s+\w+|disloyal\s+\w+|faithful\s+\w+)\s+"
+        r"(?:who|that|which)\s+.{10,70}?)(?:\.|;|$)",
+        # "Loyalty is/demands/requires X"
+        r"(Loyalty\s+(?:is|demands|requires|has|means|involves)\s+.{5,50}?)(?:\.|,|;|$)",
+        # "Disloyalty is/leads/causes X"
+        r"(Disloyalty\s+(?:is|leads|causes|means|involves)\s+.{5,50}?)(?:\.|,|;|$)",
+        # Gerund phrases: "Understanding X", "Addressing Y"
+        r"([A-Z][a-z]+ing\s+(?:the|a|your|his)\s+.{5,45}?)(?:\.|,|;|$)",
+    ]
+    for pat in patterns:
+        for m in re.finditer(pat, text, re.IGNORECASE):
+            t = m.group(1).strip().rstrip(".,;:!?")
+            wc = len(t.split())
+            if 3 <= wc <= 20:
+                teachings.append(t)
     return _dedup(teachings)
 
 
 def _extract_patterned_lists(text: str) -> dict:
-    """Extract items that follow a repeated pattern — used for
-    "According to..." questions.
-
-    Examples: {"The key of": ["eliminating strange fires",
-              "teaching against disloyalty", "unquenchable fire"]}
-    """
+    """Extract items that share a common prefix pattern for 'according to' questions."""
     groups = {}
 
-    # "The key of X"
-    for m in re.finditer(r"(?:the\s+key\s+of\s+)(.{5,50}?)(?:\.|,|;|$)", text, re.IGNORECASE):
-        groups.setdefault("The key of", []).append(m.group(1).strip().rstrip(".,;"))
+    patterns = [
+        (r"(?:the\s+key\s+of\s+)(.{5,50}?)(?:\.|,|;|$)", "keys to developing a culture of allegiance"),
+        (r"(the\s+\w+\s+stage\s+(?:of\s+)?.{3,40}?)(?:\.|,|;|$)", "stages of disloyalty"),
+        (r"(the\s+sign\s+of\s+.{5,40}?)(?:\.|,|;|$)", "signs of disloyalty"),
+        (r"(?:reason(?:s)?\s+(?:why|for)\s+)(.{5,60}?)(?:\.|,|;|$)", "reasons why the subject of loyalty is important"),
+        (r"(mark(?:s)?\s+of\s+(?:godly\s+)?repentance.{0,40}?)(?:\.|,|;|$)", "marks of godly repentance"),
+    ]
 
-    # "The stage of X" / "The X stage"
-    for m in re.finditer(r"(?:the\s+\w+\s+stage\s+of\s+)(.{5,50}?)(?:\.|,|;|$)", text, re.IGNORECASE):
-        groups.setdefault("stages of disloyalty", []).append(m.group(0).strip().rstrip(".,;"))
-    for m in re.finditer(r"(the\s+\w+\s+stage)(?:\.|,|;|\s+of)", text, re.IGNORECASE):
-        groups.setdefault("stages of disloyalty", []).append(m.group(1).strip())
+    for pat, group_name in patterns:
+        for m in re.finditer(pat, text, re.IGNORECASE):
+            t = m.group(1).strip().rstrip(".,;:!?") if m.group(1) else m.group(0).strip().rstrip(".,;:!?")
+            if 3 <= len(t.split()) <= 15:
+                groups.setdefault(group_name, []).append(t)
 
-    # "The sign of X"
-    for m in re.finditer(r"(the\s+sign\s+of\s+.{5,50}?)(?:\.|,|;|$)", text, re.IGNORECASE):
-        groups.setdefault("signs of disloyalty", []).append(m.group(1).strip().rstrip(".,;"))
-
-    # Deduplicate each group
     for k in groups:
         groups[k] = _dedup(groups[k])
-
     return {k: v for k, v in groups.items() if len(v) >= 3}
 
 
 def _extract_names(text: str) -> list:
-    """Extract biblical / character names for name-based questions.
-    Examples: Zadok, Ahithophel, Absalom, Judas.
-    """
-    # Common biblical names pattern
-    name_re = re.compile(r"\b([A-Z][a-z]{2,12}(?:el|ah|as|am|om|im|us|os|ek|ob|ud|ai|ei|oi)?)\b")
-    exclude = {
-        "The", "This", "That", "These", "Those", "There", "Here", "Where",
-        "When", "What", "Which", "Who", "How", "Why", "Because", "Therefore",
-        "However", "Also", "Many", "Some", "Other", "Another", "Every",
-        "According", "Chapter", "Verse", "Bible", "Scripture", "Christian",
-        "God", "Lord", "Jesus", "Christ", "Holy", "Spirit", "Church",
-        "Lesson", "Section", "Part", "Note", "King", "Queen",
-        "But", "And", "For", "Not", "All", "His", "Her", "Our",
-        "They", "Them", "Will", "Can", "May", "Let", "See", "Now",
-        "Then", "Than", "Has", "Had", "Was", "Were", "Are", "Been",
-        "Being", "Have", "Does", "Did", "May", "Each", "Few",
-    }
-    names = []
-    for m in name_re.finditer(text):
-        n = m.group(1)
-        if n not in exclude and n not in names and len(n) >= 3:
-            names.append(n)
-    return names
-
-
-def _dedup(items: list) -> list:
-    """Deduplicate a list while preserving order."""
-    seen = set()
-    out = []
-    for item in items:
-        low = item.lower().strip()
-        if low not in seen and len(low) > 2:
-            seen.add(low)
-            out.append(item)
-    return out
+    """Extract biblical character names."""
+    # Common biblical names that appear in Loyalty & Disloyalty
+    biblical_names = [
+        "Absalom", "Ahithophel", "Ahimaaz", "Shemei", "Ziba", "Zadok",
+        "Joab", "David", "Judas", "Moses", "Aaron", "Miriam", "Korah",
+        "Dathan", "Abiram", "Saul", "Jonathan", "Samuel", "Eli",
+        "Gehazi", "Elisha", "Diotrephes", "Barnabas", "Paul", "Peter",
+        "Timothy", "Titus", "Philemon", "Demas", "Alexander",
+        "Jezebel", "Lucifer", "Satan", "Jacob", "Laban", "Esau",
+    ]
+    found = []
+    for name in biblical_names:
+        if name.lower() in text.lower() and name not in found:
+            found.append(name)
+    return found
 
 
 # ── Question builders ──────────────────────────────────────────────────────
 
-def _shuffle_build(true_items: list, false_items: list, rng: random.Random):
-    """Build (options, answers) dicts from true/false item lists."""
+def _build_opts(true_items: list, false_items: list, rng: random.Random):
     items = [(t, True) for t in true_items] + [(f, False) for f in false_items]
     rng.shuffle(items)
-    options = {LABELS[i]: items[i][0] for i in range(5)}
-    answers = {LABELS[i]: items[i][1] for i in range(5)}
-    return options, answers
+    opts = {LABELS[i]: items[i][0] for i in range(5)}
+    ans = {LABELS[i]: items[i][1] for i in range(5)}
+    return opts, ans
 
 
-def _q(stem: str, opts, ans, ref: ScriptureRef):
+def _mkq(stem, opts, ans, ref_str, context=""):
     return {
         "question": stem, "options": opts, "answers": ans,
-        "source": {"text": ref.context_sentence, "reference": ref.full_ref},
+        "source": {"text": context, "reference": ref_str},
     }
 
 
 # T1/T2: "[Ref] talks about" / "[Ref] does not talk about"
-def _build_talks_about(ref, correct, wrong, rng, negated=False):
-    if len(correct) < 1 or len(wrong) < 3:
+def _q_talks_about(ref, all_topics, rng, negated=False):
+    my = ref.topics[:10]
+    other = [t for t in all_topics if t not in my]
+    if len(my) < 1 or len(other) < 3:
         return None
     verb = "does not talk about" if negated else "talks about"
     stem = f"{ref.full_ref} {verb}"
     if negated:
-        nt, nf = rng.randint(2, 3), 0
-        nf = 5 - nt
-        tp, fp = wrong, correct
+        nt = rng.randint(2, 3); nf = 5 - nt
+        tp, fp = other, my
     else:
-        nt = rng.randint(2, 3)
-        nf = 5 - nt
-        tp, fp = correct, wrong
+        nt = rng.randint(2, 3); nf = 5 - nt
+        tp, fp = my, other
     if len(tp) < nt or len(fp) < nf:
         return None
-    opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    return _q(stem, opts, ans, ref)
+    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+    return _mkq(stem, opts, ans, ref.full_ref, ref.commentary[0] if ref.commentary else "")
 
 
 # T3/T4: "[Ref] is [not] the biblical basis of"
-def _build_biblical_basis(ref, correct, wrong, rng, negated=False):
-    if len(correct) < 1 or len(wrong) < 3:
+def _q_biblical_basis(ref, all_teachings, rng, negated=False):
+    my = ref.commentary[:10]
+    other = [t for t in all_teachings if t not in my]
+    if len(my) < 1 or len(other) < 3:
         return None
     neg = "not " if negated else ""
     stem = f"{ref.full_ref} is {neg}the biblical basis of"
     if negated:
-        nt = rng.randint(2, 3)
-        nf = 5 - nt
-        tp, fp = wrong, correct
+        nt = rng.randint(2, 3); nf = 5 - nt
+        tp, fp = other, my
     else:
-        nt = rng.randint(1, 2)
-        nf = 5 - nt
-        tp, fp = correct, wrong
+        nt = rng.randint(1, 2); nf = 5 - nt
+        tp, fp = my, other
     if len(tp) < nt or len(fp) < nf:
         return None
-    opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    return _q(stem, opts, ans, ref)
+    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+    return _mkq(stem, opts, ans, ref.full_ref, ref.commentary[0] if ref.commentary else "")
 
 
 # T5/T6: "The following quotations can[not] be found in [Ref]"
-def _build_quotation(ref, correct, wrong, rng, negated=False):
-    if len(correct) < 2 or len(wrong) < 2:
+def _q_quotation(ref, all_quotes_flat, rng, negated=False):
+    my = ref.paired_quotes[:10]
+    other = [q for q in all_quotes_flat if q not in my]
+    if len(my) < 2 or len(other) < 2:
         return None
     verb = "cannot" if negated else "can"
     stem = f"The following quotations {verb} be found in {ref.full_ref}"
     if negated:
-        nt = rng.randint(2, 3)
-        nf = 5 - nt
-        tp, fp = wrong, correct
+        nt = rng.randint(2, 3); nf = 5 - nt
+        tp, fp = other, my
     else:
-        nt = rng.randint(2, 3)
-        nf = 5 - nt
-        tp, fp = correct, wrong
+        nt = rng.randint(2, 3); nf = 5 - nt
+        tp, fp = my, other
     if len(tp) < nt or len(fp) < nf:
         return None
-    opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    return _q(stem, opts, ans, ref)
+    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+    return _mkq(stem, opts, ans, ref.full_ref, "; ".join(my[:2]))
 
 
-# T7/T8: 'The scripture "…" can[not] be found in' → options are refs
-def _build_scripture_found(quote, correct_ref, all_refs, rng, negated=False):
-    other = [r for r in all_refs if r.full_ref != correct_ref.full_ref]
-    if len(other) < 4:
+# T7/T8: 'The scripture "…" can[not] be found in' → tricky similar refs
+def _q_scripture_found(ref, quote, all_refs, rng, negated=False):
+    wrong = _tricky_wrong_refs(ref, all_refs, rng, n=4)
+    if len(wrong) < 4:
         return None
-
     verb = "cannot" if negated else "can"
     stem = f'The scripture "{quote}" {verb} be found in'
-
-    # Prefer same-book refs for trickiness
-    same = [r for r in other if r.book == correct_ref.book]
-    diff = [r for r in other if r.book != correct_ref.book]
-    pool = same + diff
-    picked = rng.sample(pool, k=min(4, len(pool)))
-    while len(picked) < 4:
-        picked.append(rng.choice(other))
-
-    wrong = [r.full_ref for r in picked[:4]]
-    opts, ans = _shuffle_build([correct_ref.full_ref], wrong, rng)
-    return _q(stem, opts, ans, correct_ref)
+    opts, ans = _build_opts([ref.full_ref], wrong, rng)
+    return _mkq(stem, opts, ans, ref.full_ref, quote)
 
 
-# T9: 'The statement "…" can be gleaned from' → options are refs
-def _build_gleaned_from(statement, correct_ref, other_refs, rng):
-    if len(other_refs) < 4:
+# T9: 'The statement "…" can be gleaned from' → tricky refs
+def _q_gleaned_from(ref, statement, all_refs, rng):
+    wrong = _tricky_wrong_refs(ref, all_refs, rng, n=4)
+    if len(wrong) < 4:
         return None
     stem = f'The statement "{statement}" can be gleaned from'
-    wrong = [r.full_ref for r in rng.sample(other_refs, k=4)]
-    opts, ans = _shuffle_build([correct_ref.full_ref], wrong, rng)
-    return _q(stem, opts, ans, correct_ref)
+    opts, ans = _build_opts([ref.full_ref], wrong, rng)
+    return _mkq(stem, opts, ans, ref.full_ref, statement)
 
 
 # T10/T11: "According to several authorities on the Doctrine of …,
 #            the following are [not] [topic]"
-def _build_according_to(book_title, topic, correct, wrong, rng, negated=False, ref=None):
+def _q_according_to(book_title, topic, correct, wrong, rng, negated=False):
     if len(correct) < 1 or len(wrong) < 3:
         return None
     neg = "not " if negated else ""
@@ -463,58 +429,55 @@ def _build_according_to(book_title, topic, correct, wrong, rng, negated=False, r
         f"{book_title}, the following are {neg}{topic}"
     )
     if negated:
-        nt = rng.randint(2, 3)
-        nf = 5 - nt
+        nt = rng.randint(2, 3); nf = 5 - nt
         tp, fp = wrong, correct
     else:
-        nt = rng.randint(1, 3)
-        nf = 5 - nt
+        nt = rng.randint(2, 3); nf = 5 - nt
         tp, fp = correct, wrong
     if len(tp) < nt or len(fp) < nf:
         return None
-    opts, ans = _shuffle_build(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
-    source_ref = ref or ScriptureRef("", 0, 0, 0, book_title, book_title, "")
-    return _q(stem, opts, ans, source_ref)
+    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+    return _mkq(stem, opts, ans, book_title, f"See {book_title}")
+
+
+# T12: Name-based: "the following are [not] rebels/characters who [X]"
+def _q_names(book_title, topic, correct_names, wrong_names, rng, negated=False):
+    if len(correct_names) < 1 or len(wrong_names) < 3:
+        return None
+    neg = "not " if negated else ""
+    stem = (
+        f"According to several authorities on the Doctrine of "
+        f"{book_title}, the following are {neg}{topic}"
+    )
+    if negated:
+        nt = rng.randint(2, 3); nf = 5 - nt
+        tp, fp = wrong_names, correct_names
+    else:
+        nt = rng.randint(2, 3); nf = 5 - nt
+        tp, fp = correct_names, wrong_names
+    if len(tp) < nt or len(fp) < nf:
+        return None
+    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+    return _mkq(stem, opts, ans, book_title, f"See {book_title}")
 
 
 # ── Pool generation ────────────────────────────────────────────────────────
 
-def _difficulty_for(idx: int, total: int) -> str:
-    r = idx / max(total, 1)
-    return "easy" if r < 0.33 else "medium" if r < 0.66 else "hard"
-
-
-def generate_question_pool(
-    chapter,
-    pool_size: int = None,
-    seed: int = None,
-    config: QuestionConfig = None,
-) -> list:
+def generate_question_pool(chapter, pool_size=None, seed=None, config=None):
     """Generate a UO-SAT-style question pool for one chapter."""
-    cfg = config or QuestionConfig()
-    target = pool_size or cfg.default_pool_size
-    target = max(cfg.pool_min, min(cfg.pool_max, target))
+    target = pool_size or 15
+    target = max(10, min(20, target))
     rng = random.Random(seed)
+    book_title = "Loyalty and Disloyalty"
 
-    refs = extract_scripture_refs(chapter.text)
-    book_title = "Loyalty and Disloyalty"  # default
-
-    # ── per-ref extraction ─────────────────────────────────────────────
-    ref_topics = {}    # short topic descriptions
-    ref_quotes = {}    # KJV-style verse quotes
-    ref_teachings = {} # doctrine/teaching statements
-
-    for ref in refs:
-        ref_topics[ref.full_ref] = _extract_short_topics(ref.nearby_text)
-        ref_quotes[ref.full_ref] = _extract_verse_quotes(ref.nearby_text)
-        ref_teachings[ref.full_ref] = _extract_teachings(ref.nearby_text)
-
-    # Chapter-wide pools (for wrong answers)
-    all_topics = _extract_short_topics(chapter.text)
-    all_quotes = _extract_verse_quotes(chapter.text)
+    refs = _extract_refs_with_context(chapter.text)
     all_teachings = _extract_teachings(chapter.text)
     patterned = _extract_patterned_lists(chapter.text)
-    all_names = _extract_names(chapter.text)
+    names = _extract_names(chapter.text)
+
+    # Flat pools for wrong answers
+    all_topics = _dedup([t for r in refs for t in r.topics])
+    all_quotes = _dedup([q for r in refs for q in r.paired_quotes])
 
     questions = []
     qid = 1
@@ -525,104 +488,97 @@ def generate_question_pool(
             return False
         q["id"] = f"ch{chapter.chapter_id:03d}_q{qid:03d}"
         q["chapter_id"] = chapter.chapter_id
-        q["difficulty"] = _difficulty_for(qid, target)
+        ratio = qid / max(target, 1)
+        q["difficulty"] = "easy" if ratio < 0.33 else "medium" if ratio < 0.66 else "hard"
         questions.append(q)
         qid += 1
         return True
 
     rng.shuffle(refs)
 
-    # Template weights: [T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11]
-    WEIGHTS = [3, 2, 2, 2, 3, 3, 2, 1, 2, 2, 1]
+    # Weights: talks, !talks, basis, !basis, quot, !quot, scrip, !scrip, glean, acc, !acc, names
+    WEIGHTS = [3, 2, 2, 2, 4, 3, 3, 1, 3, 2, 1, 1]
 
-    def _try_template(ref):
-        my_topics = ref_topics.get(ref.full_ref, [])
-        my_quotes = ref_quotes.get(ref.full_ref, [])
-        my_teach = ref_teachings.get(ref.full_ref, [])
-        ot = [t for t in all_topics if t not in my_topics]
-        oq = [q for q in all_quotes if q not in my_quotes]
-        ote = [t for t in all_teachings if t not in my_teach]
-        other_refs = [r for r in refs if r.full_ref != ref.full_ref]
+    def _try(ref):
+        t = rng.choices(range(12), weights=WEIGHTS, k=1)[0]
 
-        t = rng.choices(range(11), weights=WEIGHTS, k=1)[0]
-
-        if t == 0 and my_topics:          # talks about
-            return _build_talks_about(ref, my_topics, ot, rng)
-        if t == 1 and my_topics:          # does not talk about
-            return _build_talks_about(ref, my_topics, ot, rng, negated=True)
-        if t == 2 and my_teach:           # biblical basis of
-            return _build_biblical_basis(ref, my_teach, ote or ot, rng)
-        if t == 3 and my_teach:           # not the biblical basis of
-            return _build_biblical_basis(ref, my_teach, ote or ot, rng, negated=True)
-        if t == 4 and my_quotes:          # quotations can be found
-            return _build_quotation(ref, my_quotes, oq or ot, rng)
-        if t == 5 and my_quotes:          # quotations cannot be found
-            return _build_quotation(ref, my_quotes, oq or ot, rng, negated=True)
-        if t == 6 and my_quotes and other_refs:   # scripture can be found in
-            return _build_scripture_found(rng.choice(my_quotes), ref, refs, rng)
-        if t == 7 and my_quotes and other_refs:   # scripture cannot be found in
-            return _build_scripture_found(rng.choice(my_quotes), ref, refs, rng, negated=True)
-        if t == 8 and (my_topics or my_teach) and other_refs:  # gleaned from
-            stmt = rng.choice(my_topics or my_teach)
-            return _build_gleaned_from(stmt, ref, other_refs, rng)
-        if t == 9 and patterned:          # according to
-            group_name = rng.choice(list(patterned.keys()))
-            items = patterned[group_name]
-            wrong_pool = [i for grp in patterned.values() for i in grp if i not in items]
-            if not wrong_pool:
-                wrong_pool = ot[:10] or all_topics[:10]
-            return _build_according_to(book_title, group_name, items, wrong_pool, rng, ref=ref)
-        if t == 10 and patterned:         # according to (negated)
-            group_name = rng.choice(list(patterned.keys()))
-            items = patterned[group_name]
-            wrong_pool = [i for grp in patterned.values() for i in grp if i not in items]
-            if not wrong_pool:
-                wrong_pool = ot[:10] or all_topics[:10]
-            return _build_according_to(book_title, group_name, items, wrong_pool, rng, negated=True, ref=ref)
+        if t == 0:
+            return _q_talks_about(ref, all_topics, rng)
+        if t == 1:
+            return _q_talks_about(ref, all_topics, rng, negated=True)
+        if t == 2:
+            return _q_biblical_basis(ref, all_teachings, rng)
+        if t == 3:
+            return _q_biblical_basis(ref, all_teachings, rng, negated=True)
+        if t == 4 and ref.paired_quotes:
+            return _q_quotation(ref, all_quotes, rng)
+        if t == 5 and ref.paired_quotes:
+            return _q_quotation(ref, all_quotes, rng, negated=True)
+        if t == 6 and ref.paired_quotes:
+            return _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng)
+        if t == 7 and ref.paired_quotes:
+            return _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng, negated=True)
+        if t == 8 and (ref.commentary or ref.topics):
+            stmt = rng.choice(ref.commentary or ref.topics)
+            return _q_gleaned_from(ref, stmt, refs, rng)
+        if t == 9 and patterned:
+            gn = rng.choice(list(patterned.keys()))
+            items = patterned[gn]
+            wp = [i for grp in patterned.values() for i in grp if i not in items]
+            if not wp:
+                wp = all_topics[:10]
+            return _q_according_to(book_title, gn, items, wp, rng)
+        if t == 10 and patterned:
+            gn = rng.choice(list(patterned.keys()))
+            items = patterned[gn]
+            wp = [i for grp in patterned.values() for i in grp if i not in items]
+            if not wp:
+                wp = all_topics[:10]
+            return _q_according_to(book_title, gn, items, wp, rng, negated=True)
+        if t == 11 and len(names) >= 5:
+            topic = rng.choice([
+                "rebels who ended up at the eighth stage of disloyalty",
+                "characters who showed loyalty",
+                "people who betrayed their leaders",
+            ])
+            cn = rng.sample(names, k=min(3, len(names)))
+            wn = [n for n in names if n not in cn]
+            if len(wn) < 2:
+                wn = ["Zadok", "Ahimaaz", "Hushai", "Ittai"]
+            return _q_names(book_title, topic, cn, wn, rng, negated=rng.choice([True, False]))
         return None
 
-    # ── First pass: one question per ref ───────────────────────────────
+    # First pass: one per ref
     for ref in refs:
         if len(questions) >= target:
             break
-        _add(_try_template(ref))
+        _add(_try(ref))
 
-    # ── Fill remaining ─────────────────────────────────────────────────
+    # Fill remaining
     attempts = 0
-    while len(questions) < target and refs and attempts < target * 8:
+    while len(questions) < target and refs and attempts < target * 10:
         attempts += 1
         ref = rng.choice(refs)
-        _add(_try_template(ref))
+        _add(_try(ref))
 
-    # ── Fallback if still short ────────────────────────────────────────
-    if len(questions) < target and (all_teachings or all_topics):
-        topics = [
-            "things which a loyal assistant should do",
-            "signs of disloyalty",
-            "reasons why loyalty is important",
-            "key principles of loyalty",
-            "rebels who ended up at the eighth stage of disloyalty",
-        ]
-        dummy_ref = ScriptureRef("", 0, 0, 0, book_title, book_title, "")
-        while len(questions) < target:
-            topic = rng.choice(topics)
-            pool_c = all_teachings or all_topics
-            pool_w = all_topics or all_teachings
-            cn = rng.sample(pool_c[:15], k=min(3, len(pool_c)))
-            cw = rng.sample(pool_w[:20], k=min(4, len(pool_w)))
-            _add(_build_according_to(
-                book_title, topic, cn, cw, rng,
-                negated=rng.choice([True, False]), ref=dummy_ref,
-            ))
+    # Fallback
+    if len(questions) < target:
+        dummy_topics = all_teachings or all_topics
+        dummy_wrong = all_topics or all_teachings
+        while len(questions) < target and dummy_topics and dummy_wrong:
+            topic = rng.choice([
+                "things which a loyal assistant should do",
+                "signs of disloyalty",
+                "reasons why loyalty is important",
+            ])
+            cn = rng.sample(dummy_topics[:15], k=min(3, len(dummy_topics)))
+            cw = rng.sample(dummy_wrong[:20], k=min(4, len(dummy_wrong)))
+            _add(_q_according_to(book_title, topic, cn, cw, rng, negated=rng.choice([True, False])))
 
     return questions
 
 
-def generate_all_chapter_questions(
-    chapters: list,
-    pool_size: int = None,
-    seed: int = None,
-) -> dict:
+def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
     """Generate question pools for all chapters."""
     master_rng = random.Random(seed)
     output = {}

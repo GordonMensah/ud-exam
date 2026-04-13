@@ -39,8 +39,12 @@ def generate_quiz_variants(
     seed: int | None = None,
 ) -> list[dict[str, Any]]:
     """Generate chapter quiz variants with no duplicates per variant."""
+    if not question_pool:
+        return []
     rng = random.Random(seed)
     usage: dict[str, int] = defaultdict(int)
+    # Reduce questions_per_quiz if pool is too small
+    questions_per_quiz = min(questions_per_quiz, len(question_pool))
 
     variants: list[dict[str, Any]] = []
     for index in range(1, num_variants + 1):
