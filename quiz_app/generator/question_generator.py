@@ -194,9 +194,32 @@ def _extract_refs_with_context(text: str) -> list:
 
     # Step 4: extract numbered teaching points ("12. Be genuinely happy...")
     # These are the author's actual teaching content that scripture refs support.
+    # Text is whitespace-normalized (no newlines), so we match after sentence-end
+    # punctuation or start-of-text, then a number + period.
     _NUMBERED_POINT_RE = re.compile(
-        r'(?:^|\n)\s*(\d{1,3})\.\s+([A-Z][^\n]{15,200}?)(?=\n|$)',
+        r'(?:^|(?<=\.\s)|(?<=\?\s)|(?<=!\s)|(?<=:\s)|(?<=\s)(?=\d{1,3}\.\s+[A-Z]))'
+        r'(\d{1,3})\.\s+([A-Z][^.!?]{10,200})',
     )
+
+    # Collect ALL numbered-point boundary positions so we can detect when
+    # a teaching point and a ref belong to DIFFERENT numbered points.
+    all_point_boundaries = sorted(
+        m.start() for m in _NUMBERED_POINT_RE.finditer(text)
+    )
+
+    def _same_point_block(pos_a: int, pos_b: int) -> bool:
+        """Return True if both positions fall within the same numbered-point block.
+
+        Two positions are in the same block if no numbered-point boundary
+        sits strictly between them.  This prevents pairing content from
+        point 1 (which may have no scripture) with the ref in point 2.
+        """
+        lo, hi = min(pos_a, pos_b), max(pos_a, pos_b)
+        for bp in all_point_boundaries:
+            if lo < bp < hi:
+                return False
+        return True
+
     points_with_pos = []
     for m in _NUMBERED_POINT_RE.finditer(text):
         point_text = m.group(2).strip().rstrip(".")
@@ -219,9 +242,15 @@ def _extract_refs_with_context(text: str) -> list:
         if 5 <= len(t.split()) <= 25:
             points_with_pos.append((m.start(), t))
 
-    # Pair each teaching point with the CLOSEST ref (within 800 chars)
+    # Pair each teaching point with the CLOSEST ref — but ONLY if they
+    # are in the same numbered-point block.  Points without a scripture
+    # ref in their block won't get paired (correct behaviour).
     for pt_pos, pt_text in points_with_pos:
-        closest = min(refs, key=lambda r: abs(r.position - pt_pos))
+        # Filter to refs in the same point block first
+        same_block_refs = [r for r in refs if _same_point_block(pt_pos, r.position)]
+        if not same_block_refs:
+            continue
+        closest = min(same_block_refs, key=lambda r: abs(r.position - pt_pos))
         dist = abs(closest.position - pt_pos)
         if dist < 800:
             closest.teaching_points.append(pt_text)
@@ -244,8 +273,19 @@ def _extract_refs_with_context(text: str) -> list:
         return s
 
     for ref in refs:
-        start = max(0, ref.position - 400)
-        end = min(len(text), ref.position + 400)
+        # Clamp the context window to the same numbered-point block.
+        # Find the point boundary just before and just after this ref.
+        block_start = 0
+        block_end = len(text)
+        for bp in all_point_boundaries:
+            if bp <= ref.position:
+                block_start = bp
+            elif bp > ref.position:
+                block_end = bp
+                break
+
+        start = max(block_start, ref.position - 400)
+        end = min(block_end, ref.position + 400)
         window = text[start:end]
 
         # Short topic descriptions from sentences
