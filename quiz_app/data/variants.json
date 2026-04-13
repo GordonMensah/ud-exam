@@ -674,24 +674,24 @@
         ],
         "questions": [
           {
-            "question": "According to several authorities on the Doctrine of Loyalty and Disloyalty, the following are stages of disloyalty",
+            "question": "2 Samuel 16:22 is the biblical basis of",
             "options": {
-              "a": "the political stage of disloyalty",
-              "b": "the critical stage of disloyalty",
-              "c": "some pastors don’t believe in cells or branches",
-              "d": "Jesus instituted the Lord’s Supper",
-              "e": "you must know these stages of disloyalty"
+              "a": "Absalom tried to become his father in all aspects, including in the bedroom",
+              "b": "The fruit of rebellion throughout the Bible is very clear execution",
+              "c": "You must remember that you have been helped by somebody to get to where you are",
+              "d": "The second stage of disloyalty is offence",
+              "e": "Judas betrayed and fought against his Lord and master"
             },
             "answers": {
               "a": true,
-              "b": true,
+              "b": false,
               "c": false,
               "d": false,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "See Loyalty and Disloyalty",
-              "reference": "Loyalty and Disloyalty"
+              "text": "Absalom tried to become his father in all aspects, including in the bedroom",
+              "reference": "2 Samuel 16:22"
             },
             "id": "ch002_q011",
             "chapter_id": 2,
@@ -1336,41 +1336,41 @@
         ],
         "questions": [
           {
-            "question": "1 Corinthians 5:6 is not the biblical basis of",
+            "question": "2 Corinthians 8:12 does not talk about",
             "options": {
-              "a": "Now, I have a different policy",
-              "b": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "c": "People who don’t want to be with you must go; and they must leave as",
-              "d": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you",
-              "e": "The extra months that he stayed on were not worth the trouble they yielded"
+              "a": "The Bible says that the north wind drives away the rain",
+              "b": "The hearts of such people are not with you anymore",
+              "c": "There is nothing like working with a willing and happy person",
+              "d": "The fire exposed it",
+              "e": "It is what I call the Key of the North Wind"
             },
             "answers": {
-              "a": false,
-              "b": true,
+              "a": true,
+              "b": false,
               "c": false,
               "d": true,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "The extra months that he stayed on were not worth the trouble they yielded",
-              "reference": "1 Corinthians 5:6"
+              "text": "One thing you should not have is someone who would like to leave but because of financial or other reasons feels trapped within your organization",
+              "reference": "2 Corinthians 8:12"
             },
             "id": "ch003_q011",
             "chapter_id": 3,
             "difficulty": "hard"
           },
           {
-            "question": "John 13:27 is the biblical basis of",
+            "question": "John 13:27 is not the biblical basis of",
             "options": {
-              "a": "I remember the testimony of a pastor who graduated from the Bi",
-              "b": "The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "c": "Be under Pressure to Promote People Do not be in a hurry to promote people",
-              "d": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "e": "If you indicate your desire to leave, you will have to go immediately"
+              "a": "The key of teaching against disloyalty Constant teaching on the subjects of loyalty and disloyalty are very important",
+              "b": "Be under Pressure to Promote People Do not be in a hurry to promote people",
+              "c": "I remember the testimony of a pastor who graduated from the Bi",
+              "d": "If you indicate your desire to leave, you will have to go immediately",
+              "e": "A loyal assistant must learn to drive away any backbiting and criticism of the senior"
             },
             "answers": {
               "a": true,
-              "b": false,
+              "b": true,
               "c": false,
               "d": false,
               "e": true
@@ -1386,21 +1386,21 @@
           {
             "question": "Proverbs 25:23 does not talk about",
             "options": {
-              "a": "Paul gathered some sticks and laid them on the fire",
-              "b": "A powerful rainstorm is driven away by a strong wind",
-              "c": "It is what I call the Key of the North Wind",
-              "d": "There is nothing like working with a willing and happy person",
-              "e": "The Bible says that the north wind drives away the rain"
+              "a": "It is what I call the Key of the North Wind",
+              "b": "Paul gathered some sticks and laid them on the fire",
+              "c": "Your Face Is the North Wind Just show s",
+              "d": "The Bible says that the north wind drives away the rain",
+              "e": "There is nothing like working with a willing and happy person"
             },
             "answers": {
-              "a": true,
-              "b": false,
+              "a": false,
+              "b": true,
               "c": false,
-              "d": true,
-              "e": false
+              "d": false,
+              "e": true
             },
             "source": {
-              "text": "The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
+              "text": "As a result, the undercurrents of murmuring and discontented people are not free to exist in our environment",
               "reference": "Proverbs 25:23"
             },
             "id": "ch003_q001",
@@ -1408,24 +1408,24 @@
             "difficulty": "easy"
           },
           {
-            "question": "John 13:27 is the biblical basis of",
+            "question": "2 Corinthians 8:12 talks about",
             "options": {
-              "a": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you",
-              "b": "The reason for this is simple",
-              "c": "If you indicate your desire to leave, you will have to go immediately",
-              "d": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "e": "People who don’t want to be with you must go; and they must leave as soon as possible"
+              "a": "They can become traitors",
+              "b": "The hearts of such people are not with you anymore",
+              "c": "Your Face Is the North Wind Just show s",
+              "d": "Because in helping them I will also be helping myself",
+              "e": "I remember the testimony of a pastor who graduated from the Bi"
             },
             "answers": {
-              "a": false,
-              "b": false,
-              "c": true,
-              "d": false,
-              "e": true
+              "a": true,
+              "b": true,
+              "c": false,
+              "d": true,
+              "e": false
             },
             "source": {
-              "text": "If you indicate your desire to leave, you will have to go immediately",
-              "reference": "John 13:27"
+              "text": "One thing you should not have is someone who would like to leave but because of financial or other reasons feels trapped within your organization",
+              "reference": "2 Corinthians 8:12"
             },
             "id": "ch003_q015",
             "chapter_id": 3,
@@ -1434,8 +1434,8 @@
           {
             "question": "2 Corinthians 8:12 does not talk about",
             "options": {
-              "a": "A powerful rainstorm is driven away by a strong wind",
-              "b": "Now, I have a different policy",
+              "a": "The Bible says that the north wind drives away the rain",
+              "b": "Your Face Is the North Wind Just show s",
               "c": "They can become traitors",
               "d": "Make a way for such people to exit peacefully",
               "e": "The hearts of such people are not with you anymore"
@@ -1468,7 +1468,7 @@
         ],
         "questions": [
           {
-            "question": "The statement \"A powerful rainstorm is driven away by a strong wind\" can be gleaned from",
+            "question": "The statement \"In the same way, the power of malicious backbiting tongues can be neutralized by certain facial expressions\" can be gleaned from",
             "options": {
               "a": "Proverbs 15:23",
               "b": "Proverbs 25:26-23",
@@ -1484,7 +1484,7 @@
               "e": false
             },
             "source": {
-              "text": "A powerful rainstorm is driven away by a strong wind",
+              "text": "In the same way, the power of malicious backbiting tongues can be neutralized by certain facial expressions",
               "reference": "Proverbs 25:23"
             },
             "id": "ch003_q006",
@@ -1495,8 +1495,8 @@
             "question": "1 Corinthians 5:6 talks about",
             "options": {
               "a": "Now, I have a different policy",
-              "b": "It’s as simple as that",
-              "c": "A powerful rainstorm is driven away by a strong wind",
+              "b": "I have a different policy",
+              "c": "Your Face Is the North Wind Just show s",
               "d": "People who don’t want to be with you must go",
               "e": "Even if you change your mind, it is too late"
             },
@@ -1516,37 +1516,37 @@
             "difficulty": "medium"
           },
           {
-            "question": "2 Corinthians 8:12 is not the biblical basis of",
+            "question": "1 Corinthians 5:6 is not the biblical basis of",
             "options": {
-              "a": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you",
-              "b": "Be under Pressure to Promote People Do not be in a hurry to promote people",
-              "c": "Make a way for such people to exit peacefully",
-              "d": "The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "e": "The key of teaching against disloyalty Constant teaching on the subjects of loyalty and disloyalty are very important"
+              "a": "The reason for this is simple, …a little leaven leaveneth the whole lump",
+              "b": "After Judas resigned from Jesus’ ministry, Jesus told him, …That thou doest, do quickly",
+              "c": "A loyal assistant must learn to drive away any backbiting and criticism of the senior",
+              "d": "The extra months that he stayed on were not worth the trouble they yielded",
+              "e": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you"
             },
             "answers": {
               "a": false,
-              "b": true,
-              "c": false,
-              "d": true,
-              "e": false
+              "b": false,
+              "c": true,
+              "d": false,
+              "e": true
             },
             "source": {
-              "text": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you",
-              "reference": "2 Corinthians 8:12"
+              "text": "The extra months that he stayed on were not worth the trouble they yielded",
+              "reference": "1 Corinthians 5:6"
             },
             "id": "ch003_q005",
             "chapter_id": 3,
             "difficulty": "medium"
           },
           {
-            "question": "The statement \"The extra months that he stayed on were not worth the trouble they yielded\" can be gleaned from",
+            "question": "The statement \"It is what I call the Key of the North Wind\" can be gleaned from",
             "options": {
-              "a": "1 Corinthians 5:5-6",
-              "b": "1 Corinthians 6:6",
-              "c": "1 Corinthians 5:6",
-              "d": "2 Corinthians 5:6",
-              "e": "2 Corinthians 8:12"
+              "a": "Proverbs 25:22-23",
+              "b": "2 Corinthians 8:12",
+              "c": "Proverbs 25:23",
+              "d": "Proverbs 25:26-23",
+              "e": "Proverbs 26:23"
             },
             "answers": {
               "a": false,
@@ -1556,32 +1556,32 @@
               "e": false
             },
             "source": {
-              "text": "The extra months that he stayed on were not worth the trouble they yielded",
-              "reference": "1 Corinthians 5:6"
+              "text": "It is what I call the Key of the North Wind",
+              "reference": "Proverbs 25:23"
             },
             "id": "ch003_q013",
             "chapter_id": 3,
             "difficulty": "hard"
           },
           {
-            "question": "1 Corinthians 5:6 is the biblical basis of",
+            "question": "Acts 28:3 talks about",
             "options": {
-              "a": "People who don’t want to be with you must go; and they must leave as",
-              "b": "The reason for this is simple",
-              "c": "Never once was there any sarcastic remark from anyone",
-              "d": "The key of teaching against disloyalty Constant teaching on the subjects of loyalty and disloyalty are very important",
-              "e": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you"
+              "a": "Make a way for such people to exit peacefully",
+              "b": "It is what I call the Key of the North Wind",
+              "c": "One of the ‘sticks’ was a snake",
+              "d": "Paul gathered some sticks and laid them on the fire",
+              "e": "There is nothing like working with a willing and happy person"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
-              "c": false,
-              "d": false,
+              "c": true,
+              "d": true,
               "e": false
             },
             "source": {
-              "text": "The extra months that he stayed on were not worth the trouble they yielded",
-              "reference": "1 Corinthians 5:6"
+              "text": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
+              "reference": "Acts 28:3"
             },
             "id": "ch003_q003",
             "chapter_id": 3,
@@ -1600,71 +1600,71 @@
         ],
         "questions": [
           {
-            "question": "Acts 28:3 does not talk about",
+            "question": "The scripture \"It was obvious that the Dean and lecturers of this Bible school had little confidence in their own church.\" can be found in",
             "options": {
-              "a": "The fire exposed it",
-              "b": "Paul gathered some sticks and laid them on the fire",
-              "c": "It’s as simple as that",
-              "d": "Even if you change your mind, it is too late",
-              "e": "There is nothing like working with a willing and happy person"
+              "a": "John 12:27",
+              "b": "John 11:27",
+              "c": "John 13:27",
+              "d": "John 13:29-27",
+              "e": "John 14:27"
             },
             "answers": {
               "a": false,
               "b": false,
               "c": true,
-              "d": true,
-              "e": true
+              "d": false,
+              "e": false
             },
             "source": {
-              "text": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "reference": "Acts 28:3"
+              "text": "It was obvious that the Dean and lecturers of this Bible school had little confidence in their own church.",
+              "reference": "John 13:27"
             },
             "id": "ch003_q014",
             "chapter_id": 3,
             "difficulty": "hard"
           },
           {
-            "question": "Acts 28:3 does not talk about",
+            "question": "2 Corinthians 8:12 does not talk about",
             "options": {
-              "a": "The Bible says that the north wind drives away the rain",
-              "b": "It’s as simple as that",
-              "c": "One of the ‘sticks’ was a snake",
-              "d": "Paul gathered some sticks and laid them on the fire",
-              "e": "I remember the testimony of a pastor who graduated from the Bi"
+              "a": "It is what I call the Key of the North Wind",
+              "b": "They can become traitors",
+              "c": "The hearts of such people are not with you anymore",
+              "d": "I have a different policy",
+              "e": "Even if you change your mind, it is too late"
             },
             "answers": {
               "a": true,
-              "b": true,
+              "b": false,
               "c": false,
-              "d": false,
+              "d": true,
               "e": true
             },
             "source": {
-              "text": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "reference": "Acts 28:3"
+              "text": "One thing you should not have is someone who would like to leave but because of financial or other reasons feels trapped within your organization",
+              "reference": "2 Corinthians 8:12"
             },
             "id": "ch003_q004",
             "chapter_id": 3,
             "difficulty": "easy"
           },
           {
-            "question": "The statement \"Even if you change your mind, it is too late\" can be gleaned from",
+            "question": "1 Corinthians 5:6 is the biblical basis of",
             "options": {
-              "a": "1 Corinthians 7:6",
-              "b": "1 Corinthians 15:6",
-              "c": "John 13:27",
-              "d": "1 Corinthians 5:5-6",
-              "e": "1 Corinthians 5:6"
+              "a": "Be under Pressure to Promote People Do not be in a hurry to promote people",
+              "b": "A loyal assistant must learn to drive away any backbiting and criticism of the senior",
+              "c": "Even if you change your mind, it is too late",
+              "d": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you",
+              "e": "The key of teaching against disloyalty Constant teaching on the subjects of loyalty and disloyalty are very important"
             },
             "answers": {
               "a": false,
               "b": false,
-              "c": false,
+              "c": true,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Even if you change your mind, it is too late",
+              "text": "The extra months that he stayed on were not worth the trouble they yielded",
               "reference": "1 Corinthians 5:6"
             },
             "id": "ch003_q012",
@@ -1674,15 +1674,15 @@
           {
             "question": "1 Corinthians 5:6 talks about",
             "options": {
-              "a": "Now, I have a different policy",
-              "b": "I have a different policy",
-              "c": "There is nothing like working with a willing and happy person",
+              "a": "I remember the testimony of a pastor who graduated from the Bi",
+              "b": "Now, I have a different policy",
+              "c": "One of the ‘sticks’ was a snake",
               "d": "Even if you change your mind, it is too late",
-              "e": "Because in helping them I will also be helping myself"
+              "e": "It is what I call the Key of the North Wind"
             },
             "answers": {
-              "a": true,
-              "b": false,
+              "a": false,
+              "b": true,
               "c": false,
               "d": true,
               "e": false
@@ -1696,7 +1696,7 @@
             "difficulty": "hard"
           },
           {
-            "question": "The statement \"The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue\" can be gleaned from",
+            "question": "The statement \"As a result, the undercurrents of murmuring and discontented people are not free to exist in our environment\" can be gleaned from",
             "options": {
               "a": "Proverbs 25:23",
               "b": "Proverbs 25:25-23",
@@ -1712,7 +1712,7 @@
               "e": false
             },
             "source": {
-              "text": "The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
+              "text": "As a result, the undercurrents of murmuring and discontented people are not free to exist in our environment",
               "reference": "Proverbs 25:23"
             },
             "id": "ch003_q009",
@@ -1734,21 +1734,21 @@
           {
             "question": "Proverbs 25:23 does not talk about",
             "options": {
-              "a": "Paul gathered some sticks and laid them on the fire",
-              "b": "A powerful rainstorm is driven away by a strong wind",
-              "c": "It is what I call the Key of the North Wind",
-              "d": "There is nothing like working with a willing and happy person",
-              "e": "The Bible says that the north wind drives away the rain"
+              "a": "It is what I call the Key of the North Wind",
+              "b": "Paul gathered some sticks and laid them on the fire",
+              "c": "Your Face Is the North Wind Just show s",
+              "d": "The Bible says that the north wind drives away the rain",
+              "e": "There is nothing like working with a willing and happy person"
             },
             "answers": {
-              "a": true,
-              "b": false,
+              "a": false,
+              "b": true,
               "c": false,
-              "d": true,
-              "e": false
+              "d": false,
+              "e": true
             },
             "source": {
-              "text": "The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
+              "text": "As a result, the undercurrents of murmuring and discontented people are not free to exist in our environment",
               "reference": "Proverbs 25:23"
             },
             "id": "ch003_q001",
@@ -1756,31 +1756,31 @@
             "difficulty": "easy"
           },
           {
-            "question": "1 Corinthians 5:6 is the biblical basis of",
+            "question": "Acts 28:3 talks about",
             "options": {
-              "a": "People who don’t want to be with you must go; and they must leave as",
-              "b": "The reason for this is simple",
-              "c": "Never once was there any sarcastic remark from anyone",
-              "d": "The key of teaching against disloyalty Constant teaching on the subjects of loyalty and disloyalty are very important",
-              "e": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you"
+              "a": "Make a way for such people to exit peacefully",
+              "b": "It is what I call the Key of the North Wind",
+              "c": "One of the ‘sticks’ was a snake",
+              "d": "Paul gathered some sticks and laid them on the fire",
+              "e": "There is nothing like working with a willing and happy person"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
-              "c": false,
-              "d": false,
+              "c": true,
+              "d": true,
               "e": false
             },
             "source": {
-              "text": "The extra months that he stayed on were not worth the trouble they yielded",
-              "reference": "1 Corinthians 5:6"
+              "text": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
+              "reference": "Acts 28:3"
             },
             "id": "ch003_q003",
             "chapter_id": 3,
             "difficulty": "easy"
           },
           {
-            "question": "The statement \"A powerful rainstorm is driven away by a strong wind\" can be gleaned from",
+            "question": "The statement \"In the same way, the power of malicious backbiting tongues can be neutralized by certain facial expressions\" can be gleaned from",
             "options": {
               "a": "Proverbs 15:23",
               "b": "Proverbs 25:26-23",
@@ -1796,7 +1796,7 @@
               "e": false
             },
             "source": {
-              "text": "A powerful rainstorm is driven away by a strong wind",
+              "text": "In the same way, the power of malicious backbiting tongues can be neutralized by certain facial expressions",
               "reference": "Proverbs 25:23"
             },
             "id": "ch003_q006",
@@ -1806,8 +1806,8 @@
           {
             "question": "2 Corinthians 8:12 does not talk about",
             "options": {
-              "a": "A powerful rainstorm is driven away by a strong wind",
-              "b": "Now, I have a different policy",
+              "a": "The Bible says that the north wind drives away the rain",
+              "b": "Your Face Is the North Wind Just show s",
               "c": "They can become traitors",
               "d": "Make a way for such people to exit peacefully",
               "e": "The hearts of such people are not with you anymore"
@@ -1828,13 +1828,13 @@
             "difficulty": "medium"
           },
           {
-            "question": "The statement \"The extra months that he stayed on were not worth the trouble they yielded\" can be gleaned from",
+            "question": "The statement \"It is what I call the Key of the North Wind\" can be gleaned from",
             "options": {
-              "a": "1 Corinthians 5:5-6",
-              "b": "1 Corinthians 6:6",
-              "c": "1 Corinthians 5:6",
-              "d": "2 Corinthians 5:6",
-              "e": "2 Corinthians 8:12"
+              "a": "Proverbs 25:22-23",
+              "b": "2 Corinthians 8:12",
+              "c": "Proverbs 25:23",
+              "d": "Proverbs 25:26-23",
+              "e": "Proverbs 26:23"
             },
             "answers": {
               "a": false,
@@ -1844,8 +1844,8 @@
               "e": false
             },
             "source": {
-              "text": "The extra months that he stayed on were not worth the trouble they yielded",
-              "reference": "1 Corinthians 5:6"
+              "text": "It is what I call the Key of the North Wind",
+              "reference": "Proverbs 25:23"
             },
             "id": "ch003_q013",
             "chapter_id": 3,
@@ -1864,41 +1864,41 @@
         ],
         "questions": [
           {
-            "question": "John 13:27 is the biblical basis of",
+            "question": "2 Corinthians 8:12 talks about",
             "options": {
-              "a": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you",
-              "b": "The reason for this is simple",
-              "c": "If you indicate your desire to leave, you will have to go immediately",
-              "d": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "e": "People who don’t want to be with you must go; and they must leave as soon as possible"
+              "a": "They can become traitors",
+              "b": "The hearts of such people are not with you anymore",
+              "c": "Your Face Is the North Wind Just show s",
+              "d": "Because in helping them I will also be helping myself",
+              "e": "I remember the testimony of a pastor who graduated from the Bi"
             },
             "answers": {
-              "a": false,
-              "b": false,
-              "c": true,
-              "d": false,
-              "e": true
+              "a": true,
+              "b": true,
+              "c": false,
+              "d": true,
+              "e": false
             },
             "source": {
-              "text": "If you indicate your desire to leave, you will have to go immediately",
-              "reference": "John 13:27"
+              "text": "One thing you should not have is someone who would like to leave but because of financial or other reasons feels trapped within your organization",
+              "reference": "2 Corinthians 8:12"
             },
             "id": "ch003_q015",
             "chapter_id": 3,
             "difficulty": "hard"
           },
           {
-            "question": "John 13:27 is the biblical basis of",
+            "question": "John 13:27 is not the biblical basis of",
             "options": {
-              "a": "I remember the testimony of a pastor who graduated from the Bi",
-              "b": "The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "c": "Be under Pressure to Promote People Do not be in a hurry to promote people",
-              "d": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "e": "If you indicate your desire to leave, you will have to go immediately"
+              "a": "The key of teaching against disloyalty Constant teaching on the subjects of loyalty and disloyalty are very important",
+              "b": "Be under Pressure to Promote People Do not be in a hurry to promote people",
+              "c": "I remember the testimony of a pastor who graduated from the Bi",
+              "d": "If you indicate your desire to leave, you will have to go immediately",
+              "e": "A loyal assistant must learn to drive away any backbiting and criticism of the senior"
             },
             "answers": {
               "a": true,
-              "b": false,
+              "b": true,
               "c": false,
               "d": false,
               "e": true
@@ -1912,7 +1912,7 @@
             "difficulty": "easy"
           },
           {
-            "question": "The statement \"The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue\" can be gleaned from",
+            "question": "The statement \"As a result, the undercurrents of murmuring and discontented people are not free to exist in our environment\" can be gleaned from",
             "options": {
               "a": "Proverbs 25:23",
               "b": "Proverbs 25:25-23",
@@ -1928,7 +1928,7 @@
               "e": false
             },
             "source": {
-              "text": "The key of the North wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
+              "text": "As a result, the undercurrents of murmuring and discontented people are not free to exist in our environment",
               "reference": "Proverbs 25:23"
             },
             "id": "ch003_q009",
@@ -1936,23 +1936,23 @@
             "difficulty": "medium"
           },
           {
-            "question": "The statement \"Even if you change your mind, it is too late\" can be gleaned from",
+            "question": "1 Corinthians 5:6 is the biblical basis of",
             "options": {
-              "a": "1 Corinthians 7:6",
-              "b": "1 Corinthians 15:6",
-              "c": "John 13:27",
-              "d": "1 Corinthians 5:5-6",
-              "e": "1 Corinthians 5:6"
+              "a": "Be under Pressure to Promote People Do not be in a hurry to promote people",
+              "b": "A loyal assistant must learn to drive away any backbiting and criticism of the senior",
+              "c": "Even if you change your mind, it is too late",
+              "d": "The key of working with willing people only Make sure you do not have unwilling (trapped) people around you",
+              "e": "The key of teaching against disloyalty Constant teaching on the subjects of loyalty and disloyalty are very important"
             },
             "answers": {
               "a": false,
               "b": false,
-              "c": false,
+              "c": true,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Even if you change your mind, it is too late",
+              "text": "The extra months that he stayed on were not worth the trouble they yielded",
               "reference": "1 Corinthians 5:6"
             },
             "id": "ch003_q012",
@@ -1960,24 +1960,24 @@
             "difficulty": "hard"
           },
           {
-            "question": "Acts 28:3 does not talk about",
+            "question": "The scripture \"It was obvious that the Dean and lecturers of this Bible school had little confidence in their own church.\" can be found in",
             "options": {
-              "a": "The fire exposed it",
-              "b": "Paul gathered some sticks and laid them on the fire",
-              "c": "It’s as simple as that",
-              "d": "Even if you change your mind, it is too late",
-              "e": "There is nothing like working with a willing and happy person"
+              "a": "John 12:27",
+              "b": "John 11:27",
+              "c": "John 13:27",
+              "d": "John 13:29-27",
+              "e": "John 14:27"
             },
             "answers": {
               "a": false,
               "b": false,
               "c": true,
-              "d": true,
-              "e": true
+              "d": false,
+              "e": false
             },
             "source": {
-              "text": "The key of creating fire At times it is necessary to create conditions that expose disloyal elements within the team",
-              "reference": "Acts 28:3"
+              "text": "It was obvious that the Dean and lecturers of this Bible school had little confidence in their own church.",
+              "reference": "John 13:27"
             },
             "id": "ch003_q014",
             "chapter_id": 3,
@@ -2050,8 +2050,8 @@
             "options": {
               "a": "Someone reported it to him",
               "b": "Some of these led to great revelations and blessings",
-              "c": "Ahitophel, the traitor",
-              "d": "Openness Breeds Full Persuasion",
+              "c": "The Word of God says",
+              "d": "Openness Breeds Full Persuasion 1",
               "e": "There are several examples of people in the Bible not withholding information"
             },
             "answers": {
@@ -2075,7 +2075,7 @@
               "a": "Am I somebody you can trust",
               "b": "Choosing rather to suffer affliction with the people of God",
               "c": "His loyalty to God cost him everything",
-              "d": "Just the existence of the friendship implies enmity with God",
+              "d": "Please do not just brush it away",
               "e": "But dear friend, that is the cost of loyalty"
             },
             "answers": {
@@ -2136,7 +2136,7 @@
               "b": "New Testament in Modern English …claiming to be an anointed king",
               "c": "If this individ",
               "d": "This person obviously is not a deep thinker",
-              "e": "Be fully persua"
+              "e": "You must know about the issue and face the issue"
             },
             "answers": {
               "a": true,
@@ -2156,9 +2156,9 @@
           {
             "question": "Ecclesiastes 1:9 does not talk about",
             "options": {
-              "a": "Observe how another family repo",
+              "a": "Some of these led to great revelations and blessings",
               "b": "Ahitophel, the traitor",
-              "c": "There are several examples of people in the Bible not withholding information",
+              "c": "I am convinced that many people do not understand this principle",
               "d": "Someone may question Jesus’ abilit",
               "e": "You will realize that we are experiencing nothing unusual"
             },
@@ -2398,8 +2398,8 @@
             "options": {
               "a": "Someone reported it to him",
               "b": "Some of these led to great revelations and blessings",
-              "c": "Ahitophel, the traitor",
-              "d": "Openness Breeds Full Persuasion",
+              "c": "The Word of God says",
+              "d": "Openness Breeds Full Persuasion 1",
               "e": "There are several examples of people in the Bible not withholding information"
             },
             "answers": {
@@ -2448,7 +2448,7 @@
               "b": "New Testament in Modern English …claiming to be an anointed king",
               "c": "If this individ",
               "d": "This person obviously is not a deep thinker",
-              "e": "Be fully persua"
+              "e": "You must know about the issue and face the issue"
             },
             "answers": {
               "a": true,
@@ -2531,7 +2531,7 @@
               "a": "Am I somebody you can trust",
               "b": "Choosing rather to suffer affliction with the people of God",
               "c": "His loyalty to God cost him everything",
-              "d": "Just the existence of the friendship implies enmity with God",
+              "d": "Please do not just brush it away",
               "e": "But dear friend, that is the cost of loyalty"
             },
             "answers": {
@@ -2710,10 +2710,10 @@
           {
             "question": "1 Kings 1:5 does not talk about",
             "options": {
-              "a": "This is often because of pride and a bad character",
-              "b": "And there is nothing new that you can teach me",
+              "a": "This was because Joab himself was a rebel",
+              "b": "He wishes he did not have to be around",
               "c": "A leader who is vying for promotion and recognition",
-              "d": "Absalom’s silence and lack of response to his brother meant a lot",
+              "d": "Do not only consider the leader",
               "e": "Adonijah… exalted himself, saying, I will be king"
             },
             "answers": {
@@ -2732,24 +2732,24 @@
             "difficulty": "easy"
           },
           {
-            "question": "1 Timothy 3:6 is not the biblical basis of",
+            "question": "2 Samuel 13:22 is the biblical basis of",
             "options": {
-              "a": "A person who constantly shifts the blame to other people A good leader does not shift blame",
-              "b": "A person who has not been involved in the basics of ministry work is a theoretician",
-              "c": "People who have lived through successes, mistakes, betrayals, the highs and the lows of ministry have much more to offer",
-              "d": "It is practical down-to-earth hard work",
-              "e": "A person who is not faithful in another person’s work Watch people’s attitudes towards their responsibilities"
+              "a": "A person who approves of someone who makes wrong decisions And he [Adonijah] conferred with Joab… and they… helped him",
+              "b": "Leaders who are irritated and reactionary every time you correct them A leader will often have to correct his subordinates",
+              "c": "A person who constantly shifts the blame to other people A good leader does not shift blame",
+              "d": "A person who views you as being unreasonable is obviously not loyal to you in his heart",
+              "e": "Many Rebels Have Been Hurt Before Almost every traitor has a history of being hurt at one time or the other"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
               "c": false,
               "d": false,
               "e": true
             },
             "source": {
-              "text": "The ministry of the Lord Jesus is not a set of theories",
-              "reference": "1 Timothy 3:6"
+              "text": "Many Rebels Have Been Hurt Before Almost every traitor has a history of being hurt at one time or the other",
+              "reference": "2 Samuel 13:22"
             },
             "id": "ch005_q015",
             "chapter_id": 5,
@@ -2759,7 +2759,7 @@
             "question": "1 Samuel 15:20 is not the biblical basis of",
             "options": {
               "a": "Let us all learn from the example of King Saul who justified himself when he had obviously disobeyed God",
-              "b": "A person who gives excuses and continually justifies himself When a simple instruction turns into a prolonged debate, you are dealing with a possible anarchist",
+              "b": "A person who does not take notes when you are preaching …he said unto me, Write: for these words are true and faithful",
               "c": "Watch out for leaders who constantly deny any wrongdoing",
               "d": "Leaders who have moral weaknesses If you have a leader with a persistent problem of immorality, please take note of such a person",
               "e": "They turn the tables on you and make you feel that you a"
@@ -2794,10 +2794,10 @@
           {
             "question": "Acts 15:38 talks about",
             "options": {
-              "a": "This is often because of pride and a bad character",
+              "a": "You see, money must not be a problem for any leader",
               "b": "They are probably not loyal to you",
-              "c": "Adonijah… exalted himself, saying, I will be king",
-              "d": "Watch the person who recklessly handles other people’s belongings",
+              "c": "But Jehosophat said, Is there not here a prophet",
+              "d": "No wonder good Bible schools only accept seasoned ministers as instructors",
               "e": "Watch out for those who desert you in times of trouble"
             },
             "answers": {
@@ -2864,24 +2864,24 @@
             "difficulty": "medium"
           },
           {
-            "question": "The scripture \"I could do this better\" can be found in",
+            "question": "John 20:24 does not talk about",
             "options": {
-              "a": "Acts 15:38",
-              "b": "2 Timothy 4:10",
-              "c": "Malachi 3:8",
-              "d": "1 Timothy 5:2",
-              "e": "Genesis 3:12"
+              "a": "But Thomas… was not with them when Jesus came",
+              "b": "Remember that many traitors and rebels are also thieves",
+              "c": "Attendance at all important meetings is essential to maintaining loyalty",
+              "d": "It is practical down-to-earth hard work",
+              "e": "Adonijah… exalted himself, saying, I will be king"
             },
             "answers": {
               "a": false,
               "b": true,
               "c": false,
-              "d": false,
-              "e": false
+              "d": true,
+              "e": true
             },
             "source": {
-              "text": "I could do this better",
-              "reference": "2 Timothy 4:10"
+              "text": "Remember how Thomas was absent when Christ appeared after His resurrection",
+              "reference": "John 20:24"
             },
             "id": "ch005_q013",
             "chapter_id": 5,
@@ -2924,24 +2924,24 @@
         ],
         "questions": [
           {
-            "question": "John 20:24 is the biblical basis of",
+            "question": "1 Timothy 3:6 talks about",
             "options": {
-              "a": "A person who has never been criticized is often surprised when his superiors are under attack",
-              "b": "Leaders who are worldly A leader who loves watching worldly and perverted films is to be noted",
-              "c": "Do not only consider the leader; observe his wife carefully",
-              "d": "A person who approves of someone who makes wrong decisions And he [Adonijah] conferred with Joab… and they… helped him",
-              "e": "Do not overlook leaders who seem to be too busy to attend important discussions"
+              "a": "It is practical down-to-earth hard work",
+              "b": "No wonder good Bible schools only accept seasoned ministers as instructors",
+              "c": "That is why he is constantly making referenc",
+              "d": "The Bible says, For many are called, but few are chosen",
+              "e": "They never have anything to apologize about"
             },
             "answers": {
-              "a": false,
-              "b": false,
+              "a": true,
+              "b": true,
               "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Do not overlook leaders who seem to be too busy to attend important discussions",
-              "reference": "John 20:24"
+              "text": "The ministry of the Lord Jesus is not a set of theories",
+              "reference": "1 Timothy 3:6"
             },
             "id": "ch005_q014",
             "chapter_id": 5,
@@ -2951,10 +2951,10 @@
             "question": "Psalm 15:4 does not talk about",
             "options": {
               "a": "He that sweareth to his own hurt, and changeth not",
-              "b": "You will not succeed",
+              "b": "They were ushers, waiters, errand boys, and scavengers",
               "c": "A person who constantly makes promises and breaks them is unreliable",
               "d": "It will definitely spill over into his relationships with his colleague pastors",
-              "e": "You cannot remove what God has set in place"
+              "e": "They have rarely amounted to much in the ministry"
             },
             "answers": {
               "a": false,
@@ -2974,17 +2974,17 @@
           {
             "question": "2 Kings 3:11 is not the biblical basis of",
             "options": {
-              "a": "A leader who thinks too much money is being spent on the Head Remember how Judas opposed the expensive gift given to his pastor, Jesus",
-              "b": "He may then realize that this fellow has not served his way through the normal ranks",
-              "c": "They exert certain airs and manipulate inexperienced leaders",
-              "d": "A leader with a persistently stormy marriage Everybody has difficulties in marriage",
-              "e": "They sometimes have certain skills that the church desperately needs"
+              "a": "Do not welcome little known individuals into sensitive positions",
+              "b": "Do not think that unfaithfulness will remain in the arena of marital relationships",
+              "c": "But Jehosophat said, Is there not here a prophet",
+              "d": "Elisha was the servant of Elijah",
+              "e": "They exert certain airs and manipulate inexperienced leaders"
             },
             "answers": {
               "a": true,
-              "b": false,
+              "b": true,
               "c": false,
-              "d": true,
+              "d": false,
               "e": false
             },
             "source": {
@@ -3058,10 +3058,10 @@
           {
             "question": "1 Kings 1:5 does not talk about",
             "options": {
-              "a": "This is often because of pride and a bad character",
-              "b": "And there is nothing new that you can teach me",
+              "a": "This was because Joab himself was a rebel",
+              "b": "He wishes he did not have to be around",
               "c": "A leader who is vying for promotion and recognition",
-              "d": "Absalom’s silence and lack of response to his brother meant a lot",
+              "d": "Do not only consider the leader",
               "e": "Adonijah… exalted himself, saying, I will be king"
             },
             "answers": {
@@ -3106,10 +3106,10 @@
           {
             "question": "Acts 15:38 talks about",
             "options": {
-              "a": "This is often because of pride and a bad character",
+              "a": "You see, money must not be a problem for any leader",
               "b": "They are probably not loyal to you",
-              "c": "Adonijah… exalted himself, saying, I will be king",
-              "d": "Watch the person who recklessly handles other people’s belongings",
+              "c": "But Jehosophat said, Is there not here a prophet",
+              "d": "No wonder good Bible schools only accept seasoned ministers as instructors",
               "e": "Watch out for those who desert you in times of trouble"
             },
             "answers": {
@@ -3131,7 +3131,7 @@
             "question": "1 Samuel 15:20 is not the biblical basis of",
             "options": {
               "a": "Let us all learn from the example of King Saul who justified himself when he had obviously disobeyed God",
-              "b": "A person who gives excuses and continually justifies himself When a simple instruction turns into a prolonged debate, you are dealing with a possible anarchist",
+              "b": "A person who does not take notes when you are preaching …he said unto me, Write: for these words are true and faithful",
               "c": "Watch out for leaders who constantly deny any wrongdoing",
               "d": "Leaders who have moral weaknesses If you have a leader with a persistent problem of immorality, please take note of such a person",
               "e": "They turn the tables on you and make you feel that you a"
@@ -3152,24 +3152,24 @@
             "difficulty": "medium"
           },
           {
-            "question": "The scripture \"I could do this better\" can be found in",
+            "question": "John 20:24 does not talk about",
             "options": {
-              "a": "Acts 15:38",
-              "b": "2 Timothy 4:10",
-              "c": "Malachi 3:8",
-              "d": "1 Timothy 5:2",
-              "e": "Genesis 3:12"
+              "a": "But Thomas… was not with them when Jesus came",
+              "b": "Remember that many traitors and rebels are also thieves",
+              "c": "Attendance at all important meetings is essential to maintaining loyalty",
+              "d": "It is practical down-to-earth hard work",
+              "e": "Adonijah… exalted himself, saying, I will be king"
             },
             "answers": {
               "a": false,
               "b": true,
               "c": false,
-              "d": false,
-              "e": false
+              "d": true,
+              "e": true
             },
             "source": {
-              "text": "I could do this better",
-              "reference": "2 Timothy 4:10"
+              "text": "Remember how Thomas was absent when Christ appeared after His resurrection",
+              "reference": "John 20:24"
             },
             "id": "ch005_q013",
             "chapter_id": 5,
@@ -3188,24 +3188,24 @@
         ],
         "questions": [
           {
-            "question": "1 Timothy 3:6 is not the biblical basis of",
+            "question": "2 Samuel 13:22 is the biblical basis of",
             "options": {
-              "a": "A person who constantly shifts the blame to other people A good leader does not shift blame",
-              "b": "A person who has not been involved in the basics of ministry work is a theoretician",
-              "c": "People who have lived through successes, mistakes, betrayals, the highs and the lows of ministry have much more to offer",
-              "d": "It is practical down-to-earth hard work",
-              "e": "A person who is not faithful in another person’s work Watch people’s attitudes towards their responsibilities"
+              "a": "A person who approves of someone who makes wrong decisions And he [Adonijah] conferred with Joab… and they… helped him",
+              "b": "Leaders who are irritated and reactionary every time you correct them A leader will often have to correct his subordinates",
+              "c": "A person who constantly shifts the blame to other people A good leader does not shift blame",
+              "d": "A person who views you as being unreasonable is obviously not loyal to you in his heart",
+              "e": "Many Rebels Have Been Hurt Before Almost every traitor has a history of being hurt at one time or the other"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
               "c": false,
               "d": false,
               "e": true
             },
             "source": {
-              "text": "The ministry of the Lord Jesus is not a set of theories",
-              "reference": "1 Timothy 3:6"
+              "text": "Many Rebels Have Been Hurt Before Almost every traitor has a history of being hurt at one time or the other",
+              "reference": "2 Samuel 13:22"
             },
             "id": "ch005_q015",
             "chapter_id": 5,
@@ -3262,17 +3262,17 @@
           {
             "question": "2 Kings 3:11 is not the biblical basis of",
             "options": {
-              "a": "A leader who thinks too much money is being spent on the Head Remember how Judas opposed the expensive gift given to his pastor, Jesus",
-              "b": "He may then realize that this fellow has not served his way through the normal ranks",
-              "c": "They exert certain airs and manipulate inexperienced leaders",
-              "d": "A leader with a persistently stormy marriage Everybody has difficulties in marriage",
-              "e": "They sometimes have certain skills that the church desperately needs"
+              "a": "Do not welcome little known individuals into sensitive positions",
+              "b": "Do not think that unfaithfulness will remain in the arena of marital relationships",
+              "c": "But Jehosophat said, Is there not here a prophet",
+              "d": "Elisha was the servant of Elijah",
+              "e": "They exert certain airs and manipulate inexperienced leaders"
             },
             "answers": {
               "a": true,
-              "b": false,
+              "b": true,
               "c": false,
-              "d": true,
+              "d": false,
               "e": false
             },
             "source": {
@@ -3284,24 +3284,24 @@
             "difficulty": "hard"
           },
           {
-            "question": "John 20:24 is the biblical basis of",
+            "question": "1 Timothy 3:6 talks about",
             "options": {
-              "a": "A person who has never been criticized is often surprised when his superiors are under attack",
-              "b": "Leaders who are worldly A leader who loves watching worldly and perverted films is to be noted",
-              "c": "Do not only consider the leader; observe his wife carefully",
-              "d": "A person who approves of someone who makes wrong decisions And he [Adonijah] conferred with Joab… and they… helped him",
-              "e": "Do not overlook leaders who seem to be too busy to attend important discussions"
+              "a": "It is practical down-to-earth hard work",
+              "b": "No wonder good Bible schools only accept seasoned ministers as instructors",
+              "c": "That is why he is constantly making referenc",
+              "d": "The Bible says, For many are called, but few are chosen",
+              "e": "They never have anything to apologize about"
             },
             "answers": {
-              "a": false,
-              "b": false,
+              "a": true,
+              "b": true,
               "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Do not overlook leaders who seem to be too busy to attend important discussions",
-              "reference": "John 20:24"
+              "text": "The ministry of the Lord Jesus is not a set of theories",
+              "reference": "1 Timothy 3:6"
             },
             "id": "ch005_q014",
             "chapter_id": 5,
@@ -3984,24 +3984,24 @@
         ],
         "questions": [
           {
-            "question": "John 12:32 is not the biblical basis of",
+            "question": "John 5:19 does not talk about",
             "options": {
-              "a": "Regard your association with your head as a learning experience",
-              "b": "Always remind the congregation that you are not the main pastor",
-              "c": "You must speak of your head as someone to be admired and followed",
-              "d": "Genuinely admire your pastor and praise him often",
-              "e": "A good associate is happy to stay in his position"
+              "a": "Decide that you will never become a rebel",
+              "b": "We do not come in our own name",
+              "c": "Honour your pastor’s wife as well",
+              "d": "Jesus often said",
+              "e": "We come in the name of Jesus"
             },
             "answers": {
               "a": true,
-              "b": true,
-              "c": false,
+              "b": false,
+              "c": true,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Quote your head as often as possible",
-              "reference": "John 12:32"
+              "text": "The good assistant tells his admiring congregation where he learnt all that he knows",
+              "reference": "John 5:19"
             },
             "id": "ch007_q011",
             "chapter_id": 7,
@@ -4011,17 +4011,17 @@
             "question": "Luke 16:12 talks about",
             "options": {
               "a": "He must be magnified and not anyone else",
-              "b": "Honour your pastor’s wife as well",
+              "b": "Decide that you will never become a rebel",
               "c": "I am against these people, and I am teaching against these personalities",
-              "d": "Decide that you will never become a rebel",
-              "e": "These are the major rebels of the Bible"
+              "d": "These are the major rebels of the Bible",
+              "e": "A good associate is happy to stay in his position"
             },
             "answers": {
               "a": false,
-              "b": false,
+              "b": true,
               "c": true,
               "d": true,
-              "e": true
+              "e": false
             },
             "source": {
               "text": "He must not only obey instructions, but also must genuinely support and flow with the head or senior pastor",
@@ -4056,36 +4056,36 @@
             "difficulty": "easy"
           },
           {
-            "question": "John 3:28 talks about",
+            "question": "John 3:30 is the biblical basis of",
             "options": {
-              "a": "Pastors must look out for the spirit of contentment in assisting workers",
-              "b": "Quote your head as often as possible",
-              "c": "Always remind the congregation that you are not the main pastor",
-              "d": "I am not the Christ but… I am sent",
-              "e": "Any experienced minister would have had his fair share of these personalities"
+              "a": "Do not use your pastor as an illustration of a bad example",
+              "b": "Do not say, “Oh, I do not know why he didn’t come to the hospital to visit you",
+              "c": "Ensure that everything is well with your head",
+              "d": "A good assistant is always learning something new",
+              "e": "Ensure that he is acknowledged and respected by everyone"
             },
             "answers": {
               "a": false,
               "b": false,
               "c": true,
-              "d": true,
+              "d": false,
               "e": false
             },
             "source": {
-              "text": "Always remind the congregation that you are not the main pastor",
-              "reference": "John 3:28"
+              "text": "Be genuinely happy at the promotion of your pastor",
+              "reference": "John 3:30"
             },
             "id": "ch007_q015",
             "chapter_id": 7,
             "difficulty": "hard"
           },
           {
-            "question": "The scripture \"Behold\" can be found in",
+            "question": "The scripture \"I want the anointing that is upon you.\" cannot be found in",
             "options": {
-              "a": "John 3:30",
-              "b": "John 13:30",
-              "c": "John 4:30",
-              "d": "3 John 3:30",
+              "a": "Proverbs 18:16",
+              "b": "1 John 18:16",
+              "c": "John 5:19",
+              "d": "Proverbs 28:16",
               "e": "Luke 16:12"
             },
             "answers": {
@@ -4096,8 +4096,8 @@
               "e": false
             },
             "source": {
-              "text": "Behold",
-              "reference": "John 3:30"
+              "text": "I want the anointing that is upon you.",
+              "reference": "Proverbs 18:16"
             },
             "id": "ch007_q007",
             "chapter_id": 7,
@@ -4116,120 +4116,120 @@
         ],
         "questions": [
           {
-            "question": "The statement \"Pastors must look out for the spirit of contentment in assisting workers\" can be gleaned from",
+            "question": "John 5:19 is not the biblical basis of",
             "options": {
-              "a": "Exodus 20:17",
-              "b": "John 5:19",
-              "c": "Luke 16:12",
-              "d": "1 Timothy 20:17",
-              "e": "Exodus 10:17"
+              "a": "You must find genuine excuses for any lapses in the head",
+              "b": "Do not secretly think that he does not deserve the fame and popularity that he is getting",
+              "c": "When we say, “In the name of Jesus” it makes the people know that we are acting on behalf of Jesus, our Head",
+              "d": "Jesus often said, ...The Son can do nothing of himself, but what he seeth the Father do",
+              "e": "A loyal associate is full of genuine public compliments for his pastor’s sermon"
             },
             "answers": {
               "a": true,
-              "b": false,
+              "b": true,
               "c": false,
               "d": false,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "Pastors must look out for the spirit of contentment in assisting workers",
-              "reference": "Exodus 20:17"
+              "text": "The good assistant tells his admiring congregation where he learnt all that he knows",
+              "reference": "John 5:19"
             },
             "id": "ch007_q006",
             "chapter_id": 7,
             "difficulty": "medium"
           },
           {
-            "question": "According to several authorities on the Doctrine of Loyalty and Disloyalty, the following are characters who showed loyalty",
+            "question": "The following quotations cannot be found in John 3:28",
             "options": {
-              "a": "Judas",
-              "b": "Lucifer",
-              "c": "Absalom",
-              "d": "Shemei",
-              "e": "Ahithophel"
+              "a": "In the name of Jesus",
+              "b": "Behold",
+              "c": "I want the anointing that is upon you.",
+              "d": "I am not the Christ but",
+              "e": "Oh, I do not know why he didn’t come to the hospital to visit you. He was sleeping at home when I last called."
             },
             "answers": {
               "a": true,
               "b": true,
-              "c": false,
+              "c": true,
               "d": false,
               "e": false
             },
             "source": {
-              "text": "See Loyalty and Disloyalty",
-              "reference": "Loyalty and Disloyalty"
+              "text": "Oh, I do not know why he didn’t come to the hospital to visit you. He was sleeping at home when I last called.; I am not the Christ but",
+              "reference": "John 3:28"
             },
             "id": "ch007_q008",
             "chapter_id": 7,
             "difficulty": "medium"
           },
           {
-            "question": "The following quotations can be found in John 5:19",
+            "question": "Exodus 20:17 talks about",
             "options": {
-              "a": "I want the anointing that is upon you.",
-              "b": "The Son can do nothing of himself, but what he seeth the Father do",
-              "c": "In the name of Jesus",
-              "d": "I am not the Christ but",
-              "e": "Oh, I do not know why he didn’t come to the hospital to visit you. He was sleeping at home when I last called."
-            },
-            "answers": {
-              "a": false,
-              "b": true,
-              "c": true,
-              "d": false,
-              "e": false
-            },
-            "source": {
-              "text": "The Son can do nothing of himself, but what he seeth the Father do; In the name of Jesus",
-              "reference": "John 5:19"
-            },
-            "id": "ch007_q005",
-            "chapter_id": 7,
-            "difficulty": "medium"
-          },
-          {
-            "question": "Exodus 20:17 does not talk about",
-            "options": {
-              "a": "Pastors must look out for the spirit of contentment in assisting workers",
-              "b": "A good associate is content to be an assistant",
-              "c": "A gift also says, “I want the anointing that is upon you",
-              "d": "It is an important sign to me",
-              "e": "Minister to her and give her gifts"
-            },
-            "answers": {
-              "a": false,
-              "b": false,
-              "c": true,
-              "d": true,
-              "e": true
-            },
-            "source": {
-              "text": "A good associate is content to be an assistant",
-              "reference": "Exodus 20:17"
-            },
-            "id": "ch007_q013",
-            "chapter_id": 7,
-            "difficulty": "hard"
-          },
-          {
-            "question": "According to several authorities on the Doctrine of Loyalty and Disloyalty, the following are not characters who showed loyalty",
-            "options": {
-              "a": "Eli",
-              "b": "Lucifer",
-              "c": "Joab",
-              "d": "Absalom",
-              "e": "Shemei"
+              "a": "A good associate is content to be an assistant",
+              "b": "We do not come in our own name",
+              "c": "He that receiveth you receiveth me",
+              "d": "A good associate is happy to stay in his position",
+              "e": "These are the major rebels of the Bible"
             },
             "answers": {
               "a": true,
               "b": false,
               "c": false,
               "d": true,
+              "e": false
+            },
+            "source": {
+              "text": "A good associate is content to be an assistant",
+              "reference": "Exodus 20:17"
+            },
+            "id": "ch007_q005",
+            "chapter_id": 7,
+            "difficulty": "medium"
+          },
+          {
+            "question": "Proverbs 18:16 talks about",
+            "options": {
+              "a": "He that receiveth you receiveth me",
+              "b": "A loyal assistant personally gives gifts to his senior pasto r",
+              "c": "Thou shall not covet… any thing that is thy neighbour’s",
+              "d": "A gift also says, “I want the anointing that is upon you",
+              "e": "We do not come in our own name"
+            },
+            "answers": {
+              "a": false,
+              "b": true,
+              "c": false,
+              "d": true,
+              "e": false
+            },
+            "source": {
+              "text": "A loyal assistant personally gives gifts to his senior pasto r",
+              "reference": "Proverbs 18:16"
+            },
+            "id": "ch007_q013",
+            "chapter_id": 7,
+            "difficulty": "hard"
+          },
+          {
+            "question": "John 3:30 is not the biblical basis of",
+            "options": {
+              "a": "Be genuinely happy at the promotion of your pastor",
+              "b": "Ensure that everything is well with your head",
+              "c": "Always remind the congregation that you are not the main pastor",
+              "d": "A loyal assistant personally gives gifts to his senior pasto r",
+              "e": "The good assistant tells his admiring congregation where he learnt all that he knows"
+            },
+            "answers": {
+              "a": false,
+              "b": false,
+              "c": true,
+              "d": true,
               "e": true
             },
             "source": {
-              "text": "See Loyalty and Disloyalty",
-              "reference": "Loyalty and Disloyalty"
+              "text": "Be genuinely happy at the promotion of your pastor",
+              "reference": "John 3:30"
             },
             "id": "ch007_q003",
             "chapter_id": 7,
@@ -4248,41 +4248,41 @@
         ],
         "questions": [
           {
-            "question": "According to several authorities on the Doctrine of Loyalty and Disloyalty, the following are not rebels who ended up at the eighth stage of disloyalty",
+            "question": "The statement \"Do not secretly think that he does not deserve the fame and popularity that he is getting\" can be gleaned from",
             "options": {
-              "a": "Eli",
-              "b": "Joab",
-              "c": "Absalom",
-              "d": "Judas",
-              "e": "Lucifer"
+              "a": "John 13:30",
+              "b": "John 3:31-30",
+              "c": "John 3:30",
+              "d": "John 3:28-30",
+              "e": "John 3:27-30"
             },
             "answers": {
               "a": false,
-              "b": true,
-              "c": false,
-              "d": true,
-              "e": true
+              "b": false,
+              "c": true,
+              "d": false,
+              "e": false
             },
             "source": {
-              "text": "See Loyalty and Disloyalty",
-              "reference": "Loyalty and Disloyalty"
+              "text": "Do not secretly think that he does not deserve the fame and popularity that he is getting",
+              "reference": "John 3:30"
             },
             "id": "ch007_q014",
             "chapter_id": 7,
             "difficulty": "hard"
           },
           {
-            "question": "Proverbs 18:16 does not talk about",
+            "question": "Proverbs 18:16 talks about",
             "options": {
-              "a": "Be genuinely happy at the promotion of your pastor",
-              "b": "Pastors must look out for the spirit of contentment in assisting workers",
-              "c": "He must be magnified and not anyone else",
-              "d": "A gift also says, “I want the anointing that is upon you",
-              "e": "A loyal assistant personally gives gifts to his senior pasto r"
+              "a": "A loyal assistant personally gives gifts to his senior pasto r",
+              "b": "If you receive my wife, you have received me",
+              "c": "A gift also says, “I want the anointing that is upon you",
+              "d": "He must be magnified and not anyone else",
+              "e": "I am against these people, and I am teaching against these personalities"
             },
             "answers": {
               "a": true,
-              "b": true,
+              "b": false,
               "c": true,
               "d": false,
               "e": false
@@ -4296,72 +4296,72 @@
             "difficulty": "easy"
           },
           {
-            "question": "The scripture \"Behold\" cannot be found in",
+            "question": "John 3:28 talks about",
             "options": {
-              "a": "Exodus 20:17",
-              "b": "Colossians 3:30",
-              "c": "John 3:28-30",
-              "d": "John 13:30",
-              "e": "John 3:30"
+              "a": "Always remind the congregation that you are not the main pastor",
+              "b": "I am not the Christ but… I am sent",
+              "c": "They were present on Sunday morning as I ministered",
+              "d": "Do not use your pastor as an illustration of a bad example",
+              "e": "He was sleeping at home when I last called"
             },
             "answers": {
-              "a": false,
-              "b": false,
+              "a": true,
+              "b": true,
               "c": false,
               "d": false,
               "e": true
             },
             "source": {
-              "text": "Behold",
-              "reference": "John 3:30"
+              "text": "He was sleeping at home when I last called.” 9",
+              "reference": "John 3:28"
             },
             "id": "ch007_q012",
             "chapter_id": 7,
             "difficulty": "hard"
           },
           {
-            "question": "The statement \"Do not secretly think that he does not deserve the fame and popularity that he is getting\" can be gleaned from",
+            "question": "The statement \"He must be magnified and not anyone else\" can be gleaned from",
             "options": {
-              "a": "John 3:33-30",
-              "b": "Jonah 3:30",
-              "c": "John 3:32-30",
-              "d": "John 3:30",
-              "e": "John 3:27-30"
+              "a": "John 2:32",
+              "b": "Mark 12:32",
+              "c": "John 12:32",
+              "d": "John 14:32",
+              "e": "Proverbs 18:16"
             },
             "answers": {
               "a": false,
               "b": false,
-              "c": false,
-              "d": true,
-              "e": false
-            },
-            "source": {
-              "text": "Do not secretly think that he does not deserve the fame and popularity that he is getting",
-              "reference": "John 3:30"
-            },
-            "id": "ch007_q010",
-            "chapter_id": 7,
-            "difficulty": "hard"
-          },
-          {
-            "question": "The statement \"He must be magnified and not anyone else\" can be gleaned from",
-            "options": {
-              "a": "Song of Solomon 12:32",
-              "b": "John 12:32",
-              "c": "Exodus 20:17",
-              "d": "John 11:32",
-              "e": "Matthew 10:40"
-            },
-            "answers": {
-              "a": false,
-              "b": true,
-              "c": false,
+              "c": true,
               "d": false,
               "e": false
             },
             "source": {
               "text": "He must be magnified and not anyone else",
               "reference": "John 12:32"
+            },
+            "id": "ch007_q010",
+            "chapter_id": 7,
+            "difficulty": "hard"
+          },
+          {
+            "question": "John 3:28 talks about",
+            "options": {
+              "a": "Any experienced minister would have had his fair share of these personalities",
+              "b": "Always remind the congregation that you are not the main pastor",
+              "c": "He was sleeping at home when I last called",
+              "d": "I am not the Christ but… I am sent",
+              "e": "Decide that you will never become a rebel"
+            },
+            "answers": {
+              "a": false,
+              "b": true,
+              "c": true,
+              "d": true,
+              "e": false
+            },
+            "source": {
+              "text": "He was sleeping at home when I last called.” 9",
+              "reference": "John 3:28"
             },
             "id": "ch007_q009",
             "chapter_id": 7,
@@ -4404,60 +4404,60 @@
             "difficulty": "easy"
           },
           {
-            "question": "According to several authorities on the Doctrine of Loyalty and Disloyalty, the following are not characters who showed loyalty",
+            "question": "John 3:30 is not the biblical basis of",
             "options": {
-              "a": "Eli",
-              "b": "Lucifer",
-              "c": "Joab",
-              "d": "Absalom",
-              "e": "Shemei"
+              "a": "Be genuinely happy at the promotion of your pastor",
+              "b": "Ensure that everything is well with your head",
+              "c": "Always remind the congregation that you are not the main pastor",
+              "d": "A loyal assistant personally gives gifts to his senior pasto r",
+              "e": "The good assistant tells his admiring congregation where he learnt all that he knows"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
-              "c": false,
+              "c": true,
               "d": true,
               "e": true
             },
             "source": {
-              "text": "See Loyalty and Disloyalty",
-              "reference": "Loyalty and Disloyalty"
+              "text": "Be genuinely happy at the promotion of your pastor",
+              "reference": "John 3:30"
             },
             "id": "ch007_q003",
             "chapter_id": 7,
             "difficulty": "easy"
           },
           {
-            "question": "The statement \"Pastors must look out for the spirit of contentment in assisting workers\" can be gleaned from",
+            "question": "John 5:19 is not the biblical basis of",
             "options": {
-              "a": "Exodus 20:17",
-              "b": "John 5:19",
-              "c": "Luke 16:12",
-              "d": "1 Timothy 20:17",
-              "e": "Exodus 10:17"
+              "a": "You must find genuine excuses for any lapses in the head",
+              "b": "Do not secretly think that he does not deserve the fame and popularity that he is getting",
+              "c": "When we say, “In the name of Jesus” it makes the people know that we are acting on behalf of Jesus, our Head",
+              "d": "Jesus often said, ...The Son can do nothing of himself, but what he seeth the Father do",
+              "e": "A loyal associate is full of genuine public compliments for his pastor’s sermon"
             },
             "answers": {
               "a": true,
-              "b": false,
+              "b": true,
               "c": false,
               "d": false,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "Pastors must look out for the spirit of contentment in assisting workers",
-              "reference": "Exodus 20:17"
+              "text": "The good assistant tells his admiring congregation where he learnt all that he knows",
+              "reference": "John 5:19"
             },
             "id": "ch007_q006",
             "chapter_id": 7,
             "difficulty": "medium"
           },
           {
-            "question": "The scripture \"Behold\" can be found in",
+            "question": "The scripture \"I want the anointing that is upon you.\" cannot be found in",
             "options": {
-              "a": "John 3:30",
-              "b": "John 13:30",
-              "c": "John 4:30",
-              "d": "3 John 3:30",
+              "a": "Proverbs 18:16",
+              "b": "1 John 18:16",
+              "c": "John 5:19",
+              "d": "Proverbs 28:16",
               "e": "Luke 16:12"
             },
             "answers": {
@@ -4468,32 +4468,32 @@
               "e": false
             },
             "source": {
-              "text": "Behold",
-              "reference": "John 3:30"
+              "text": "I want the anointing that is upon you.",
+              "reference": "Proverbs 18:16"
             },
             "id": "ch007_q007",
             "chapter_id": 7,
             "difficulty": "medium"
           },
           {
-            "question": "Exodus 20:17 does not talk about",
+            "question": "Proverbs 18:16 talks about",
             "options": {
-              "a": "Pastors must look out for the spirit of contentment in assisting workers",
-              "b": "A good associate is content to be an assistant",
-              "c": "A gift also says, “I want the anointing that is upon you",
-              "d": "It is an important sign to me",
-              "e": "Minister to her and give her gifts"
+              "a": "He that receiveth you receiveth me",
+              "b": "A loyal assistant personally gives gifts to his senior pasto r",
+              "c": "Thou shall not covet… any thing that is thy neighbour’s",
+              "d": "A gift also says, “I want the anointing that is upon you",
+              "e": "We do not come in our own name"
             },
             "answers": {
               "a": false,
-              "b": false,
-              "c": true,
+              "b": true,
+              "c": false,
               "d": true,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "A good associate is content to be an assistant",
-              "reference": "Exodus 20:17"
+              "text": "A loyal assistant personally gives gifts to his senior pasto r",
+              "reference": "Proverbs 18:16"
             },
             "id": "ch007_q013",
             "chapter_id": 7,
@@ -4512,24 +4512,24 @@
         ],
         "questions": [
           {
-            "question": "John 3:28 talks about",
+            "question": "John 3:30 is the biblical basis of",
             "options": {
-              "a": "Pastors must look out for the spirit of contentment in assisting workers",
-              "b": "Quote your head as often as possible",
-              "c": "Always remind the congregation that you are not the main pastor",
-              "d": "I am not the Christ but… I am sent",
-              "e": "Any experienced minister would have had his fair share of these personalities"
+              "a": "Do not use your pastor as an illustration of a bad example",
+              "b": "Do not say, “Oh, I do not know why he didn’t come to the hospital to visit you",
+              "c": "Ensure that everything is well with your head",
+              "d": "A good assistant is always learning something new",
+              "e": "Ensure that he is acknowledged and respected by everyone"
             },
             "answers": {
               "a": false,
               "b": false,
               "c": true,
-              "d": true,
+              "d": false,
               "e": false
             },
             "source": {
-              "text": "Always remind the congregation that you are not the main pastor",
-              "reference": "John 3:28"
+              "text": "Be genuinely happy at the promotion of your pastor",
+              "reference": "John 3:30"
             },
             "id": "ch007_q015",
             "chapter_id": 7,
@@ -4539,17 +4539,17 @@
             "question": "Luke 16:12 talks about",
             "options": {
               "a": "He must be magnified and not anyone else",
-              "b": "Honour your pastor’s wife as well",
+              "b": "Decide that you will never become a rebel",
               "c": "I am against these people, and I am teaching against these personalities",
-              "d": "Decide that you will never become a rebel",
-              "e": "These are the major rebels of the Bible"
+              "d": "These are the major rebels of the Bible",
+              "e": "A good associate is happy to stay in his position"
             },
             "answers": {
               "a": false,
-              "b": false,
+              "b": true,
               "c": true,
               "d": true,
-              "e": true
+              "e": false
             },
             "source": {
               "text": "He must not only obey instructions, but also must genuinely support and flow with the head or senior pastor",
@@ -4560,72 +4560,72 @@
             "difficulty": "easy"
           },
           {
-            "question": "The statement \"He must be magnified and not anyone else\" can be gleaned from",
+            "question": "John 3:28 talks about",
             "options": {
-              "a": "Song of Solomon 12:32",
-              "b": "John 12:32",
-              "c": "Exodus 20:17",
-              "d": "John 11:32",
-              "e": "Matthew 10:40"
+              "a": "Any experienced minister would have had his fair share of these personalities",
+              "b": "Always remind the congregation that you are not the main pastor",
+              "c": "He was sleeping at home when I last called",
+              "d": "I am not the Christ but… I am sent",
+              "e": "Decide that you will never become a rebel"
             },
             "answers": {
               "a": false,
               "b": true,
-              "c": false,
-              "d": false,
+              "c": true,
+              "d": true,
               "e": false
             },
             "source": {
-              "text": "He must be magnified and not anyone else",
-              "reference": "John 12:32"
+              "text": "He was sleeping at home when I last called.” 9",
+              "reference": "John 3:28"
             },
             "id": "ch007_q009",
             "chapter_id": 7,
             "difficulty": "medium"
           },
           {
-            "question": "The scripture \"Behold\" cannot be found in",
+            "question": "John 3:28 talks about",
             "options": {
-              "a": "Exodus 20:17",
-              "b": "Colossians 3:30",
-              "c": "John 3:28-30",
-              "d": "John 13:30",
-              "e": "John 3:30"
+              "a": "Always remind the congregation that you are not the main pastor",
+              "b": "I am not the Christ but… I am sent",
+              "c": "They were present on Sunday morning as I ministered",
+              "d": "Do not use your pastor as an illustration of a bad example",
+              "e": "He was sleeping at home when I last called"
             },
             "answers": {
-              "a": false,
-              "b": false,
+              "a": true,
+              "b": true,
               "c": false,
               "d": false,
               "e": true
             },
             "source": {
-              "text": "Behold",
-              "reference": "John 3:30"
+              "text": "He was sleeping at home when I last called.” 9",
+              "reference": "John 3:28"
             },
             "id": "ch007_q012",
             "chapter_id": 7,
             "difficulty": "hard"
           },
           {
-            "question": "According to several authorities on the Doctrine of Loyalty and Disloyalty, the following are not rebels who ended up at the eighth stage of disloyalty",
+            "question": "The statement \"Do not secretly think that he does not deserve the fame and popularity that he is getting\" can be gleaned from",
             "options": {
-              "a": "Eli",
-              "b": "Joab",
-              "c": "Absalom",
-              "d": "Judas",
-              "e": "Lucifer"
+              "a": "John 13:30",
+              "b": "John 3:31-30",
+              "c": "John 3:30",
+              "d": "John 3:28-30",
+              "e": "John 3:27-30"
             },
             "answers": {
               "a": false,
-              "b": true,
-              "c": false,
-              "d": true,
-              "e": true
+              "b": false,
+              "c": true,
+              "d": false,
+              "e": false
             },
             "source": {
-              "text": "See Loyalty and Disloyalty",
-              "reference": "Loyalty and Disloyalty"
+              "text": "Do not secretly think that he does not deserve the fame and popularity that he is getting",
+              "reference": "John 3:30"
             },
             "id": "ch007_q014",
             "chapter_id": 7,
@@ -5308,43 +5308,43 @@
         ],
         "questions": [
           {
-            "question": "The following quotations can be found in John 6:13",
+            "question": "The statement \"To his surprise, he became an errand boy, a waiter, an usher and a scavenger\" can be gleaned from",
             "options": {
-              "a": "went unto the chief priests, to betray him unto them",
-              "b": "I know you. You are going out with another man.",
-              "c": "and filled twelve baskets with the fragments [leftovers]",
-              "d": ". This saying is not in the Bible but it is true. Judas had now been with Jesus for three years. He had seen Jesus happy.",
-              "e": "This is the limit! I cannot take this stingy treatment any longer."
+              "a": "Matthew 21:1",
+              "b": "Mark 10:30",
+              "c": "Matthew 21:4-1",
+              "d": "Psalm 41:9",
+              "e": "Matthew 11:1"
             },
             "answers": {
-              "a": false,
+              "a": true,
               "b": false,
-              "c": true,
+              "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "and filled twelve baskets with the fragments [leftovers]; This is the limit! I cannot take this stingy treatment any longer.",
-              "reference": "John 6:13"
+              "text": "To his surprise, he became an errand boy, a waiter, an usher and a scavenger",
+              "reference": "Matthew 21:1"
             },
             "id": "ch009_q011",
             "chapter_id": 9,
             "difficulty": "hard"
           },
           {
-            "question": "The following quotations cannot be found in Matthew 18:7",
+            "question": "The following quotations can be found in Matthew 18:7",
             "options": {
-              "a": "No matter what you do, you will have to experience betrayal because your master experienced it.",
-              "b": "I don’t care what type of leadership principles you are using.",
-              "c": "it must needs be that offences come",
-              "d": "and be killed",
-              "e": "and filled twelve baskets with the fragments [leftovers]"
+              "a": "I don’t care what type of leadership principles you are using.",
+              "b": "No matter what you do, you will have to experience betrayal because your master experienced it.",
+              "c": "he remembered.",
+              "d": "after my departing shall grievous wolves enter",
+              "e": "You are not greater than Jesus. If Jesus had a Judas, you will too!"
             },
             "answers": {
-              "a": false,
-              "b": false,
+              "a": true,
+              "b": true,
               "c": false,
-              "d": true,
+              "d": false,
               "e": true
             },
             "source": {
@@ -5356,72 +5356,72 @@
             "difficulty": "easy"
           },
           {
-            "question": "The scripture \"Who is this Christ anyway?\" can be found in",
+            "question": "Mark 14:3 is not the biblical basis of",
             "options": {
-              "a": "Psalm 131:1",
-              "b": "John 6:12",
-              "c": "Matthew 21:5",
-              "d": "Matthew 26:10-8",
-              "e": "Matthew 26:8"
+              "a": "In fact, he became a homeless street dweller",
+              "b": "Judas was disappointed at the poor transportation provided by the ministry office",
+              "c": "Perhaps he thought that the power and anointing on Jesus Christ was waning because Jesus kept talking about his death",
+              "d": "Make the men sit down",
+              "e": "Perhaps Judas thought that by going into full-time ministry he would have the luxury of owning his own donkey or mule (car)"
             },
             "answers": {
               "a": false,
               "b": false,
-              "c": false,
-              "d": false,
-              "e": true
+              "c": true,
+              "d": true,
+              "e": false
             },
             "source": {
-              "text": "Who is this Christ anyway?",
-              "reference": "Matthew 26:8"
+              "text": "In fact, he became a homeless street dweller",
+              "reference": "Mark 14:3"
             },
             "id": "ch009_q001",
             "chapter_id": 9,
             "difficulty": "easy"
           },
           {
-            "question": "The statement \"Every church will experience the scourge of treacherous leaders\" can be gleaned from",
+            "question": "John 6:11 is the biblical basis of",
             "options": {
-              "a": "Luke 10:21",
-              "b": "Matthew 19:7",
-              "c": "Matthew 18:7",
-              "d": "Matthew 18:10-7",
-              "e": "2 Chronicles 18:7"
+              "a": "Judas was disappointed at the type of training he was undergoing",
+              "b": "To his surprise, he became an errand boy, a waiter, an usher and a scavenger",
+              "c": "Perhaps Judas was not happy with the type of food he had to eat when he became a full-time minister",
+              "d": "Be careful about those who count the money of the church",
+              "e": "At a point, Judas thought to himself: this is not what I bargained for"
             },
             "answers": {
               "a": false,
-              "b": false,
-              "c": true,
+              "b": true,
+              "c": false,
               "d": false,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "Every church will experience the scourge of treacherous leaders",
-              "reference": "Matthew 18:7"
+              "text": "He initially felt that joining the ministry team would elevate his status and give him opportunities to minister",
+              "reference": "John 6:11"
             },
             "id": "ch009_q015",
             "chapter_id": 9,
             "difficulty": "hard"
           },
           {
-            "question": "Mark 10:30 is not the biblical basis of",
+            "question": "Mark 14:10 is not the biblical basis of",
             "options": {
-              "a": "Even though Jesus promised that those who followed him would have car loans and housing benefits he could not envisage when such a promise would materialize",
-              "b": "Perhaps Judas had become too familiar with Christ",
-              "c": "Judas was disappointed at the poor transportation provided by the ministry office",
-              "d": "He felt a big one-time deal would earn him a lot of money",
-              "e": "You must also note that the disciples were very close to Jesus"
+              "a": "And Judas… went unto the chief priests, to betray him unto them…they were glad, and promised to give him money",
+              "b": "He felt a big one-time deal would earn him a lot of money",
+              "c": "Perhaps Judas had become too familiar with Christ",
+              "d": "Perhaps he thought that the power and anointing on Jesus Christ was waning because Jesus kept talking about his death",
+              "e": "Judas was probably disappointed at the poor accommodation that the ministry office provided for him"
             },
             "answers": {
               "a": false,
-              "b": true,
-              "c": true,
-              "d": false,
+              "b": false,
+              "c": false,
+              "d": true,
               "e": true
             },
             "source": {
-              "text": "Perhaps Judas wanted to get rich quickly",
-              "reference": "Mark 10:30"
+              "text": "He felt a big one-time deal would earn him a lot of money",
+              "reference": "Mark 14:10"
             },
             "id": "ch009_q007",
             "chapter_id": 9,
@@ -5464,61 +5464,37 @@
             "difficulty": "medium"
           },
           {
-            "question": "John 11:35 talks about",
+            "question": "John 6:13 is not the biblical basis of",
             "options": {
-              "a": "He had seen Jesus happy",
-              "b": "This saying is not in the Bible but it is true",
-              "c": "Usually only depressed people keep talking about death",
-              "d": "There is a saying, “familiarity breeds contempt”",
-              "e": "He thought that he would get better conditions of service"
+              "a": "Make the men sit down",
+              "b": "Perhaps Judas began to see Jesus as a wicked miser who would never be generous to his employees",
+              "c": "Perhaps he thought that the power and anointing on Jesus Christ was waning because Jesus kept talking about his death",
+              "d": "Judas probably thought that he had had better times when he was not working for Christ",
+              "e": "Perhaps Judas knew too much about too many things"
             },
             "answers": {
               "a": true,
-              "b": true,
-              "c": false,
-              "d": true,
-              "e": false
+              "b": false,
+              "c": true,
+              "d": false,
+              "e": true
             },
             "source": {
-              "text": "Perhaps Judas had become too familiar with Christ",
-              "reference": "John 11:35"
+              "text": "Judas probably thought that he had had better times when he was not working for Christ",
+              "reference": "John 6:13"
             },
             "id": "ch009_q008",
             "chapter_id": 9,
             "difficulty": "medium"
           },
           {
-            "question": "The statement \"Imagine twelve grown men crowding into a small house\" can be gleaned from",
+            "question": "The scripture \"after my departing shall grievous wolves enter\" can be found in",
             "options": {
-              "a": "Mark 8:31",
-              "b": "John 6:10",
-              "c": "Luke 9:58",
-              "d": "Matthew 21:1",
-              "e": "Luke 9:60-58"
-            },
-            "answers": {
-              "a": false,
-              "b": false,
-              "c": true,
-              "d": false,
-              "e": false
-            },
-            "source": {
-              "text": "Imagine twelve grown men crowding into a small house",
-              "reference": "Luke 9:58"
-            },
-            "id": "ch009_q005",
-            "chapter_id": 9,
-            "difficulty": "medium"
-          },
-          {
-            "question": "The statement \"This saying is not in the Bible but it is true\" can be gleaned from",
-            "options": {
-              "a": "Luke 10:20-21",
-              "b": "Luke 10:21",
-              "c": "Luke 10:19-21",
-              "d": "Acts 20:29",
-              "e": "Matthew 21:5"
+              "a": "Luke 9:58",
+              "b": "Acts 20:29",
+              "c": "John 12:5",
+              "d": "Mark 14:3",
+              "e": "Acts 20:28-29"
             },
             "answers": {
               "a": false,
@@ -5528,32 +5504,56 @@
               "e": false
             },
             "source": {
-              "text": "This saying is not in the Bible but it is true",
-              "reference": "Luke 10:21"
+              "text": "after my departing shall grievous wolves enter",
+              "reference": "Acts 20:29"
+            },
+            "id": "ch009_q005",
+            "chapter_id": 9,
+            "difficulty": "medium"
+          },
+          {
+            "question": "The scripture \"thy King [Jesus] cometh\" cannot be found in",
+            "options": {
+              "a": "Matthew 21:5",
+              "b": "John 11:35",
+              "c": "John 6:12",
+              "d": "Matthew 21:6-5",
+              "e": "Matthew 11:5"
+            },
+            "answers": {
+              "a": true,
+              "b": false,
+              "c": false,
+              "d": false,
+              "e": false
+            },
+            "source": {
+              "text": "thy King [Jesus] cometh",
+              "reference": "Matthew 21:5"
             },
             "id": "ch009_q013",
             "chapter_id": 9,
             "difficulty": "hard"
           },
           {
-            "question": "John 6:10 does not talk about",
+            "question": "The scripture \"he [Judas] was a thief\" can be found in",
             "options": {
-              "a": "No Chinese Restaurants",
-              "b": "Judas the Usher And Jesus said, Make the men sit down",
-              "c": "He is not as powerful as he was three years ago",
-              "d": "Judas was disappointed at the type of training he was undergoing",
-              "e": "At a point, Judas thought to himself: this is no"
+              "a": "John 10:6",
+              "b": "John 12:6",
+              "c": "John 12:5",
+              "d": "Luke 9:58",
+              "e": "John 12:4-6"
             },
             "answers": {
-              "a": true,
-              "b": false,
-              "c": true,
+              "a": false,
+              "b": true,
+              "c": false,
               "d": false,
               "e": false
             },
             "source": {
-              "text": "Judas was disappointed at the type of training he was undergoing",
-              "reference": "John 6:10"
+              "text": "he [Judas] was a thief",
+              "reference": "John 12:6"
             },
             "id": "ch009_q003",
             "chapter_id": 9,
@@ -5572,37 +5572,37 @@
         ],
         "questions": [
           {
-            "question": "John 11:35 is not the biblical basis of",
+            "question": "The scripture \"You are not greater than Jesus. If Jesus had a Judas, you will too!\" cannot be found in",
             "options": {
-              "a": "Make the men sit down",
-              "b": "There is a saying, “familiarity breeds contempt”",
-              "c": "Judas had now been with Jesus for three years",
-              "d": "Judas would not have attempted to murder Christ if he did not see him as an ordinary human being",
-              "e": "Judas was disappointed at the type of training he was undergoing"
+              "a": "Matthew 18:7",
+              "b": "Matthew 8:7",
+              "c": "Matthew 26:8",
+              "d": "Acts 20:29",
+              "e": "Matthew 18:8-7"
             },
             "answers": {
               "a": true,
               "b": false,
               "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Perhaps Judas had become too familiar with Christ",
-              "reference": "John 11:35"
+              "text": "You are not greater than Jesus. If Jesus had a Judas, you will too!",
+              "reference": "Matthew 18:7"
             },
             "id": "ch009_q014",
             "chapter_id": 9,
             "difficulty": "hard"
           },
           {
-            "question": "The statement \"He would say to her, “I know you\" can be gleaned from",
+            "question": "The statement \"But in following Jesus he did not even have a good apartment or rented house to live in\" can be gleaned from",
             "options": {
-              "a": "John 12:6",
-              "b": "John 6:11",
-              "c": "Mark 14:3",
-              "d": "John 6:12",
-              "e": "John 10:6"
+              "a": "Luke 9:58",
+              "b": "Matthew 21:5",
+              "c": "Matthew 21:1",
+              "d": "Psalm 41:9",
+              "e": "John 12:6"
             },
             "answers": {
               "a": true,
@@ -5612,80 +5612,80 @@
               "e": false
             },
             "source": {
-              "text": "He would say to her, “I know you",
-              "reference": "John 12:6"
+              "text": "But in following Jesus he did not even have a good apartment or rented house to live in",
+              "reference": "Luke 9:58"
             },
             "id": "ch009_q004",
             "chapter_id": 9,
             "difficulty": "easy"
           },
           {
-            "question": "Mark 14:10 is the biblical basis of",
+            "question": "The following quotations can be found in Matthew 18:7",
             "options": {
-              "a": "Make the men sit down",
-              "b": "Judas was disappointed at the type of training he was undergoing",
-              "c": "Perhaps Judas knew too much about too many things",
-              "d": "Perhaps Judas began to see Jesus as a wicked miser who would never be generous to his employees",
-              "e": "Perhaps Judas had become too familiar with Christ"
-            },
-            "answers": {
-              "a": false,
-              "b": false,
-              "c": false,
-              "d": false,
-              "e": true
-            },
-            "source": {
-              "text": "Perhaps Judas had become too familiar with Christ",
-              "reference": "Mark 14:10"
-            },
-            "id": "ch009_q012",
-            "chapter_id": 9,
-            "difficulty": "hard"
-          },
-          {
-            "question": "Matthew 26:8 is the biblical basis of",
-            "options": {
-              "a": "Perhaps Judas felt that the emphasis and direction of the ministry had changed",
-              "b": "Be the Judas? The truth I have just shared with you has two implications",
-              "c": "Perhaps Judas did not like the way Jesus was being treated specially",
-              "d": "Perhaps Judas had become too familiar with Christ",
-              "e": "Judas was probably disappointed at the poor accommodation that the ministry office provided for him"
+              "a": "I don’t care what type of leadership principles you are using.",
+              "b": "he remembered.",
+              "c": "No matter what you do, you will have to experience betrayal because your master experienced it.",
+              "d": "and be killed",
+              "e": "You are not greater than Jesus. If Jesus had a Judas, you will too!"
             },
             "answers": {
               "a": true,
               "b": false,
               "c": true,
               "d": false,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "Perhaps Judas did not like the way Jesus was being treated specially",
-              "reference": "Matthew 26:8"
+              "text": "I don’t care what type of leadership principles you are using.; You are not greater than Jesus. If Jesus had a Judas, you will too!",
+              "reference": "Matthew 18:7"
             },
-            "id": "ch009_q010",
+            "id": "ch009_q012",
             "chapter_id": 9,
             "difficulty": "hard"
           },
           {
-            "question": "Acts 20:29 is the biblical basis of",
+            "question": "John 6:11 is not the biblical basis of",
             "options": {
-              "a": "Maybe Judas had accused Jesus of misusing the church’s finances",
-              "b": "Perhaps Judas began to see Jesus as a wicked miser who would never be generous to his employees",
-              "c": "Make the men sit down",
-              "d": "You must also note that the disciples were very close to Jesus",
-              "e": "Perhaps Judas had become too familiar with Christ"
+              "a": "Judas was disappointed at the type of training he was undergoing",
+              "b": "To his surprise, he became an errand boy, a waiter, an usher and a scavenger",
+              "c": "He initially felt that joining the ministry team would elevate his status and give him opportunities to minister",
+              "d": "Perhaps he thought that the power and anointing on Jesus Christ was waning because Jesus kept talking about his death",
+              "e": "At a point, Judas thought to himself: this is not what I bargained for"
             },
             "answers": {
-              "a": false,
+              "a": true,
               "b": false,
               "c": false,
               "d": true,
               "e": false
             },
             "source": {
-              "text": "You must also note that the disciples were very close to Jesus",
-              "reference": "Acts 20:29"
+              "text": "He initially felt that joining the ministry team would elevate his status and give him opportunities to minister",
+              "reference": "John 6:11"
+            },
+            "id": "ch009_q010",
+            "chapter_id": 9,
+            "difficulty": "hard"
+          },
+          {
+            "question": "John 6:11 is the biblical basis of",
+            "options": {
+              "a": "Perhaps Judas knew too much about too many things",
+              "b": "Perhaps Judas was not happy with the type of food he had to eat when he became a full-time minister",
+              "c": "Judas the Usher And Jesus said, Make the men sit down",
+              "d": "Judas was disappointed at the type of training he was undergoing",
+              "e": "Be careful about those who count the money of the church"
+            },
+            "answers": {
+              "a": false,
+              "b": false,
+              "c": true,
+              "d": false,
+              "e": false
+            },
+            "source": {
+              "text": "He initially felt that joining the ministry team would elevate his status and give him opportunities to minister",
+              "reference": "John 6:11"
             },
             "id": "ch009_q009",
             "chapter_id": 9,
@@ -5704,48 +5704,48 @@
         ],
         "questions": [
           {
-            "question": "The scripture \"Who is this Christ anyway?\" can be found in",
+            "question": "Mark 14:3 is not the biblical basis of",
             "options": {
-              "a": "Psalm 131:1",
-              "b": "John 6:12",
-              "c": "Matthew 21:5",
-              "d": "Matthew 26:10-8",
-              "e": "Matthew 26:8"
+              "a": "In fact, he became a homeless street dweller",
+              "b": "Judas was disappointed at the poor transportation provided by the ministry office",
+              "c": "Perhaps he thought that the power and anointing on Jesus Christ was waning because Jesus kept talking about his death",
+              "d": "Make the men sit down",
+              "e": "Perhaps Judas thought that by going into full-time ministry he would have the luxury of owning his own donkey or mule (car)"
             },
             "answers": {
               "a": false,
               "b": false,
-              "c": false,
-              "d": false,
-              "e": true
+              "c": true,
+              "d": true,
+              "e": false
             },
             "source": {
-              "text": "Who is this Christ anyway?",
-              "reference": "Matthew 26:8"
+              "text": "In fact, he became a homeless street dweller",
+              "reference": "Mark 14:3"
             },
             "id": "ch009_q001",
             "chapter_id": 9,
             "difficulty": "easy"
           },
           {
-            "question": "John 6:10 does not talk about",
+            "question": "The scripture \"he [Judas] was a thief\" can be found in",
             "options": {
-              "a": "No Chinese Restaurants",
-              "b": "Judas the Usher And Jesus said, Make the men sit down",
-              "c": "He is not as powerful as he was three years ago",
-              "d": "Judas was disappointed at the type of training he was undergoing",
-              "e": "At a point, Judas thought to himself: this is no"
+              "a": "John 10:6",
+              "b": "John 12:6",
+              "c": "John 12:5",
+              "d": "Luke 9:58",
+              "e": "John 12:4-6"
             },
             "answers": {
-              "a": true,
-              "b": false,
-              "c": true,
+              "a": false,
+              "b": true,
+              "c": false,
               "d": false,
               "e": false
             },
             "source": {
-              "text": "Judas was disappointed at the type of training he was undergoing",
-              "reference": "John 6:10"
+              "text": "he [Judas] was a thief",
+              "reference": "John 12:6"
             },
             "id": "ch009_q003",
             "chapter_id": 9,
@@ -5776,48 +5776,48 @@
             "difficulty": "medium"
           },
           {
-            "question": "Mark 10:30 is not the biblical basis of",
+            "question": "Mark 14:10 is not the biblical basis of",
             "options": {
-              "a": "Even though Jesus promised that those who followed him would have car loans and housing benefits he could not envisage when such a promise would materialize",
-              "b": "Perhaps Judas had become too familiar with Christ",
-              "c": "Judas was disappointed at the poor transportation provided by the ministry office",
-              "d": "He felt a big one-time deal would earn him a lot of money",
-              "e": "You must also note that the disciples were very close to Jesus"
+              "a": "And Judas… went unto the chief priests, to betray him unto them…they were glad, and promised to give him money",
+              "b": "He felt a big one-time deal would earn him a lot of money",
+              "c": "Perhaps Judas had become too familiar with Christ",
+              "d": "Perhaps he thought that the power and anointing on Jesus Christ was waning because Jesus kept talking about his death",
+              "e": "Judas was probably disappointed at the poor accommodation that the ministry office provided for him"
             },
             "answers": {
               "a": false,
-              "b": true,
-              "c": true,
-              "d": false,
+              "b": false,
+              "c": false,
+              "d": true,
               "e": true
             },
             "source": {
-              "text": "Perhaps Judas wanted to get rich quickly",
-              "reference": "Mark 10:30"
+              "text": "He felt a big one-time deal would earn him a lot of money",
+              "reference": "Mark 14:10"
             },
             "id": "ch009_q007",
             "chapter_id": 9,
             "difficulty": "medium"
           },
           {
-            "question": "The statement \"This saying is not in the Bible but it is true\" can be gleaned from",
+            "question": "The scripture \"thy King [Jesus] cometh\" cannot be found in",
             "options": {
-              "a": "Luke 10:20-21",
-              "b": "Luke 10:21",
-              "c": "Luke 10:19-21",
-              "d": "Acts 20:29",
-              "e": "Matthew 21:5"
+              "a": "Matthew 21:5",
+              "b": "John 11:35",
+              "c": "John 6:12",
+              "d": "Matthew 21:6-5",
+              "e": "Matthew 11:5"
             },
             "answers": {
-              "a": false,
-              "b": true,
+              "a": true,
+              "b": false,
               "c": false,
               "d": false,
               "e": false
             },
             "source": {
-              "text": "This saying is not in the Bible but it is true",
-              "reference": "Luke 10:21"
+              "text": "thy King [Jesus] cometh",
+              "reference": "Matthew 21:5"
             },
             "id": "ch009_q013",
             "chapter_id": 9,
@@ -5836,43 +5836,43 @@
         ],
         "questions": [
           {
-            "question": "The statement \"Every church will experience the scourge of treacherous leaders\" can be gleaned from",
+            "question": "John 6:11 is the biblical basis of",
             "options": {
-              "a": "Luke 10:21",
-              "b": "Matthew 19:7",
-              "c": "Matthew 18:7",
-              "d": "Matthew 18:10-7",
-              "e": "2 Chronicles 18:7"
+              "a": "Judas was disappointed at the type of training he was undergoing",
+              "b": "To his surprise, he became an errand boy, a waiter, an usher and a scavenger",
+              "c": "Perhaps Judas was not happy with the type of food he had to eat when he became a full-time minister",
+              "d": "Be careful about those who count the money of the church",
+              "e": "At a point, Judas thought to himself: this is not what I bargained for"
             },
             "answers": {
               "a": false,
-              "b": false,
-              "c": true,
+              "b": true,
+              "c": false,
               "d": false,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "Every church will experience the scourge of treacherous leaders",
-              "reference": "Matthew 18:7"
+              "text": "He initially felt that joining the ministry team would elevate his status and give him opportunities to minister",
+              "reference": "John 6:11"
             },
             "id": "ch009_q015",
             "chapter_id": 9,
             "difficulty": "hard"
           },
           {
-            "question": "The following quotations cannot be found in Matthew 18:7",
+            "question": "The following quotations can be found in Matthew 18:7",
             "options": {
-              "a": "No matter what you do, you will have to experience betrayal because your master experienced it.",
-              "b": "I don’t care what type of leadership principles you are using.",
-              "c": "it must needs be that offences come",
-              "d": "and be killed",
-              "e": "and filled twelve baskets with the fragments [leftovers]"
+              "a": "I don’t care what type of leadership principles you are using.",
+              "b": "No matter what you do, you will have to experience betrayal because your master experienced it.",
+              "c": "he remembered.",
+              "d": "after my departing shall grievous wolves enter",
+              "e": "You are not greater than Jesus. If Jesus had a Judas, you will too!"
             },
             "answers": {
-              "a": false,
-              "b": false,
+              "a": true,
+              "b": true,
               "c": false,
-              "d": true,
+              "d": false,
               "e": true
             },
             "source": {
@@ -5884,72 +5884,72 @@
             "difficulty": "easy"
           },
           {
-            "question": "Acts 20:29 is the biblical basis of",
+            "question": "John 6:11 is the biblical basis of",
             "options": {
-              "a": "Maybe Judas had accused Jesus of misusing the church’s finances",
-              "b": "Perhaps Judas began to see Jesus as a wicked miser who would never be generous to his employees",
-              "c": "Make the men sit down",
-              "d": "You must also note that the disciples were very close to Jesus",
-              "e": "Perhaps Judas had become too familiar with Christ"
+              "a": "Perhaps Judas knew too much about too many things",
+              "b": "Perhaps Judas was not happy with the type of food he had to eat when he became a full-time minister",
+              "c": "Judas the Usher And Jesus said, Make the men sit down",
+              "d": "Judas was disappointed at the type of training he was undergoing",
+              "e": "Be careful about those who count the money of the church"
             },
             "answers": {
               "a": false,
               "b": false,
-              "c": false,
-              "d": true,
+              "c": true,
+              "d": false,
               "e": false
             },
             "source": {
-              "text": "You must also note that the disciples were very close to Jesus",
-              "reference": "Acts 20:29"
+              "text": "He initially felt that joining the ministry team would elevate his status and give him opportunities to minister",
+              "reference": "John 6:11"
             },
             "id": "ch009_q009",
             "chapter_id": 9,
             "difficulty": "medium"
           },
           {
-            "question": "Mark 14:10 is the biblical basis of",
+            "question": "The following quotations can be found in Matthew 18:7",
             "options": {
-              "a": "Make the men sit down",
-              "b": "Judas was disappointed at the type of training he was undergoing",
-              "c": "Perhaps Judas knew too much about too many things",
-              "d": "Perhaps Judas began to see Jesus as a wicked miser who would never be generous to his employees",
-              "e": "Perhaps Judas had become too familiar with Christ"
+              "a": "I don’t care what type of leadership principles you are using.",
+              "b": "he remembered.",
+              "c": "No matter what you do, you will have to experience betrayal because your master experienced it.",
+              "d": "and be killed",
+              "e": "You are not greater than Jesus. If Jesus had a Judas, you will too!"
             },
             "answers": {
-              "a": false,
+              "a": true,
               "b": false,
-              "c": false,
+              "c": true,
               "d": false,
               "e": true
             },
             "source": {
-              "text": "Perhaps Judas had become too familiar with Christ",
-              "reference": "Mark 14:10"
+              "text": "I don’t care what type of leadership principles you are using.; You are not greater than Jesus. If Jesus had a Judas, you will too!",
+              "reference": "Matthew 18:7"
             },
             "id": "ch009_q012",
             "chapter_id": 9,
             "difficulty": "hard"
           },
           {
-            "question": "John 11:35 is not the biblical basis of",
+            "question": "The scripture \"You are not greater than Jesus. If Jesus had a Judas, you will too!\" cannot be found in",
             "options": {
-              "a": "Make the men sit down",
-              "b": "There is a saying, “familiarity breeds contempt”",
-              "c": "Judas had now been with Jesus for three years",
-              "d": "Judas would not have attempted to murder Christ if he did not see him as an ordinary human being",
-              "e": "Judas was disappointed at the type of training he was undergoing"
+              "a": "Matthew 18:7",
+              "b": "Matthew 8:7",
+              "c": "Matthew 26:8",
+              "d": "Acts 20:29",
+              "e": "Matthew 18:8-7"
             },
             "answers": {
               "a": true,
               "b": false,
               "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Perhaps Judas had become too familiar with Christ",
-              "reference": "John 11:35"
+              "text": "You are not greater than Jesus. If Jesus had a Judas, you will too!",
+              "reference": "Matthew 18:7"
             },
             "id": "ch009_q014",
             "chapter_id": 9,
@@ -6237,8 +6237,8 @@
             "question": "Exodus 4:18 is not the biblical basis of",
             "options": {
               "a": "Hearken now unto my [Jethro] voice, I will give thee counsel, and God shall be with thee",
-              "b": "Do not try to influence other ministers to leave with you",
-              "c": "You must however discourage others from following you",
+              "b": "After departure you must speak well about where you came from",
+              "c": "Never forget that true repentance is different from admitting one’s sins",
               "d": "Notice also that when it mattered many years later, he could receive help from, and relate to Jethro",
               "e": "And Jethro said to Moses, Go in peace"
             },
@@ -6308,11 +6308,11 @@
           {
             "question": "John 19:25 is the biblical basis of",
             "options": {
-              "a": "Never forget that true repentance is different from admitting one’s sins",
+              "a": "Be grateful to the church from whence you are departing, and do not spread bad stories about them after you leave",
               "b": "Now there stood by the cross of Jesus his mother, and his mother’s sister, Mary the wife of Cleophas, and Mary Magdalene",
-              "c": "Do not try to influence other ministers to leave with you",
+              "c": "You must however discourage others from following you",
               "d": "When Jesus therefore saw his mother, and the disciple standing by, whom he loved, he saith unto his mother",
-              "e": "You must however discourage others from following you"
+              "e": "If you intend to set up a church you must declare your intentions to the senior minister"
             },
             "answers": {
               "a": false,
@@ -6597,8 +6597,8 @@
             "question": "Exodus 4:18 is not the biblical basis of",
             "options": {
               "a": "Hearken now unto my [Jethro] voice, I will give thee counsel, and God shall be with thee",
-              "b": "Do not try to influence other ministers to leave with you",
-              "c": "You must however discourage others from following you",
+              "b": "After departure you must speak well about where you came from",
+              "c": "Never forget that true repentance is different from admitting one’s sins",
               "d": "Notice also that when it mattered many years later, he could receive help from, and relate to Jethro",
               "e": "And Jethro said to Moses, Go in peace"
             },
@@ -6632,24 +6632,24 @@
         ],
         "questions": [
           {
-            "question": "The statement \"Many businessmen do not know that by maintaining certain employees, they are destroying their firms\" can be gleaned from",
+            "question": "Proverbs 26:20-22 is the biblical basis of",
             "options": {
-              "a": "1 Corinthians 5:7-6",
-              "b": "1 Corinthians 3:6",
-              "c": "1 Timothy 3:8",
-              "d": "1 Corinthians 5:8-6",
-              "e": "1 Corinthians 5:6"
+              "a": "Talebearers must be driven from the church",
+              "b": "Accusers must be driven away from the church",
+              "c": "Evil “critics” must be driven away from the church",
+              "d": "People who cause quarrels",
+              "e": "People who cause divisions must be driven away from the church"
             },
             "answers": {
-              "a": false,
-              "b": false,
+              "a": true,
+              "b": true,
               "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "Many businessmen do not know that by maintaining certain employees, they are destroying their firms",
-              "reference": "1 Corinthians 5:6"
+              "text": "Talebearers must be driven from the church",
+              "reference": "Proverbs 26:20-22"
             },
             "id": "ch011_q011",
             "chapter_id": 11,
@@ -6658,11 +6658,11 @@
           {
             "question": "1 Timothy 3:8 talks about",
             "options": {
-              "a": "A double-tongued person must be driven away from the church",
-              "b": "People who cause divisions must be driven away from the church",
-              "c": "As coals are to burning coals, and wood to fire",
-              "d": "King David was slandered by many people",
-              "e": "Likewise must the deacons be grave, not double-tongued"
+              "a": "It is very difficult to lead unwilling and discouraged people",
+              "b": "As coals are to burning coals, and wood to fire",
+              "c": "King David was slandered by many people",
+              "d": "We need to drive away certain potential storms from our midst",
+              "e": "A murmurer must be driven away from the church"
             },
             "answers": {
               "a": true,
@@ -6704,13 +6704,13 @@
             "difficulty": "easy"
           },
           {
-            "question": "The scripture \"critics\" can be found in",
+            "question": "The scripture \"them which cause divisions and offences\" cannot be found in",
             "options": {
-              "a": "Philippians 2:12-14",
-              "b": "Philippians 2:13-14",
-              "c": "Philippians 3:14",
-              "d": "Philippians 2:14",
-              "e": "Leviticus 2:14"
+              "a": "Romans 16:20-17",
+              "b": "Romans 16:19-17",
+              "c": "Romans 6:17",
+              "d": "Romans 16:17",
+              "e": "Romans 18:17"
             },
             "answers": {
               "a": false,
@@ -6720,32 +6720,32 @@
               "e": false
             },
             "source": {
-              "text": "critics",
-              "reference": "Philippians 2:14"
+              "text": "them which cause divisions and offences",
+              "reference": "Romans 16:17"
             },
             "id": "ch011_q015",
             "chapter_id": 11,
             "difficulty": "hard"
           },
           {
-            "question": "The scripture \"Lashan\" can be found in",
+            "question": "The statement \"As coals are to burning coals, and wood to fire; so is a contentious man to kindle strife\" can be gleaned from",
             "options": {
-              "a": "Psalm 31:10-12",
-              "b": "Psalm 31:9-12",
-              "c": "Romans 16:17",
-              "d": "Psalm 31:12",
-              "e": "Psalm 31:11-12"
+              "a": "Proverbs 24:20-22",
+              "b": "Philippians 2:14",
+              "c": "1 Corinthians 5:6",
+              "d": "Proverbs 16:20-22",
+              "e": "Proverbs 26:20-22"
             },
             "answers": {
               "a": false,
               "b": false,
               "c": false,
-              "d": true,
-              "e": false
+              "d": false,
+              "e": true
             },
             "source": {
-              "text": "Lashan",
-              "reference": "Psalm 31:12"
+              "text": "As coals are to burning coals, and wood to fire; so is a contentious man to kindle strife",
+              "reference": "Proverbs 26:20-22"
             },
             "id": "ch011_q007",
             "chapter_id": 11,
@@ -6764,96 +6764,96 @@
         ],
         "questions": [
           {
-            "question": "Philippians 2:14 does not talk about",
+            "question": "Romans 16:17 is the biblical basis of",
             "options": {
-              "a": "As coals are to burning coals, and wood to fire",
-              "b": "Do you need people to blacken your character",
-              "c": "Do all things without murmurings and disputings",
-              "d": "It is very difficult to lead unwilling and discouraged people",
-              "e": "Because of slander"
+              "a": "A slanderer is somebody who must be driven away from the church",
+              "b": "People who cause divisions must be driven away from the church",
+              "c": "Talebearers must be driven from the church",
+              "d": "A double-tongued person must be driven away from the church",
+              "e": "Accusers must be driven away from the church"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": true,
               "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "A murmurer must be driven away from the church",
-              "reference": "Philippians 2:14"
+              "text": "People who cause divisions must be driven away from the church",
+              "reference": "Romans 16:17"
             },
             "id": "ch011_q006",
             "chapter_id": 11,
             "difficulty": "medium"
           },
           {
-            "question": "The statement \"Now I beseech you, brethen, mark them which cause divisions and offences contrary to the doctrine which ye have learned; and avoid them\" can be gleaned from",
+            "question": "The scripture \"Lashan\" cannot be found in",
             "options": {
               "a": "Romans 16:17",
-              "b": "1 Corinthians 5:6",
-              "c": "Romans 17:17",
-              "d": "Philippians 2:14",
-              "e": "Romans 15:17"
+              "b": "1 Timothy 3:8",
+              "c": "Psalm 32:12",
+              "d": "Psalm 41:12",
+              "e": "Psalm 31:12"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
               "c": false,
               "d": false,
-              "e": false
+              "e": true
             },
             "source": {
-              "text": "Now I beseech you, brethen, mark them which cause divisions and offences contrary to the doctrine which ye have learned; and avoid them",
-              "reference": "Romans 16:17"
+              "text": "Lashan",
+              "reference": "Psalm 31:12"
             },
             "id": "ch011_q008",
             "chapter_id": 11,
             "difficulty": "medium"
           },
           {
-            "question": "1 Timothy 3:8 is not the biblical basis of",
+            "question": "The statement \"A murmurer must be driven away from the church\" can be gleaned from",
             "options": {
-              "a": "People who cause divisions must be driven away from the church",
-              "b": "A double-tongued person must be driven away from the church",
-              "c": "Talebearers must be driven from the church",
-              "d": "Evil “critics” must be driven away from the church",
-              "e": "A murmurer must be driven away from the church"
+              "a": "Philippians 2:15-14",
+              "b": "Philippians 2:14",
+              "c": "Philippians 2:16-14",
+              "d": "Philippians 3:14",
+              "e": "Titus 2:14"
             },
             "answers": {
-              "a": true,
-              "b": false,
-              "c": true,
-              "d": true,
+              "a": false,
+              "b": true,
+              "c": false,
+              "d": false,
               "e": false
             },
             "source": {
-              "text": "A double-tongued person must be driven away from the church",
-              "reference": "1 Timothy 3:8"
+              "text": "A murmurer must be driven away from the church",
+              "reference": "Philippians 2:14"
             },
             "id": "ch011_q005",
             "chapter_id": 11,
             "difficulty": "medium"
           },
           {
-            "question": "Proverbs 25:23 is not the biblical basis of",
+            "question": "The scripture \"them which cause divisions and offences\" can be found in",
             "options": {
-              "a": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "b": "People who cause quarrels",
-              "c": "A double-tongued person must be driven away from the church",
-              "d": "People who cause divisions must be driven away from the church",
-              "e": "We need to drive away certain potential storms from our midst"
+              "a": "Romans 15:17",
+              "b": "Romans 16:14-17",
+              "c": "Romans 16:16-17",
+              "d": "Romans 16:17",
+              "e": "Romans 16:15-17"
             },
             "answers": {
               "a": false,
-              "b": true,
-              "c": true,
+              "b": false,
+              "c": false,
               "d": true,
               "e": false
             },
             "source": {
-              "text": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "reference": "Proverbs 25:23"
+              "text": "them which cause divisions and offences",
+              "reference": "Romans 16:17"
             },
             "id": "ch011_q013",
             "chapter_id": 11,
@@ -6862,18 +6862,18 @@
           {
             "question": "Proverbs 25:23 is not the biblical basis of",
             "options": {
-              "a": "A double-tongued person must be driven away from the church",
-              "b": "We need to drive away certain potential storms from our midst",
-              "c": "Many people do not realize that a little leaven leaveneth the whole lump",
-              "d": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "e": "Evil “critics” must be driven away from the church"
+              "a": "We need to drive away certain potential storms from our midst",
+              "b": "People who cause divisions must be driven away from the church",
+              "c": "People who cause quarrels",
+              "d": "Many people do not realize that a little leaven leaveneth the whole lump",
+              "e": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue"
             },
             "answers": {
-              "a": true,
-              "b": false,
-              "c": false,
+              "a": false,
+              "b": true,
+              "c": true,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
               "text": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
@@ -6896,85 +6896,37 @@
         ],
         "questions": [
           {
-            "question": "Philippians 2:14 talks about",
+            "question": "The statement \"The words of a talebearer are as wounds, and they go down into the innermost parts of the belly\" can be gleaned from",
             "options": {
-              "a": "Do all things without murmurings and disputings",
-              "b": "They must be driven away from the church",
-              "c": "A murmurer must be driven away from the church",
-              "d": "People who cause divisions must be driven away from the church",
-              "e": "It is very difficult to lead unwilling and discouraged people"
+              "a": "Proverbs 25:23",
+              "b": "Proverbs 26:22",
+              "c": "1 Corinthians 5:6",
+              "d": "Proverbs 27:20-22",
+              "e": "Proverbs 26:20-22"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
-              "c": true,
+              "c": false,
               "d": false,
               "e": true
             },
             "source": {
-              "text": "A murmurer must be driven away from the church",
-              "reference": "Philippians 2:14"
+              "text": "The words of a talebearer are as wounds, and they go down into the innermost parts of the belly",
+              "reference": "Proverbs 26:20-22"
             },
             "id": "ch011_q014",
             "chapter_id": 11,
             "difficulty": "hard"
           },
           {
-            "question": "The scripture \"them which cause divisions and offences\" can be found in",
+            "question": "Proverbs 26:20-22 is not the biblical basis of",
             "options": {
-              "a": "Romans 26:17",
-              "b": "Romans 16:17",
-              "c": "Romans 16:18-17",
-              "d": "Romans 17:17",
-              "e": "Titus 16:17"
-            },
-            "answers": {
-              "a": false,
-              "b": true,
-              "c": false,
-              "d": false,
-              "e": false
-            },
-            "source": {
-              "text": "them which cause divisions and offences",
-              "reference": "Romans 16:17"
-            },
-            "id": "ch011_q004",
-            "chapter_id": 11,
-            "difficulty": "easy"
-          },
-          {
-            "question": "The scripture \"them which cause divisions and offences\" can be found in",
-            "options": {
-              "a": "Romans 16:17",
-              "b": "Romans 26:17",
-              "c": "Romans 16:14-17",
-              "d": "1 Corinthians 5:6",
-              "e": "1 Timothy 3:8"
-            },
-            "answers": {
-              "a": true,
-              "b": false,
-              "c": false,
-              "d": false,
-              "e": false
-            },
-            "source": {
-              "text": "them which cause divisions and offences",
-              "reference": "Romans 16:17"
-            },
-            "id": "ch011_q012",
-            "chapter_id": 11,
-            "difficulty": "hard"
-          },
-          {
-            "question": "Romans 16:17 is not the biblical basis of",
-            "options": {
-              "a": "A double-tongued person must be driven away from the church",
+              "a": "Evil “critics” must be driven away from the church",
               "b": "A slanderer is somebody who must be driven away from the church",
-              "c": "People who cause quarrels",
-              "d": "People who cause divisions must be driven away from the church",
-              "e": "A murmurer must be driven away from the church"
+              "c": "Accusers must be driven away from the church",
+              "d": "Talebearers must be driven from the church",
+              "e": "People who cause quarrels"
             },
             "answers": {
               "a": true,
@@ -6984,27 +6936,75 @@
               "e": true
             },
             "source": {
-              "text": "People who cause divisions must be driven away from the church",
-              "reference": "Romans 16:17"
+              "text": "Talebearers must be driven from the church",
+              "reference": "Proverbs 26:20-22"
+            },
+            "id": "ch011_q004",
+            "chapter_id": 11,
+            "difficulty": "easy"
+          },
+          {
+            "question": "The scripture \"Lashan\" cannot be found in",
+            "options": {
+              "a": "Psalm 31:11-12",
+              "b": "Malachi 31:12",
+              "c": "Psalm 30:12",
+              "d": "Psalm 31:12",
+              "e": "Psalm 31:9-12"
+            },
+            "answers": {
+              "a": false,
+              "b": false,
+              "c": false,
+              "d": true,
+              "e": false
+            },
+            "source": {
+              "text": "Lashan",
+              "reference": "Psalm 31:12"
+            },
+            "id": "ch011_q012",
+            "chapter_id": 11,
+            "difficulty": "hard"
+          },
+          {
+            "question": "The scripture \"critics\" can be found in",
+            "options": {
+              "a": "Philippians 12:14",
+              "b": "Proverbs 2:14",
+              "c": "Philippians 3:14",
+              "d": "Proverbs 26:20-22",
+              "e": "Philippians 2:14"
+            },
+            "answers": {
+              "a": false,
+              "b": false,
+              "c": false,
+              "d": false,
+              "e": true
+            },
+            "source": {
+              "text": "critics",
+              "reference": "Philippians 2:14"
             },
             "id": "ch011_q010",
             "chapter_id": 11,
             "difficulty": "hard"
           },
           {
-            "question": "1 Timothy 3:8 is the biblical basis of",
+            "question": "1 Timothy 3:8 does not talk about",
             "options": {
-              "a": "A murmurer must be driven away from the church",
-              "b": "People who cause divisions must be driven away from the church",
-              "c": "A double-tongued person must be driven away from the church",
-              "d": "People who cause quarrels",
-              "e": "A slanderer is somebody who must be driven away from the church"
+              "a": "People who cause divisions must be driven away from the church",
+              "b": "It is very difficult to lead unwilling and discouraged people",
+              "c": "Find out why he moved",
+              "d": "Do you need people to blacken your character",
+              "e": "Do all things without murmurings and disputings"
             },
             "answers": {
               "a": true,
               "b": false,
               "c": true,
-              "d": false,
+              "d": true,
               "e": false
             },
             "source": {
@@ -7054,18 +7054,18 @@
           {
             "question": "Proverbs 25:23 is not the biblical basis of",
             "options": {
-              "a": "A double-tongued person must be driven away from the church",
-              "b": "We need to drive away certain potential storms from our midst",
-              "c": "Many people do not realize that a little leaven leaveneth the whole lump",
-              "d": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "e": "Evil “critics” must be driven away from the church"
+              "a": "We need to drive away certain potential storms from our midst",
+              "b": "People who cause divisions must be driven away from the church",
+              "c": "People who cause quarrels",
+              "d": "Many people do not realize that a little leaven leaveneth the whole lump",
+              "e": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue"
             },
             "answers": {
-              "a": true,
-              "b": false,
-              "c": false,
+              "a": false,
+              "b": true,
+              "c": true,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
               "text": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
@@ -7076,37 +7076,61 @@
             "difficulty": "easy"
           },
           {
-            "question": "Philippians 2:14 does not talk about",
+            "question": "Romans 16:17 is the biblical basis of",
             "options": {
-              "a": "As coals are to burning coals, and wood to fire",
-              "b": "Do you need people to blacken your character",
-              "c": "Do all things without murmurings and disputings",
-              "d": "It is very difficult to lead unwilling and discouraged people",
-              "e": "Because of slander"
+              "a": "A slanderer is somebody who must be driven away from the church",
+              "b": "People who cause divisions must be driven away from the church",
+              "c": "Talebearers must be driven from the church",
+              "d": "A double-tongued person must be driven away from the church",
+              "e": "Accusers must be driven away from the church"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": true,
               "c": false,
               "d": false,
-              "e": true
+              "e": false
             },
             "source": {
-              "text": "A murmurer must be driven away from the church",
-              "reference": "Philippians 2:14"
+              "text": "People who cause divisions must be driven away from the church",
+              "reference": "Romans 16:17"
             },
             "id": "ch011_q006",
             "chapter_id": 11,
             "difficulty": "medium"
           },
           {
-            "question": "The scripture \"Lashan\" can be found in",
+            "question": "The statement \"As coals are to burning coals, and wood to fire; so is a contentious man to kindle strife\" can be gleaned from",
             "options": {
-              "a": "Psalm 31:10-12",
-              "b": "Psalm 31:9-12",
-              "c": "Romans 16:17",
-              "d": "Psalm 31:12",
-              "e": "Psalm 31:11-12"
+              "a": "Proverbs 24:20-22",
+              "b": "Philippians 2:14",
+              "c": "1 Corinthians 5:6",
+              "d": "Proverbs 16:20-22",
+              "e": "Proverbs 26:20-22"
+            },
+            "answers": {
+              "a": false,
+              "b": false,
+              "c": false,
+              "d": false,
+              "e": true
+            },
+            "source": {
+              "text": "As coals are to burning coals, and wood to fire; so is a contentious man to kindle strife",
+              "reference": "Proverbs 26:20-22"
+            },
+            "id": "ch011_q007",
+            "chapter_id": 11,
+            "difficulty": "medium"
+          },
+          {
+            "question": "The scripture \"them which cause divisions and offences\" can be found in",
+            "options": {
+              "a": "Romans 15:17",
+              "b": "Romans 16:14-17",
+              "c": "Romans 16:16-17",
+              "d": "Romans 16:17",
+              "e": "Romans 16:15-17"
             },
             "answers": {
               "a": false,
@@ -7116,32 +7140,8 @@
               "e": false
             },
             "source": {
-              "text": "Lashan",
-              "reference": "Psalm 31:12"
-            },
-            "id": "ch011_q007",
-            "chapter_id": 11,
-            "difficulty": "medium"
-          },
-          {
-            "question": "Proverbs 25:23 is not the biblical basis of",
-            "options": {
-              "a": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "b": "People who cause quarrels",
-              "c": "A double-tongued person must be driven away from the church",
-              "d": "People who cause divisions must be driven away from the church",
-              "e": "We need to drive away certain potential storms from our midst"
-            },
-            "answers": {
-              "a": false,
-              "b": true,
-              "c": true,
-              "d": true,
-              "e": false
-            },
-            "source": {
-              "text": "Chapter 11 The North Wind The north wind driveth away rain: so doth an angry countenance a backbiting tongue",
-              "reference": "Proverbs 25:23"
+              "text": "them which cause divisions and offences",
+              "reference": "Romans 16:17"
             },
             "id": "ch011_q013",
             "chapter_id": 11,
@@ -7160,13 +7160,13 @@
         ],
         "questions": [
           {
-            "question": "The scripture \"critics\" can be found in",
+            "question": "The scripture \"them which cause divisions and offences\" cannot be found in",
             "options": {
-              "a": "Philippians 2:12-14",
-              "b": "Philippians 2:13-14",
-              "c": "Philippians 3:14",
-              "d": "Philippians 2:14",
-              "e": "Leviticus 2:14"
+              "a": "Romans 16:20-17",
+              "b": "Romans 16:19-17",
+              "c": "Romans 6:17",
+              "d": "Romans 16:17",
+              "e": "Romans 18:17"
             },
             "answers": {
               "a": false,
@@ -7176,8 +7176,8 @@
               "e": false
             },
             "source": {
-              "text": "critics",
-              "reference": "Philippians 2:14"
+              "text": "them which cause divisions and offences",
+              "reference": "Romans 16:17"
             },
             "id": "ch011_q015",
             "chapter_id": 11,
@@ -7186,11 +7186,11 @@
           {
             "question": "1 Timothy 3:8 talks about",
             "options": {
-              "a": "A double-tongued person must be driven away from the church",
-              "b": "People who cause divisions must be driven away from the church",
-              "c": "As coals are to burning coals, and wood to fire",
-              "d": "King David was slandered by many people",
-              "e": "Likewise must the deacons be grave, not double-tongued"
+              "a": "It is very difficult to lead unwilling and discouraged people",
+              "b": "As coals are to burning coals, and wood to fire",
+              "c": "King David was slandered by many people",
+              "d": "We need to drive away certain potential storms from our midst",
+              "e": "A murmurer must be driven away from the church"
             },
             "answers": {
               "a": true,
@@ -7208,19 +7208,19 @@
             "difficulty": "easy"
           },
           {
-            "question": "1 Timothy 3:8 is the biblical basis of",
+            "question": "1 Timothy 3:8 does not talk about",
             "options": {
-              "a": "A murmurer must be driven away from the church",
-              "b": "People who cause divisions must be driven away from the church",
-              "c": "A double-tongued person must be driven away from the church",
-              "d": "People who cause quarrels",
-              "e": "A slanderer is somebody who must be driven away from the church"
+              "a": "People who cause divisions must be driven away from the church",
+              "b": "It is very difficult to lead unwilling and discouraged people",
+              "c": "Find out why he moved",
+              "d": "Do you need people to blacken your character",
+              "e": "Do all things without murmurings and disputings"
             },
             "answers": {
               "a": true,
               "b": false,
               "c": true,
-              "d": false,
+              "d": true,
               "e": false
             },
             "source": {
@@ -7232,48 +7232,48 @@
             "difficulty": "medium"
           },
           {
-            "question": "The scripture \"them which cause divisions and offences\" can be found in",
+            "question": "The scripture \"Lashan\" cannot be found in",
             "options": {
-              "a": "Romans 16:17",
-              "b": "Romans 26:17",
-              "c": "Romans 16:14-17",
-              "d": "1 Corinthians 5:6",
-              "e": "1 Timothy 3:8"
+              "a": "Psalm 31:11-12",
+              "b": "Malachi 31:12",
+              "c": "Psalm 30:12",
+              "d": "Psalm 31:12",
+              "e": "Psalm 31:9-12"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
               "c": false,
-              "d": false,
+              "d": true,
               "e": false
             },
             "source": {
-              "text": "them which cause divisions and offences",
-              "reference": "Romans 16:17"
+              "text": "Lashan",
+              "reference": "Psalm 31:12"
             },
             "id": "ch011_q012",
             "chapter_id": 11,
             "difficulty": "hard"
           },
           {
-            "question": "Philippians 2:14 talks about",
+            "question": "The statement \"The words of a talebearer are as wounds, and they go down into the innermost parts of the belly\" can be gleaned from",
             "options": {
-              "a": "Do all things without murmurings and disputings",
-              "b": "They must be driven away from the church",
-              "c": "A murmurer must be driven away from the church",
-              "d": "People who cause divisions must be driven away from the church",
-              "e": "It is very difficult to lead unwilling and discouraged people"
+              "a": "Proverbs 25:23",
+              "b": "Proverbs 26:22",
+              "c": "1 Corinthians 5:6",
+              "d": "Proverbs 27:20-22",
+              "e": "Proverbs 26:20-22"
             },
             "answers": {
-              "a": true,
+              "a": false,
               "b": false,
-              "c": true,
+              "c": false,
               "d": false,
               "e": true
             },
             "source": {
-              "text": "A murmurer must be driven away from the church",
-              "reference": "Philippians 2:14"
+              "text": "The words of a talebearer are as wounds, and they go down into the innermost parts of the belly",
+              "reference": "Proverbs 26:20-22"
             },
             "id": "ch011_q014",
             "chapter_id": 11,

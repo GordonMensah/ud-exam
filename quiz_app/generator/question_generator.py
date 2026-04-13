@@ -195,10 +195,17 @@ def _extract_refs_with_context(text: str) -> list:
     # Step 4: extract numbered teaching points ("12. Be genuinely happy...")
     # These are the author's actual teaching content that scripture refs support.
     # Text is whitespace-normalized (no newlines), so we match after sentence-end
-    # punctuation or start-of-text, then a number + period.
+    # punctuation or start-of-text, then a point label + separator.
+    # Handles three formats used in this book:
+    #   Arabic:      "1. Make mention…"      (after sentence-end or ": ")
+    #   Roman lower: "i. When it comes…"     (after ": " typically)
+    #   Alpha-paren: "a) Give ample notice…" (after sentence-end)
+    # Group 1 = label,  Group 2 = content text
     _NUMBERED_POINT_RE = re.compile(
-        r'(?:^|(?<=\.\s)|(?<=\?\s)|(?<=!\s)|(?<=:\s)|(?<=\s)(?=\d{1,3}\.\s+[A-Z]))'
-        r'(\d{1,3})\.\s+([A-Z][^.!?]{10,200})',
+        r'(?:^|(?<=\.\s)|(?<=\?\s)|(?<=!\s)|(?<=:\s))'
+        r'(\d{1,3}|[ivx]{1,5}|[a-o])'   # label: arabic / lowercase roman / letter
+        r'[.)]\s+'                         # separator: period or paren
+        r'([A-Z][^.!?]{10,200})',          # content starts with capital
     )
 
     # Collect ALL numbered-point boundary positions so we can detect when
