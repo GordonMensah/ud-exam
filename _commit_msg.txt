@@ -1,17 +1,13 @@
-fix: body-text between repeated quoted words captured as scripture quote
+fix: prevent body-text from being captured as scripture quote
 
-Root cause: closing quote of first "muddy" acted as an opener for the
-next _QUOTE_RE match, capturing all body text between the two uses of
-the word "muddy" as a 180-char "scripture quote" for Proverbs 17:13.
+Two targeted fixes for Chapter 10 Proverbs 17:13 issue:
 
-Fix 1 - _NUMBERED_POINT_RE: add lookbehind for digit+space so labels
-like 'f)' following a scripture ref ("Proverbs 17:13 f)") are correctly
-detected as point boundaries. Previously 'f)' was missed because the
-regex only looked for '. ' or ': ', not digit+space.
+1. Point boundary detection: added lookbehind for digit+space in
+   _NUMBERED_POINT_RE so labels like f) that follow a scripture
+   reference end (e.g. Proverbs 17:13 f)) are detected.
 
-Fix 2 - Quote pairing filter: reject any captured quote containing an
-internal sentence boundary. Real scripture quotes are single clauses;
-body-text fragments between two quoted-word uses always have sentence
-breaks. This ensures only genuine verse text is paired with refs.
+2. Quote filter: reject quotes containing internal sentence breaks.
+   Body text between two uses of quoted word muddy was being captured
+   as a 180-char scripture quote. Real verse quotes are single clauses.
 
 Regenerated all 180 questions.
