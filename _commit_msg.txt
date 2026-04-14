@@ -1,30 +1,28 @@
-fix: name categorization, quotation type, patterned-list quality
+feat: guarantee one question per scripture reference
 
-_REBEL_NAMES / _LOYAL_NAMES + _q_names (ch2 Q4/Q6 fix):
-- Add frozensets categorizing each biblical name as rebel or loyal.
-- _q_names now maps question topic to the correct pool:
-  betray/rebel/eighth-stage topics → correct=rebels, wrong=loyal
-  loyal/faithful topics            → correct=loyal, wrong=rebels
-- Previously David and Eli appeared as "people who betrayed their
-  leaders"; Moses appeared as "not a betrayer" etc.
+generate_question_pool:
+- target = max(base_target, len(refs)): scales to match ref count
+- New _try_any(ref): exhausts all question types deterministically
+  before giving up, ensuring every ref that has any extractable
+  content gets a question.
+- First pass uses _try_any with no early break (all refs attempted).
+- Second/third passes fill remaining slots with weighted-random types.
 
-_q_quotation min threshold (ch2 Q1/Q3/Q7/Q14):
-- Lower minimum paired-quotes requirement from 2 to 1.
-- Adjust sampling to clamp nt/nf by available pool sizes so refs
-  with a single quote can still generate T5/T6 questions.
-- ch2 now generates 4 quotation-type questions instead of 0.
+_extract_refs_with_context:
+- Fix A: ellipsis-delimited quotes (…verse text…) now track their
+  delimiter type; lowercase is allowed for ellipsis quotes since the
+  author deliberately truncates verse text with "…". For ellipsis
+  quotes with embedded scripture refs, text before the ref is used.
+- Fix B: overlapping lookahead scan catches alternating …A…B…C…
+  quotes that re.finditer skips because consecutive matches consume
+  the shared delimiter.
+- Fix C: for window sentences containing embedded scripture citations
+  (e.g. "2 Sam 18:12 This person was loyal"), the text after the
+  last citation is extracted as additional commentary/topics.
+- Fix D: second pass for refs still bare after the midpoint-clamped
+  first pass: widen the backward window to 600 chars using only the
+  numbered-point block boundary (skip midpoint clamp) so that refs
+  in densely-packed execution/subtitle lists can reach nearby content.
 
-_extract_patterned_lists quality (ch2 Q1/Q10/Q15):
-- Add _PROSE_REJECT_RE: filter items starting with pronouns /
-  common-subject words ("you ", "some ", "Jesus ", "it ", etc.)
-  that are accidental prose-pattern matches.
-- Add _STAGE_BODY_TRIM_RE: trim body commentary after a Stage title
-  ("The Critical Stage A disloyal person..." → "The Critical Stage",
-  "The Political Stage When a person..." → "The Political Stage").
-
-global_teachings / global_patterned_items split:
-- Patterned-list items now kept in a separate global_patterned_items
-  list and NOT added to global_teachings, preventing reason-phrases
-  and stage names from appearing as biblical-basis wrong options.
-- cross-chapter patterned items used to widen According-to distractor
-  pools (better variety in Q10/Q15 wrong options).
+Result: all 164 scripture refs across 12 chapters now have at least
+one question (241 questions total, up from 180).

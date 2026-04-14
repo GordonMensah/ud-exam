@@ -179,12 +179,41 @@ def _extract_refs_with_context(text: str) -> list:
     if not refs:
         return refs
 
-    # Step 2: find all quoted phrases with positions
+    # Step 2: find all quoted phrases with positions.
+    # Each tuple is (char_position, quote_text, is_ellipsis).
+    # is_ellipsis=True for …/... delimited quotes (verse fragments deliberately
+    # truncated with ellipsis marks); False for smart/straight-quote delimited.
     quotes_with_pos = []
     for m in _QUOTE_RE.finditer(text):
         q = m.group(1).strip()
+        open_char = m.group(0)[0]
+        is_ell = open_char in ('\u2026', '.')  # U+2026 or ASCII dot(s)
+        if 5 <= len(q) <= 150:
+            if not _SCRIPTURE_RE.search(q):
+                quotes_with_pos.append((m.start(), q, is_ell))
+            elif is_ell:
+                # Ellipsis-quoted verse fragment contains an embedded scripture
+                # reference (e.g. "…compassed about and slew him. 2 Sam 18:15…").
+                # Use only the text BEFORE the embedded reference so the quote
+                # remains a clean, citable verse snippet.
+                rm = _SCRIPTURE_RE.search(q)
+                q_before = q[:rm.start()].strip().rstrip(' .,;\u2026')
+                if len(q_before) >= 6:
+                    quotes_with_pos.append((m.start(), q_before, True))
+
+    # Secondary overlapping scan: re.finditer is non-overlapping, so alternating
+    # …A…B…C… sequences only capture A and C (odd-indexed).  Run a lookahead-
+    # based pass to also capture B (the even-indexed quotes whose opening …
+    # was consumed as the closing … of the preceding match).
+    _seen_qpos = {p for p, _, _ in quotes_with_pos}
+    for m in re.finditer(r'(?=\u2026([^\u2026\u201c\u201d"]{6,150}?)\u2026)', text):
+        q = m.group(1).strip()
+        pos = m.start()
+        if pos in _seen_qpos:
+            continue
         if 5 <= len(q) <= 150 and not _SCRIPTURE_RE.search(q):
-            quotes_with_pos.append((m.start(), q))
+            quotes_with_pos.append((pos, q, True))
+            _seen_qpos.add(pos)
 
     # Build a position-sorted list of refs once for midpoint calculations.
     _refs_by_pos = sorted(refs, key=lambda r: r.position)
@@ -216,16 +245,19 @@ def _extract_refs_with_context(text: str) -> list:
     # so the correct pairing is the first (nearest) ref at or after q_pos.
     # Fall back to nearest-by-distance only when no ref follows within limit.
     _INTERNAL_SENTENCE_RE = re.compile(r'[.!?]\s+[A-Z]')
-    for q_pos, q_text in quotes_with_pos:
+    for q_pos, q_text, is_ellipsis in quotes_with_pos:
         # Skip body-text fragments captured between two uses of the same
         # quoted word (e.g. '"muddy" ... body text ... "muddy"').  Real
         # scripture quotes are a single flowing clause; they do NOT contain
         # an internal sentence boundary like ". B" or "! T".
         if _INTERNAL_SENTENCE_RE.search(q_text):
             continue
-        # Also skip quotes that start with a lowercase letter — these are
-        # mid-sentence continuations, not standalone verse passages.
-        if q_text and q_text[0].islower():
+        # For smart/straight-quote delimited text, skip if it starts with a
+        # lowercase letter (these are genuine mid-sentence continuations).
+        # For ellipsis-delimited text, lowercase is expected — the author
+        # deliberately truncates verse text with "…", so the fragment may
+        # start mid-sentence but is still a valid verse passage.
+        if not is_ellipsis and q_text and q_text[0].islower():
             continue
         # _refs_by_pos is already position-sorted, so the first element
         # with position >= q_pos is the nearest following ref.
@@ -456,10 +488,80 @@ def _extract_refs_with_context(text: str) -> list:
             if 6 <= wc <= 30:
                 ref.commentary.append(cleaned)
 
+        # Fix C: for window sentences that contain an embedded scripture
+        # reference (e.g. "2 Sam 18:12 This unnamed person was loyal to him"),
+        # extract the text immediately AFTER the last ref in the sentence.
+        # This captures context that follows an inline citation in cases where
+        # the citation sits at the start of the sentence (so the whole segment
+        # was filtered by _good_text's not-alpha-start check).
+        for _cm in re.finditer(r'([^.!?]+)([.!?])', window):
+            seg = _cm.group(1)
+            sc_matches = list(_SCRIPTURE_RE.finditer(seg))
+            if not sc_matches:
+                continue
+            tail = seg[sc_matches[-1].end():].strip()
+            cleaned = _good_text(tail)
+            if not cleaned:
+                continue
+            wc = len(cleaned.split())
+            if 3 <= wc <= 12:
+                ref.topics.append(cleaned)
+            if 6 <= wc <= 30:
+                ref.commentary.append(cleaned)
+
         ref.paired_quotes = _dedup(ref.paired_quotes)
         ref.topics = _dedup(ref.topics)
         ref.commentary = _dedup(ref.commentary)
         ref.teaching_points = _dedup(ref.teaching_points)
+
+    # Fix D: second pass for refs that are STILL bare (no topics, commentary,
+    # paired_quotes, or teaching_points) after the midpoint-clamped first pass.
+    # Widen the backward window to 600 chars, using only the numbered-point
+    # block boundary as the floor (skip the midpoint clamp).  This lets refs
+    # embedded in densely-packed execution-list or subtitle-list sections pick
+    # up nearby sentences that the narrow clamped window excluded.
+    for ref in refs:
+        if ref.topics or ref.commentary or ref.paired_quotes or ref.teaching_points:
+            continue
+        pos = ref.position
+        # Recompute block boundaries (numbered-point only, no midpoint clamp).
+        bare_block_start = 0
+        bare_block_end = len(text)
+        for bp in all_point_boundaries:
+            if bp <= pos:
+                bare_block_start = bp
+            elif bp > pos:
+                bare_block_end = bp
+                break
+        wide_start = max(bare_block_start, pos - 600)
+        wide_end = min(bare_block_end, pos + 300)
+        window = text[wide_start:wide_end]
+        # If the window starts mid-sentence (lowercase/digit first char that
+        # doesn't look like a sentence opener), skip past the first fragment.
+        if window and not window[0].isupper() and window[0] not in ('"', '\u201c'):
+            first_end = max(window.find('.'), window.find('!'), window.find('?'))
+            if 0 < first_end < len(window) - 1:
+                window = window[first_end + 1:]
+        for _cm in re.finditer(r'([^.!?]+)([.!?])', window):
+            if _cm.group(2) == '?':
+                continue
+            if _cm.group(2) == '!' and len(_cm.group(1).split()) <= 5:
+                continue
+            seg = _cm.group(1)
+            # Try text after embedded scripture refs (same as Fix C).
+            sc_matches = list(_SCRIPTURE_RE.finditer(seg))
+            if sc_matches:
+                seg = seg[sc_matches[-1].end():].strip()
+            cleaned = _good_text(seg)
+            if not cleaned:
+                continue
+            wc = len(cleaned.split())
+            if 3 <= wc <= 12:
+                ref.topics.append(cleaned)
+            if 6 <= wc <= 30:
+                ref.commentary.append(cleaned)
+        ref.topics = _dedup(ref.topics)
+        ref.commentary = _dedup(ref.commentary)
 
     return refs
 
@@ -845,9 +947,13 @@ def _q_names(book_title, topic, correct_names, wrong_names, rng, negated=False):
 # ── Pool generation ────────────────────────────────────────────────────────
 
 def generate_question_pool(chapter, pool_size=None, seed=None, config=None, global_teachings=None, global_patterned_items=None):
-    """Generate a UO-SAT-style question pool for one chapter."""
-    target = pool_size or 15
-    target = max(10, min(20, target))
+    """Generate a UO-SAT-style question pool for one chapter.
+
+    The pool size is automatically scaled so that every scripture reference in
+    the chapter receives at least one question.  The caller-supplied pool_size
+    (or 15 as the default) acts as a *minimum*; the actual count may be higher
+    when the chapter contains more refs than that minimum.
+    """
     rng = random.Random(seed)
     book_title = "Loyalty and Disloyalty"
 
@@ -855,6 +961,11 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
     all_teachings = _extract_teachings(chapter.text)
     patterned = _extract_patterned_lists(chapter.text)
     names = _extract_names(chapter.text)
+
+    # Scale target so every ref can get a question.
+    # At least (pool_size or 15), but never fewer than the number of refs.
+    base_target = pool_size or 15
+    target = max(base_target, len(refs))
 
     # Merge teaching_points from all refs into all_teachings pool
     # This ensures FALSE options for biblical-basis questions are real
@@ -958,20 +1069,52 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
             return _q_names(book_title, topic, cn, wn, rng, negated=rng.choice([True, False]))
         return None
 
-    # First pass: one per ref
-    for ref in refs:
-        if len(questions) >= target:
-            break
-        _add(_try(ref))
+    def _try_any(ref):
+        """Exhaust all question types for this ref until one yields a question.
 
-    # Fill remaining
+        Used in the first pass to guarantee every ref gets at least one question.
+        Types are tried in rough priority order: scripture_found first (most
+        specific), then biblical_basis / talks_about (always possible), then
+        gleaned_from (needs context text).
+        """
+        # --- scripture / quotation types (need paired_quotes) ---
+        if ref.paired_quotes:
+            q = _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng)
+            if q:
+                return q
+            q = _q_quotation(ref, all_quotes, rng)
+            if q:
+                return q
+        # --- basis / talks (always fallback-available) ---
+        for neg in (False, True):
+            q = _q_biblical_basis(ref, all_teachings, rng, negated=neg)
+            if q:
+                return q
+            q = _q_talks_about(ref, all_topics, rng, negated=neg)
+            if q:
+                return q
+        # --- gleaned-from (needs commentary / topics) ---
+        pool = ref.teaching_points or ref.commentary or ref.topics
+        if pool:
+            for neg in (False, True):
+                q = _q_gleaned_from(ref, rng.choice(pool), refs, rng, negated=neg)
+                if q:
+                    return q
+        return None
+
+    # ── First pass: guarantee one question per scripture ref ──────────────
+    # No early-break so every ref is attempted regardless of target.
+    for ref in refs:
+        _add(_try_any(ref))
+
+    # ── Second pass: fill remaining slots with weighted-random types ──────
     attempts = 0
     while len(questions) < target and refs and attempts < target * 10:
         attempts += 1
         ref = rng.choice(refs)
         _add(_try(ref))
 
-    # Fallback
+    # ── Fallback: generic According-to questions if still short ──────────
     if len(questions) < target:
         dummy_topics = all_teachings or all_topics
         dummy_wrong = all_topics or all_teachings
