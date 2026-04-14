@@ -1,13 +1,16 @@
-fix: prevent body-text from being captured as scripture quote
+Add "cannot be gleaned from" question type + vary According-To stems
 
-Two targeted fixes for Chapter 10 Proverbs 17:13 issue:
+New question types matching exam examples:
+- T9 negated: 'The statement "..." cannot be gleaned from'
+  (correct ref = False; 4 wrong refs = True)
+- T8 negated: 'The scripture "..." cannot be found in'
+  (correct ref fixed to False for negated case)
 
-1. Point boundary detection: added lookbehind for digit+space in
-   _NUMBERED_POINT_RE so labels like f) that follow a scripture
-   reference end (e.g. Proverbs 17:13 f)) are detected.
+Stem variation for According-To / Names questions:
+  "According to various texts on the Doctrine of"
+  "According to several authorities on the Doctrine of"
+  "According to the book on"
+  "Based on various teachings on the Doctrine of"
 
-2. Quote filter: reject quotes containing internal sentence breaks.
-   Body text between two uses of quoted word muddy was being captured
-   as a 180-char scripture quote. Real verse quotes are single clauses.
-
-Regenerated all 180 questions.
+Also: teaching_points preferred over commentary for gleaned-from source.
+All 180 questions regenerated (seed 42).

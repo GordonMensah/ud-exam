@@ -563,30 +563,47 @@ def _q_scripture_found(ref, quote, all_refs, rng, negated=False):
         return None
     verb = "cannot" if negated else "can"
     stem = f'The scripture "{quote}" {verb} be found in'
-    opts, ans = _build_opts([ref.full_ref], wrong, rng)
+    if negated:
+        # True  = wrong refs (scripture genuinely CANNOT be found there)
+        # False = correct ref (scripture CAN be found → "cannot" is False)
+        opts, ans = _build_opts(wrong, [ref.full_ref], rng)
+    else:
+        opts, ans = _build_opts([ref.full_ref], wrong, rng)
     return _mkq(stem, opts, ans, ref.full_ref, quote)
 
 
-# T9: 'The statement "…" can be gleaned from' → tricky refs
-def _q_gleaned_from(ref, statement, all_refs, rng):
+# T9/T10: 'The statement "…" can[not] be gleaned from' → tricky refs
+def _q_gleaned_from(ref, statement, all_refs, rng, negated=False):
     wrong = _tricky_wrong_refs(ref, all_refs, rng, n=4)
     if len(wrong) < 4:
         return None
-    stem = f'The statement "{statement}" can be gleaned from'
-    opts, ans = _build_opts([ref.full_ref], wrong, rng)
+    verb = "cannot" if negated else "can"
+    stem = f'The statement "{statement}" {verb} be gleaned from'
+    if negated:
+        # True  = wrong refs (statement genuinely CANNOT be gleaned from them)
+        # False = correct ref (statement CAN be gleaned → "cannot" is False)
+        opts, ans = _build_opts(wrong, [ref.full_ref], rng)
+    else:
+        opts, ans = _build_opts([ref.full_ref], wrong, rng)
     return _mkq(stem, opts, ans, ref.full_ref, statement)
 
 
-# T10/T11: "According to several authorities on the Doctrine of …,
+# T10/T11: "According to various texts / several authorities on the Doctrine of …,
 #            the following are [not] [topic]"
+_ACCORDING_TO_STEMS = [
+    "According to various texts on the Doctrine of",
+    "According to several authorities on the Doctrine of",
+    "According to the book on",
+    "Based on various teachings on the Doctrine of",
+]
+
+
 def _q_according_to(book_title, topic, correct, wrong, rng, negated=False):
     if len(correct) < 1 or len(wrong) < 3:
         return None
     neg = "not " if negated else ""
-    stem = (
-        f"According to several authorities on the Doctrine of "
-        f"{book_title}, the following are {neg}{topic}"
-    )
+    intro = rng.choice(_ACCORDING_TO_STEMS)
+    stem = f"{intro} {book_title}, the following are {neg}{topic}"
     if negated:
         nt = rng.randint(2, 3); nf = 5 - nt
         tp, fp = wrong, correct
@@ -604,10 +621,8 @@ def _q_names(book_title, topic, correct_names, wrong_names, rng, negated=False):
     if len(correct_names) < 1 or len(wrong_names) < 3:
         return None
     neg = "not " if negated else ""
-    stem = (
-        f"According to several authorities on the Doctrine of "
-        f"{book_title}, the following are {neg}{topic}"
-    )
+    intro = rng.choice(_ACCORDING_TO_STEMS)
+    stem = f"{intro} {book_title}, the following are {neg}{topic}"
     if negated:
         nt = rng.randint(2, 3); nf = 5 - nt
         tp, fp = wrong_names, correct_names
@@ -662,11 +677,11 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None):
 
     rng.shuffle(refs)
 
-    # Weights: talks, !talks, basis, !basis, quot, !quot, scrip, !scrip, glean, acc, !acc, names
-    WEIGHTS = [3, 2, 2, 2, 4, 3, 3, 1, 3, 2, 1, 1]
+    # Weights: talks, !talks, basis, !basis, quot, !quot, scrip, !scrip, glean, !glean, acc, !acc, names
+    WEIGHTS = [3, 2, 2, 2, 4, 3, 3, 1, 3, 2, 2, 1, 1]
 
     def _try(ref):
-        t = rng.choices(range(12), weights=WEIGHTS, k=1)[0]
+        t = rng.choices(range(13), weights=WEIGHTS, k=1)[0]
 
         if t == 0:
             return _q_talks_about(ref, all_topics, rng)
@@ -684,24 +699,27 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None):
             return _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng)
         if t == 7 and ref.paired_quotes:
             return _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng, negated=True)
-        if t == 8 and (ref.commentary or ref.topics):
-            stmt = rng.choice(ref.commentary or ref.topics)
+        if t == 8 and (ref.commentary or ref.topics or ref.teaching_points):
+            stmt = rng.choice(ref.teaching_points or ref.commentary or ref.topics)
             return _q_gleaned_from(ref, stmt, refs, rng)
-        if t == 9 and patterned:
-            gn = rng.choice(list(patterned.keys()))
-            items = patterned[gn]
-            wp = [i for grp in patterned.values() for i in grp if i not in items]
-            if not wp:
-                wp = all_topics[:10]
-            return _q_according_to(book_title, gn, items, wp, rng)
+        if t == 9 and (ref.commentary or ref.topics or ref.teaching_points):
+            stmt = rng.choice(ref.teaching_points or ref.commentary or ref.topics)
+            return _q_gleaned_from(ref, stmt, refs, rng, negated=True)
         if t == 10 and patterned:
             gn = rng.choice(list(patterned.keys()))
             items = patterned[gn]
             wp = [i for grp in patterned.values() for i in grp if i not in items]
             if not wp:
                 wp = all_topics[:10]
+            return _q_according_to(book_title, gn, items, wp, rng)
+        if t == 11 and patterned:
+            gn = rng.choice(list(patterned.keys()))
+            items = patterned[gn]
+            wp = [i for grp in patterned.values() for i in grp if i not in items]
+            if not wp:
+                wp = all_topics[:10]
             return _q_according_to(book_title, gn, items, wp, rng, negated=True)
-        if t == 11 and len(names) >= 5:
+        if t == 12 and len(names) >= 5:
             topic = rng.choice([
                 "rebels who ended up at the eighth stage of disloyalty",
                 "characters who showed loyalty",
