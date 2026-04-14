@@ -274,12 +274,34 @@ def _extract_refs_with_context(text: str) -> list:
                 return False
         return True
 
+    # Pattern that detects a heading-to-body transition in normalized text.
+    # After whitespace normalization, a numbered-point heading like
+    # "7. In order to reap our full reward" is immediately followed by
+    # the first body sentence "Those who benefit from..." with NO
+    # punctuation between them.  The signature is: a content word ending
+    # in a lowercase letter, then a space, then a sentence-initial word
+    # that would never appear mid-phrase (pronoun, intensifier, etc.).
+    _HEADING_CONCAT_RE = re.compile(r'(?<=[a-z]) (?:Those|These|They|Very|There|The|I)\b')
+
+    _VAGUE_DEMON_RE = re.compile(
+        r'\b(?:that|this|these|those)\s+'
+        r'(?:mistake|error|sin|thing|habit|practice|act|approach|attitude|behaviour|behavior)\b',
+        re.IGNORECASE,
+    )
+
     points_with_pos = []
     for m in _NUMBERED_POINT_RE.finditer(text):
         point_text = m.group(2).strip().rstrip(".")
         # Take just the first sentence of the point
         first_sent = re.split(r'(?<=[.!?])\s+', point_text)[0].rstrip(".")
-        if 4 <= len(first_sent.split()) <= 25:
+        # If the first "sentence" is actually a heading+body concatenation,
+        # truncate to just the heading (the part before the join point).
+        # E.g. "In order to reap our full reward Those who benefit..."
+        #   → "In order to reap our full reward"
+        hc = _HEADING_CONCAT_RE.search(first_sent)
+        if hc:
+            first_sent = first_sent[:hc.start()].rstrip()
+        if 4 <= len(first_sent.split()) <= 25 and not _VAGUE_DEMON_RE.search(first_sent):
             points_with_pos.append((m.start(), first_sent))
 
     # Also extract sentences that start with key teaching verbs
@@ -293,7 +315,7 @@ def _extract_refs_with_context(text: str) -> list:
     )
     for m in _TEACHING_SENT_RE.finditer(text):
         t = m.group(1).strip().rstrip(".")
-        if 5 <= len(t.split()) <= 25:
+        if 5 <= len(t.split()) <= 25 and not _VAGUE_DEMON_RE.search(t):
             points_with_pos.append((m.start(), t))
 
     # Pair each teaching point with the CLOSEST ref — but ONLY if they
@@ -340,6 +362,12 @@ def _extract_refs_with_context(text: str) -> list:
         s_lower = s.lower()
         if any(s_lower.startswith(p) for p in _META_PREFIXES):
             return None
+        # Reject vague demonstrative references that only make sense with prior
+        # context, e.g. "Do not make that mistake" / "Avoid this error".
+        # These appear as imperatives where the object is a demonstrative noun
+        # phrase — meaningless as a standalone quiz option.
+        if re.search(r'\b(?:that|this|these|those)\s+(?:mistake|error|sin|thing|habit|practice|act|approach|attitude|behaviour|behavior)\b', s_lower):
+            return None
         # Reject apparent mid-word truncations: last word ends in letters but
         # the original sentence clearly continued (e.g. "or retra").
         # Heuristic: if the raw text ended at a window boundary and the last
@@ -374,7 +402,12 @@ def _extract_refs_with_context(text: str) -> list:
             block_end = min(block_end, (ref.position + next_pos) // 2)
 
         start = max(block_start, ref.position - 400)
-        end = min(block_end, ref.position + 400)
+        # Forward window is intentionally small (150 chars).
+        # In this book's style the cited verse FOLLOWS the teaching statement,
+        # so the relevant content is mostly BEFORE the ref.  A large forward
+        # window bleeds past the next section heading (e.g. "Can Rebels
+        # Repent?") into completely unrelated material.
+        end = min(block_end, ref.position + 150)
         window = text[start:end]
         # Trim to last sentence boundary so we never get partial sentences
         # from the window edge (avoids truncated options like "or retra").
@@ -387,11 +420,13 @@ def _extract_refs_with_context(text: str) -> list:
 
         # Short topic descriptions from sentences.
         # We iterate with finditer to preserve the trailing delimiter so that
-        # rhetorical questions (ending in "?") are skipped — they are NOT
-        # valid descriptions of what a verse "talks about".
+        # rhetorical questions (ending in "?") and short exclamatory headings
+        # (e.g. "Friendly and Flashy!") are skipped.
         for _tm in re.finditer(r'([^.;!?]+)([.;!?])', window):
             if _tm.group(2) == '?':
                 continue  # skip rhetorical / interrogative sentences
+            if _tm.group(2) == '!' and len(_tm.group(1).split()) <= 5:
+                continue  # skip short exclamatory headings
             cleaned = _good_text(_tm.group(1))
             if not cleaned:
                 continue
@@ -399,9 +434,15 @@ def _extract_refs_with_context(text: str) -> list:
             if 3 <= wc <= 12:
                 ref.topics.append(cleaned)
 
-        # Teaching/commentary statements (longer sentences near the ref)
-        for sent in _SENTENCE_RE.split(window):
-            cleaned = _good_text(sent)
+        # Teaching/commentary statements (longer sentences near the ref).
+        # Same finditer approach as topics so that ?-ending rhetorical
+        # questions and short ! headings are filtered out here too.
+        for _cm in re.finditer(r'([^.!?]+)([.!?])', window):
+            if _cm.group(2) == '?':
+                continue  # skip questions (rhetorical or otherwise)
+            if _cm.group(2) == '!' and len(_cm.group(1).split()) <= 5:
+                continue  # skip short exclamatory headings
+            cleaned = _good_text(_cm.group(1))
             if not cleaned:
                 continue
             wc = len(cleaned.split())

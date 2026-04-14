@@ -1,25 +1,39 @@
-Fix _same_point_block off-by-one: use <= hi not < hi
+Fix forward-window bleed, heading-sentence concat, vague teaching points
 
-Root cause: when a teaching point is extracted at pos P (= m.start()),
-P is itself a boundary in all_point_boundaries. The old check
-  lo < bp < hi  (strictly less than hi)
-never triggered when bp == hi == P, so a ref from the PREVIOUS
-point block was wrongly considered "in the same block" as the
-teaching that STARTS the new block.
+Four targeted fixes for wrong commentary and options:
 
-Fix: change to  lo < bp <= hi  so the boundary at the teaching's
-own start position correctly separates it from earlier refs.
+1. Forward window 400→150 chars (Step 5)
+   In this book, the verse is CITED AFTER the teaching statement, so
+   relevant content is mostly BEFORE the ref. A 400-char forward
+   window bled past section headings (e.g. "Can Rebels Repent?") into
+   completely unrelated text.
+   Fix: 1 Timothy 3:15 no longer picks up "Every single disciple,
+   except John the beloved..." from the next section.
 
-Fixes:
-  - Ch10: "If you intend to set up a church..." (point g, no
-    scripture) was incorrectly attributed to Ezekiel 34:18 (point f)
-  - Ch11: "A murmurer must be driven away from the church" (point 4,
-    Philippians 2:14) was incorrectly attributed to 1 Timothy 3:8
-    (point 3)
+2. Commentary loop now uses finditer (same as topics loop)
+   The old _SENTENCE_RE.split() approach discarded delimiters, so
+   rhetorical questions ("Is this not repentance?") and short
+   exclamatory headings ("Friendly and Flashy!") were indistinguishable
+   from normal statements.  Both loops now:
+     - skip ?-ending sentences (rhetorical questions)
+     - skip !-ending sentences with ≤5 words (exclamatory headings)
 
-Verified:
-  Ezekiel 34:18 teaching_points: ["Do not muddy the waters..."] only
-  1 Timothy 3:8 teaching_points: ["A double-tongued person..."] only
-  Philippians 2:14 teaching_points: ["A murmurer must be driven..."]
+3. _HEADING_CONCAT_RE: truncate numbered-point headings at body join
+   After whitespace normalization, "7. In order to reap our full reward"
+   and its first body sentence "Those who benefit..." run together with
+   no punctuation between them.  The regex detects the join point
+   ([a-z] Those/These/They/Very/There/The/I) and truncates to the
+   clean heading only:
+     "In order to reap our full reward Those who benefit..."
+       → "In order to reap our full reward"
+     "To fight the 5th column Very early in my ministry..."
+       → "To fight the 5th column"
+     "For the love of God to fill the church The ministry..."
+       → "For the love of God to fill the church"
+
+4. _VAGUE_DEMON_RE: filter vague demonstrative teaching sentences
+   "Do not make that mistake" / "Avoid this error" require prior
+   context to be meaningful.  Added to _good_text() and to
+   teaching_points extraction.
 
 All 180 questions regenerated (seed 42).
