@@ -260,12 +260,17 @@ def _extract_refs_with_context(text: str) -> list:
         """Return True if both positions fall within the same numbered-point block.
 
         Two positions are in the same block if no numbered-point boundary
-        sits strictly between them.  This prevents pairing content from
-        point 1 (which may have no scripture) with the ref in point 2.
+        sits between them (inclusive of the upper endpoint).
+
+        Using <= hi (not strict < hi) is essential: the teaching point
+        extraction records pos_a = m.start(), which IS the boundary itself.
+        If the ref sits before this boundary (pos_b < pos_a), the boundary
+        at pos_a == hi must count as a separator — otherwise a teaching
+        from point 4 gets paired with a ref that belongs to point 3.
         """
         lo, hi = min(pos_a, pos_b), max(pos_a, pos_b)
         for bp in all_point_boundaries:
-            if lo < bp < hi:
+            if lo < bp <= hi:
                 return False
         return True
 

@@ -1,21 +1,25 @@
-Filter rhetorical questions from topics extraction
+Fix _same_point_block off-by-one: use <= hi not < hi
 
-Root cause: topics split on [.;!?] consumed the "?" delimiter,
-making rhetorical questions like "Is this not repentance?" and
-"Didn't he repent?" indistinguishable from normal topic phrases.
+Root cause: when a teaching point is extracted at pos P (= m.start()),
+P is itself a boundary in all_point_boundaries. The old check
+  lo < bp < hi  (strictly less than hi)
+never triggered when bp == hi == P, so a ref from the PREVIOUS
+point block was wrongly considered "in the same block" as the
+teaching that STARTS the new block.
 
-Fix: changed topics extraction to use re.finditer() so the
-trailing delimiter is preserved, and question-ending sentences
-(delimiter == '?') are skipped entirely.
+Fix: change to  lo < bp <= hi  so the boundary at the teaching's
+own start position correctly separates it from earlier refs.
 
-Also expanded _META_PREFIXES with:
-  "i have often", "i have wondered", "i have known",
-  "what about", "why is", "this is why"
+Fixes:
+  - Ch10: "If you intend to set up a church..." (point g, no
+    scripture) was incorrectly attributed to Ezekiel 34:18 (point f)
+  - Ch11: "A murmurer must be driven away from the church" (point 4,
+    Philippians 2:14) was incorrectly attributed to 1 Timothy 3:8
+    (point 3)
 
-Result (Matthew 27:5 topics):
-  Before: ['What about Judas', 'Didn't he repent',
-           'Is this not repentance', ...]
-  After:  ['To repent means to turn around, and to change',
-           'Judas never changed']
+Verified:
+  Ezekiel 34:18 teaching_points: ["Do not muddy the waters..."] only
+  1 Timothy 3:8 teaching_points: ["A double-tongued person..."] only
+  Philippians 2:14 teaching_points: ["A murmurer must be driven..."]
 
 All 180 questions regenerated (seed 42).
