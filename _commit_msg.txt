@@ -1,13 +1,17 @@
-fix: clean reason-phrase extraction + gleaned-from prefix
+fix: correct quote→ref pairing + Satan/Lucifer alias dedup
 
-_extract_patterned_lists:
-- Replace fragile lookbehind _REASON_POINT_RE with simple \b\d+\. pattern
-- Add _BODY_STARTER_RE + _trim_reason_phrase() to strip body commentary
-  that follows reason titles with no punctuation delimiter
-  ("To fight the fifth column Very early..." → "To fight the fifth column")
-- Ordinal subs now use pre-compiled list (_ORD_SUBS) inside function
-- Drop items ending with a bare digit (prose-pattern artefact like "...is important 1")
+quote pairing (Step 3 in _extract_refs_with_context):
+- Replace midpoint-window pairing with nearest-after-ref logic.
+  In this book the cited verse always appears BEFORE its scripture
+  reference, so the correct pairing is the first ref at or after
+  the quote's position (up to 500 chars away).
+  Previously the midpoint scheme assigned "And he [Joab] took three
+  darts" (right before 2 Sam 18:14) to 2 Sam 18:12 because the quote
+  fell in 18:12's midpoint territory.
 
-_q_gleaned_from:
-- _INCOMPLETE_REASON_RE prefix now lowercases first letter of matched phrase
-  ("Loyalty is important To fight..." → "Loyalty is important to fight...")
+_extract_names / _NAME_ALIAS_GROUPS:
+- Add _NAME_ALIAS_GROUPS constant for names that refer to the same
+  biblical entity (Lucifer = Satan = the dragon).
+- When both names in a group appear in the chapter text, keep only
+  the canonical (first-in-group) form so they can't both land as
+  separate answer options in the same question.

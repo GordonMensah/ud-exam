@@ -211,8 +211,10 @@ def _extract_refs_with_context(text: str) -> list:
                 break
         return lo, hi
 
-    # Step 3: pair each quote with the CLOSEST ref, but only within that
-    # ref's midpoint window (no bleed-over into neighbouring refs).
+    # Step 3: pair each quote with the nearest ref that FOLLOWS it.
+    # In this book the citation always appears AFTER the quoted verse text,
+    # so the correct pairing is the first (nearest) ref at or after q_pos.
+    # Fall back to nearest-by-distance only when no ref follows within limit.
     _INTERNAL_SENTENCE_RE = re.compile(r'[.!?]\s+[A-Z]')
     for q_pos, q_text in quotes_with_pos:
         # Skip body-text fragments captured between two uses of the same
@@ -225,10 +227,15 @@ def _extract_refs_with_context(text: str) -> list:
         # mid-sentence continuations, not standalone verse passages.
         if q_text and q_text[0].islower():
             continue
-        lo, hi = _midpoint_window(q_pos)
-        eligible = [r for r in refs if lo <= r.position <= hi] or refs
-        closest = min(eligible, key=lambda r: abs(r.position - q_pos))
-        dist = abs(closest.position - q_pos)
+        # _refs_by_pos is already position-sorted, so the first element
+        # with position >= q_pos is the nearest following ref.
+        after = [r for r in _refs_by_pos if r.position >= q_pos]
+        if after:
+            closest = after[0]
+            dist = closest.position - q_pos
+        else:
+            closest = min(refs, key=lambda r: abs(r.position - q_pos))
+            dist = abs(closest.position - q_pos)
         if dist < 500:  # within 500 chars
             closest.paired_quotes.append(q_text)
 
@@ -543,6 +550,15 @@ def _extract_patterned_lists(text: str) -> dict:
     return {k: v for k, v in groups.items() if len(v) >= 3}
 
 
+# Names that are different labels for the same biblical entity.
+# When multiple names in a group appear in the text, keep only the
+# canonical (first listed) form so both don't appear as separate
+# options in the same question.
+_NAME_ALIAS_GROUPS: list[list[str]] = [
+    ["Lucifer", "Satan"],   # the dragon / the devil / Lucifer / Satan — one entity
+]
+
+
 def _extract_names(text: str) -> list:
     """Extract biblical character names."""
     # Common biblical names that appear in Loyalty & Disloyalty
@@ -558,7 +574,16 @@ def _extract_names(text: str) -> list:
     for name in biblical_names:
         if name.lower() in text.lower() and name not in found:
             found.append(name)
-    return found
+    # Deduplicate aliases: if more than one name from a group appears, keep
+    # only the canonical (first-in-group) form.
+    shadowed: set[str] = set()
+    for group in _NAME_ALIAS_GROUPS:
+        first_found = next((n for n in group if n in found), None)
+        if first_found:
+            for name in group:
+                if name != first_found:
+                    shadowed.add(name)
+    return [n for n in found if n not in shadowed]
 
 
 # ── Question builders ──────────────────────────────────────────────────────
