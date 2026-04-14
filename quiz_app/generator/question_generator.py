@@ -309,6 +309,8 @@ def _extract_refs_with_context(text: str) -> list:
     _META_PREFIXES = (
         "it is my prayer", "let us all", "the answer is",
         "as i said", "i believe", "i have seen", "i have rarely",
+        "i have often", "i have wondered", "i have known",
+        "what about", "why is", "this is why",
         "in other words", "this is another reason", "we all",
         "this will invite", "it cannot possibly", "the reason why",
         "it is important to note", "please note", "note that",
@@ -378,9 +380,14 @@ def _extract_refs_with_context(text: str) -> list:
         if last_boundary > 20:
             window = window[:last_boundary + 1]
 
-        # Short topic descriptions from sentences
-        for sent in re.split(r"[.;!?]", window):
-            cleaned = _good_text(sent)
+        # Short topic descriptions from sentences.
+        # We iterate with finditer to preserve the trailing delimiter so that
+        # rhetorical questions (ending in "?") are skipped — they are NOT
+        # valid descriptions of what a verse "talks about".
+        for _tm in re.finditer(r'([^.;!?]+)([.;!?])', window):
+            if _tm.group(2) == '?':
+                continue  # skip rhetorical / interrogative sentences
+            cleaned = _good_text(_tm.group(1))
             if not cleaned:
                 continue
             wc = len(cleaned.split())

@@ -1,16 +1,21 @@
-Add "cannot be gleaned from" question type + vary According-To stems
+Filter rhetorical questions from topics extraction
 
-New question types matching exam examples:
-- T9 negated: 'The statement "..." cannot be gleaned from'
-  (correct ref = False; 4 wrong refs = True)
-- T8 negated: 'The scripture "..." cannot be found in'
-  (correct ref fixed to False for negated case)
+Root cause: topics split on [.;!?] consumed the "?" delimiter,
+making rhetorical questions like "Is this not repentance?" and
+"Didn't he repent?" indistinguishable from normal topic phrases.
 
-Stem variation for According-To / Names questions:
-  "According to various texts on the Doctrine of"
-  "According to several authorities on the Doctrine of"
-  "According to the book on"
-  "Based on various teachings on the Doctrine of"
+Fix: changed topics extraction to use re.finditer() so the
+trailing delimiter is preserved, and question-ending sentences
+(delimiter == '?') are skipped entirely.
 
-Also: teaching_points preferred over commentary for gleaned-from source.
+Also expanded _META_PREFIXES with:
+  "i have often", "i have wondered", "i have known",
+  "what about", "why is", "this is why"
+
+Result (Matthew 27:5 topics):
+  Before: ['What about Judas', 'Didn't he repent',
+           'Is this not repentance', ...]
+  After:  ['To repent means to turn around, and to change',
+           'Judas never changed']
+
 All 180 questions regenerated (seed 42).
