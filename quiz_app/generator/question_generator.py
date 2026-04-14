@@ -505,6 +505,39 @@ def _extract_patterned_lists(text: str) -> dict:
             if 3 <= len(t.split()) <= 15:
                 groups.setdefault(group_name, []).append(t)
 
+    # Numbered points starting with infinitive or prepositional phrases are
+    # the book’s explicit “reasons why loyalty is important” list.
+    # They look like: “2. To fight the 5th column”, “3. For the love of God…”
+    # \b\d+\. anchors to a word-boundary digit — no fragile lookbehind needed.
+    _ORD_SUBS = [
+        (re.compile(r'\b1st\b'), 'first'),
+        (re.compile(r'\b2nd\b'), 'second'),
+        (re.compile(r'\b3rd\b'), 'third'),
+        (re.compile(r'\b4th\b'), 'fourth'),
+        (re.compile(r'\b5th\b'), 'fifth'),
+        (re.compile(r'\b6th\b'), 'sixth'),
+        (re.compile(r'\b7th\b'), 'seventh'),
+        (re.compile(r'\b8th\b'), 'eighth'),
+    ]
+    reason_items = []
+    for m in re.finditer(
+        r'\b\d{1,2}\.\s+((?:To |For |In order )[^.!?\n]{5,80})',
+        text,
+        re.MULTILINE,
+    ):
+        raw = m.group(1)
+        item = _trim_reason_phrase(raw).rstrip('.,;:!?')
+        for pat, repl in _ORD_SUBS:
+            item = pat.sub(repl, item)
+        if 3 <= len(item.split()) <= 12:
+            reason_items.append(item)
+    if len(reason_items) >= 3:
+        groups.setdefault("reasons why the subject of loyalty is important", []).extend(reason_items)
+
+    # Drop items that end with a bare digit (artefact from prose-pattern stopping at "1.").
+    for k in list(groups):
+        groups[k] = [t for t in groups[k] if not re.search(r'\d$', t)]
+
     for k in groups:
         groups[k] = _dedup(groups[k])
     return {k: v for k, v in groups.items() if len(v) >= 3}
@@ -626,19 +659,50 @@ def _q_scripture_found(ref, quote, all_refs, rng, negated=False):
 
 
 # T9/T10: 'The statement "…" can[not] be gleaned from' → tricky refs
+# Numbered-point reason phrases like "For the love of God to fill the church"
+# are dependent clauses. Prefix them so the stem is a complete sentence:
+#   "Loyalty is important for the love of God to fill the church"
+_INCOMPLETE_REASON_RE = re.compile(r'^(?:To |For (?:the )?|In order to )', re.IGNORECASE)
+
+# Words that typically open body-commentary sentences appended right after a reason title.
+# Used by _trim_reason_phrase to strip that suffix.
+_BODY_STARTER_RE = re.compile(
+    r'\s+(?=(?:Very|The|One|As|Those|But|This|Each|When|While|If|Many|Most|Now'
+    r'|We|You|He|She|They|Your|My|Our|I)\b)'
+)
+
+
+def _trim_reason_phrase(text: str) -> str:
+    """Strip body-commentary suffix from an extracted infinitive reason phrase.
+
+    Reason titles like 'To fight the fifth column' are followed directly
+    (without any punctuation) by body text like 'Very early in my ministry…'.
+    This function truncates at the first sentence-opening word that follows
+    the infinitive prefix (first 12 chars are skipped to avoid trimming within
+    the prefix itself).
+    """
+    m = _BODY_STARTER_RE.search(text, 12)
+    if m:
+        return text[: m.start()].strip()
+    return text.strip()
+
+
 def _q_gleaned_from(ref, statement, all_refs, rng, negated=False):
     wrong = _tricky_wrong_refs(ref, all_refs, rng, n=4)
     if len(wrong) < 4:
         return None
+    stmt = statement
+    if _INCOMPLETE_REASON_RE.match(stmt):
+        stmt = "Loyalty is important " + stmt[0].lower() + stmt[1:]
     verb = "cannot" if negated else "can"
-    stem = f'The statement "{statement}" {verb} be gleaned from'
+    stem = f'The statement "{stmt}" {verb} be gleaned from'
     if negated:
         # True  = wrong refs (statement genuinely CANNOT be gleaned from them)
         # False = correct ref (statement CAN be gleaned → "cannot" is False)
         opts, ans = _build_opts(wrong, [ref.full_ref], rng)
     else:
         opts, ans = _build_opts([ref.full_ref], wrong, rng)
-    return _mkq(stem, opts, ans, ref.full_ref, statement)
+    return _mkq(stem, opts, ans, ref.full_ref, stmt)
 
 
 # T10/T11: "According to various texts / several authorities on the Doctrine of …,
@@ -690,7 +754,7 @@ def _q_names(book_title, topic, correct_names, wrong_names, rng, negated=False):
 
 # ── Pool generation ────────────────────────────────────────────────────────
 
-def generate_question_pool(chapter, pool_size=None, seed=None, config=None):
+def generate_question_pool(chapter, pool_size=None, seed=None, config=None, global_teachings=None):
     """Generate a UO-SAT-style question pool for one chapter."""
     target = pool_size or 15
     target = max(10, min(20, target))
@@ -708,6 +772,15 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None):
     all_teachings = _dedup(
         all_teachings + [tp for r in refs for tp in r.teaching_points]
     )
+
+    # Supplement with cross-chapter teachings so that biblical-basis FALSE
+    # options can include topics from other chapters (e.g. "The execution
+    # stage of disloyalty" as a distractor for a ch1 verse question).
+    if global_teachings:
+        local_set = set(t.lower() for t in all_teachings)
+        all_teachings = _dedup(
+            all_teachings + [t for t in global_teachings if t.lower() not in local_set]
+        )
 
     # Flat pools for wrong answers
     all_topics = _dedup([t for r in refs for t in r.topics])
@@ -818,10 +891,23 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None):
 def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
     """Generate question pools for all chapters."""
     master_rng = random.Random(seed)
+
+    # First pass: collect all teachings and patterned-list items from every
+    # chapter so they can be used as cross-chapter FALSE options.
+    global_teachings = []
+    for chapter in chapters:
+        global_teachings.extend(_extract_teachings(chapter.text))
+        refs = _extract_refs_with_context(chapter.text)
+        global_teachings.extend(tp for r in refs for tp in r.teaching_points)
+        for items in _extract_patterned_lists(chapter.text).values():
+            global_teachings.extend(items)
+    global_teachings = _dedup(global_teachings)
+
     output = {}
     for chapter in chapters:
         ch_seed = master_rng.randint(1, 1_000_000)
         output[chapter.chapter_id] = generate_question_pool(
             chapter=chapter, pool_size=pool_size, seed=ch_seed,
+            global_teachings=global_teachings,
         )
     return output
