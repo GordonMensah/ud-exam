@@ -506,9 +506,26 @@ def _extract_patterned_lists(text: str) -> dict:
         (r"(mark(?:s)?\s+of\s+(?:godly\s+)?repentance.{0,40}?)(?:\.|,|;|$)", "marks of godly repentance"),
     ]
 
+    # Reject prose-pattern items that start with a pronoun/common-subject word —
+    # these are accidental matches of whole sentences, not actual list items.
+    _PROSE_REJECT_RE = re.compile(
+        r'^(?:you |we |it |this |that |some |jesus |i |there |they |your |he |she )',
+        re.IGNORECASE,
+    )
+    # Trim body commentary after a Stage title.
+    # "The Critical Stage A disloyal person…" → "The Critical Stage"
+    # "The Political Stage When a person becomes political" → "The Political Stage"
+    # Only fires when a capital word follows "Stage " (new sentence, not "of disloyalty").
+    _STAGE_BODY_TRIM_RE = re.compile(r'(\bStage\b)(\s+[A-Z].+$)')
+
     for pat, group_name in patterns:
         for m in re.finditer(pat, text, re.IGNORECASE):
             t = m.group(1).strip().rstrip(".,;:!?") if m.group(1) else m.group(0).strip().rstrip(".,;:!?")
+            # Skip pronoun-led prose fragments
+            if _PROSE_REJECT_RE.match(t):
+                continue
+            # Trim body commentary that follows a Stage title
+            t = _STAGE_BODY_TRIM_RE.sub(r'\1', t).strip()
             if 3 <= len(t.split()) <= 15:
                 groups.setdefault(group_name, []).append(t)
 
@@ -557,6 +574,23 @@ def _extract_patterned_lists(text: str) -> dict:
 _NAME_ALIAS_GROUPS: list[list[str]] = [
     ["Lucifer", "Satan"],   # the dragon / the devil / Lucifer / Satan — one entity
 ]
+
+# Categorise names so _q_names picks semantically correct options.
+# 'rebel': disloyal / betrayed their leader.
+# 'loyal': showed loyalty / stayed faithful.
+_REBEL_NAMES: frozenset = frozenset({
+    "Lucifer", "Satan", "Absalom", "Ahithophel", "Judas", "Joab",
+    "Shemei", "Korah", "Dathan", "Abiram", "Diotrephes", "Demas",
+    "Alexander", "Jezebel", "Miriam", "Ziba", "Laban", "Esau",
+})
+_LOYAL_NAMES: frozenset = frozenset({
+    "David", "Zadok", "Ahimaaz", "Barnabas", "Paul", "Peter",
+    "Timothy", "Titus", "Philemon", "Jonathan", "Samuel", "Moses",
+    "Eli", "Gehazi", "Aaron", "Jacob",
+})
+# Topic keywords that determine which pool is 'correct' in _q_names.
+_REBEL_TOPIC_KEYWORDS = ("betray", "rebel", "disloy", "eighth stage", "independent spirit")
+_LOYAL_TOPIC_KEYWORDS = ("loyal", "faithful", "allegian", "characters who showed")
 
 
 def _extract_names(text: str) -> list:
@@ -651,17 +685,24 @@ def _q_biblical_basis(ref, all_teachings, rng, negated=False):
 def _q_quotation(ref, all_quotes_flat, rng, negated=False):
     my = ref.paired_quotes[:10]
     other = [q for q in all_quotes_flat if q not in my]
-    if len(my) < 2 or len(other) < 2:
+    # Need at least 1 quote from this ref and 4 from other refs to build 5 options.
+    if len(my) < 1 or len(other) < 4:
         return None
     verb = "cannot" if negated else "can"
     stem = f"The following quotations {verb} be found in {ref.full_ref}"
     if negated:
-        nt = rng.randint(2, 3); nf = 5 - nt
+        # True options = other refs (cannot be found here)
+        # False options = my quotes (can be found here)
+        nt = min(rng.randint(2, 3), len(other))
+        nf = min(5 - nt, len(my))
         tp, fp = other, my
     else:
-        nt = rng.randint(2, 3); nf = 5 - nt
+        # True options = my quotes (can be found here)
+        # False options = other refs (cannot be found here)
+        nt = min(rng.randint(1, 2), len(my))
+        nf = min(5 - nt, len(other))
         tp, fp = my, other
-    if len(tp) < nt or len(fp) < nf:
+    if len(tp) < nt or len(fp) < nf or nt + nf < 5:
         return None
     opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
     return _mkq(stem, opts, ans, ref.full_ref, "; ".join(my[:2]))
@@ -760,26 +801,50 @@ def _q_according_to(book_title, topic, correct, wrong, rng, negated=False):
 
 # T12: Name-based: "the following are [not] rebels/characters who [X]"
 def _q_names(book_title, topic, correct_names, wrong_names, rng, negated=False):
-    if len(correct_names) < 1 or len(wrong_names) < 3:
+    """Generate a question about biblical characters matching (or not) a topic.
+
+    Correct names are drawn from the semantically-right pool for the topic
+    (rebels for betrayal topics, loyal for loyalty topics).  Wrong names
+    are drawn from the opposite pool.
+    """
+    # Re-sort correct/wrong based on topic semantics so David never appears
+    # as a 'betrayer' and Absalom never appears as a 'loyal character'.
+    topic_lower = topic.lower()
+    if any(kw in topic_lower for kw in _REBEL_TOPIC_KEYWORDS):
+        true_pool  = [n for n in correct_names + wrong_names if n in _REBEL_NAMES]
+        false_pool = [n for n in correct_names + wrong_names if n in _LOYAL_NAMES]
+    elif any(kw in topic_lower for kw in _LOYAL_TOPIC_KEYWORDS):
+        true_pool  = [n for n in correct_names + wrong_names if n in _LOYAL_NAMES]
+        false_pool = [n for n in correct_names + wrong_names if n in _REBEL_NAMES]
+    else:
+        true_pool, false_pool = correct_names, wrong_names
+    if not true_pool or not false_pool:
+        true_pool, false_pool = correct_names, wrong_names  # fall back to caller's pools
+    if len(true_pool) < 1 or len(false_pool) < 3:
         return None
     neg = "not " if negated else ""
     intro = rng.choice(_ACCORDING_TO_STEMS)
     stem = f"{intro} {book_title}, the following are {neg}{topic}"
     if negated:
-        nt = rng.randint(2, 3); nf = 5 - nt
-        tp, fp = wrong_names, correct_names
+        nt = rng.randint(2, 3)
+        nf = 5 - nt
+        tp, fp = false_pool, true_pool   # negated: true items are the WRONG pool
     else:
-        nt = rng.randint(2, 3); nf = 5 - nt
-        tp, fp = correct_names, wrong_names
+        nt = rng.randint(2, 3)
+        nf = 5 - nt
+        tp, fp = true_pool, false_pool
     if len(tp) < nt or len(fp) < nf:
-        return None
+        nt = min(nt, len(tp))
+        nf = min(nf, len(fp))
+        if nt + nf < 5:
+            return None
     opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
     return _mkq(stem, opts, ans, book_title, f"See {book_title}")
 
 
 # ── Pool generation ────────────────────────────────────────────────────────
 
-def generate_question_pool(chapter, pool_size=None, seed=None, config=None, global_teachings=None):
+def generate_question_pool(chapter, pool_size=None, seed=None, config=None, global_teachings=None, global_patterned_items=None):
     """Generate a UO-SAT-style question pool for one chapter."""
     target = pool_size or 15
     target = max(10, min(20, target))
@@ -801,11 +866,18 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
     # Supplement with cross-chapter teachings so that biblical-basis FALSE
     # options can include topics from other chapters (e.g. "The execution
     # stage of disloyalty" as a distractor for a ch1 verse question).
+    # Patterned-list items (reason phrases, stage names) are intentionally
+    # excluded here to avoid them appearing as biblical-basis options.
     if global_teachings:
         local_set = set(t.lower() for t in all_teachings)
         all_teachings = _dedup(
             all_teachings + [t for t in global_teachings if t.lower() not in local_set]
         )
+
+    # Build a combined patterned-item pool for According-to wrong options.
+    # Includes cross-chapter patterned items so distractors aren't limited
+    # to the current chapter's list.
+    extra_patterned = list(global_patterned_items or [])
 
     # Flat pools for wrong answers
     all_topics = _dedup([t for r in refs for t in r.topics])
@@ -860,6 +932,8 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
             gn = rng.choice(list(patterned.keys()))
             items = patterned[gn]
             wp = [i for grp in patterned.values() for i in grp if i not in items]
+            # Supplement with cross-chapter patterned items as additional distractors.
+            wp = _dedup(wp + [x for x in extra_patterned if x not in items and x not in wp])
             if not wp:
                 wp = all_topics[:10]
             return _q_according_to(book_title, gn, items, wp, rng)
@@ -867,6 +941,7 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
             gn = rng.choice(list(patterned.keys()))
             items = patterned[gn]
             wp = [i for grp in patterned.values() for i in grp if i not in items]
+            wp = _dedup(wp + [x for x in extra_patterned if x not in items and x not in wp])
             if not wp:
                 wp = all_topics[:10]
             return _q_according_to(book_title, gn, items, wp, rng, negated=True)
@@ -919,14 +994,18 @@ def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
 
     # First pass: collect all teachings and patterned-list items from every
     # chapter so they can be used as cross-chapter FALSE options.
+    # Patterned-list items are kept SEPARATE so they don't pollute the
+    # biblical-basis wrong-option pool with reason-phrase / stage items.
     global_teachings = []
+    global_patterned_items = []
     for chapter in chapters:
         global_teachings.extend(_extract_teachings(chapter.text))
         refs = _extract_refs_with_context(chapter.text)
         global_teachings.extend(tp for r in refs for tp in r.teaching_points)
         for items in _extract_patterned_lists(chapter.text).values():
-            global_teachings.extend(items)
+            global_patterned_items.extend(items)   # ← separate list
     global_teachings = _dedup(global_teachings)
+    global_patterned_items = _dedup(global_patterned_items)
 
     output = {}
     for chapter in chapters:
@@ -934,5 +1013,6 @@ def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
         output[chapter.chapter_id] = generate_question_pool(
             chapter=chapter, pool_size=pool_size, seed=ch_seed,
             global_teachings=global_teachings,
+            global_patterned_items=global_patterned_items,
         )
     return output

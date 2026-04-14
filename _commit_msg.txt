@@ -1,17 +1,30 @@
-fix: correct quote→ref pairing + Satan/Lucifer alias dedup
+fix: name categorization, quotation type, patterned-list quality
 
-quote pairing (Step 3 in _extract_refs_with_context):
-- Replace midpoint-window pairing with nearest-after-ref logic.
-  In this book the cited verse always appears BEFORE its scripture
-  reference, so the correct pairing is the first ref at or after
-  the quote's position (up to 500 chars away).
-  Previously the midpoint scheme assigned "And he [Joab] took three
-  darts" (right before 2 Sam 18:14) to 2 Sam 18:12 because the quote
-  fell in 18:12's midpoint territory.
+_REBEL_NAMES / _LOYAL_NAMES + _q_names (ch2 Q4/Q6 fix):
+- Add frozensets categorizing each biblical name as rebel or loyal.
+- _q_names now maps question topic to the correct pool:
+  betray/rebel/eighth-stage topics → correct=rebels, wrong=loyal
+  loyal/faithful topics            → correct=loyal, wrong=rebels
+- Previously David and Eli appeared as "people who betrayed their
+  leaders"; Moses appeared as "not a betrayer" etc.
 
-_extract_names / _NAME_ALIAS_GROUPS:
-- Add _NAME_ALIAS_GROUPS constant for names that refer to the same
-  biblical entity (Lucifer = Satan = the dragon).
-- When both names in a group appear in the chapter text, keep only
-  the canonical (first-in-group) form so they can't both land as
-  separate answer options in the same question.
+_q_quotation min threshold (ch2 Q1/Q3/Q7/Q14):
+- Lower minimum paired-quotes requirement from 2 to 1.
+- Adjust sampling to clamp nt/nf by available pool sizes so refs
+  with a single quote can still generate T5/T6 questions.
+- ch2 now generates 4 quotation-type questions instead of 0.
+
+_extract_patterned_lists quality (ch2 Q1/Q10/Q15):
+- Add _PROSE_REJECT_RE: filter items starting with pronouns /
+  common-subject words ("you ", "some ", "Jesus ", "it ", etc.)
+  that are accidental prose-pattern matches.
+- Add _STAGE_BODY_TRIM_RE: trim body commentary after a Stage title
+  ("The Critical Stage A disloyal person..." → "The Critical Stage",
+  "The Political Stage When a person..." → "The Political Stage").
+
+global_teachings / global_patterned_items split:
+- Patterned-list items now kept in a separate global_patterned_items
+  list and NOT added to global_teachings, preventing reason-phrases
+  and stage names from appearing as biblical-basis wrong options.
+- cross-chapter patterned items used to widen According-to distractor
+  pools (better variety in Q10/Q15 wrong options).
