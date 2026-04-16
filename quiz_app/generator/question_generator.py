@@ -1060,7 +1060,9 @@ def _trim_reason_phrase(text: str) -> str:
 def _q_gleaned_from(ref, statement, all_refs, rng, negated=False):
     stmt = (statement or "").strip().rstrip(".,;:!?")
     if _INCOMPLETE_REASON_RE.match(stmt):
-        stmt = "Loyalty is important " + stmt[0].lower() + stmt[1:]
+        # Make dependent-clause reason phrases read as complete statements
+        # without injecting book-specific wording.
+        stmt = "It is important " + stmt[0].lower() + stmt[1:]
     if not _is_gleaned_candidate(stmt):
         return None
 
@@ -1082,10 +1084,10 @@ def _q_gleaned_from(ref, statement, all_refs, rng, negated=False):
 # T10/T11: "According to various texts / several authorities on the Doctrine of …,
 #            the following are [not] [topic]"
 _ACCORDING_TO_STEMS = [
-    "According to various texts on the Doctrine of",
-    "According to several authorities on the Doctrine of",
-    "According to the book on",
-    "Based on various teachings on the Doctrine of",
+    "According to the book",
+    "Based on the book",
+    "From the book",
+    "In the book",
 ]
 
 
@@ -1167,7 +1169,7 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
       least one True and one False option.
     """
     rng = random.Random(seed)
-    book_title = "Loyalty and Disloyalty"
+    book_title = (config or {}).get("book_title") or "the book"
 
     refs = _extract_refs_with_context(chapter.text)
     all_teachings = _extract_teachings(chapter.text)
@@ -1368,9 +1370,11 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
         dummy_wrong = all_topics or all_teachings
         while len(questions) < target and dummy_topics and dummy_wrong:
             topic = rng.choice([
-                "things which a loyal assistant should do",
-                "signs of disloyalty",
-                "reasons why loyalty is important",
+                "qualities of a good leader",
+                "signs of poor leadership",
+                "reasons why good character is important",
+                "common leadership mistakes",
+                "keys to effective leadership",
             ])
             cn = rng.sample(dummy_topics[:15], k=min(3, len(dummy_topics)))
             cw = rng.sample(dummy_wrong[:20], k=min(4, len(dummy_wrong)))
@@ -1379,7 +1383,7 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
     return questions
 
 
-def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
+def generate_all_chapter_questions(chapters, pool_size=None, seed=None, book_title=None):
     """Generate question pools for all chapters."""
     master_rng = random.Random(seed)
 
@@ -1408,6 +1412,7 @@ def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
         ch_seed = master_rng.randint(1, 1_000_000)
         output[chapter.chapter_id] = generate_question_pool(
             chapter=chapter, pool_size=pool_size, seed=ch_seed,
+            config={"book_title": book_title} if book_title else None,
             global_teachings=global_teachings,
             global_patterned_items=global_patterned_items,
             global_patterned_by_group=global_patterned_by_group,
