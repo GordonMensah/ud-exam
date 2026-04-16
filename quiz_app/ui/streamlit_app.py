@@ -289,7 +289,7 @@ def main() -> None:
                             tmp_path = Path(tmp.name)
                         chapters = parse_epub(tmp_path)
                         pools = generate_all_chapter_questions(
-                            chapters, pool_size=15, seed=int(seed) + idx
+                            chapters, pool_size=25, seed=int(seed) + idx
                         )
                         ser = {str(k): v for k, v in pools.items()}
                         bundle_out[Path(epub_file.name).stem] = _build_book_payload(ser)

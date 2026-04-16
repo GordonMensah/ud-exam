@@ -38,7 +38,7 @@ def load_json(path: Path, default: Optional[Any] = None) -> Any:
 def generate_from_epub(epub_path: Path, seed: int = 42) -> dict[str, Any]:
     """Generate chapters, questions, and variants from one EPUB."""
     chapters = parse_epub(epub_path)
-    questions_by_chapter = generate_all_chapter_questions(chapters, pool_size=15, seed=seed)
+    questions_by_chapter = generate_all_chapter_questions(chapters, pool_size=25, seed=seed)
 
     quiz_variants = {
         str(chapter_id): generate_quiz_variants(pool, num_variants=5, questions_per_quiz=5, seed=seed)
