@@ -19,6 +19,7 @@ ENV/
 .streamlit/secrets.toml
 
 # Data — large runtime-only files can be added here if needed
+*.epub
 
 # macOS
 .DS_Store
