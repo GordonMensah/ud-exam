@@ -218,6 +218,28 @@ def _extract_refs_with_context(text: str) -> list:
     # Build a position-sorted list of refs once for midpoint calculations.
     _refs_by_pos = sorted(refs, key=lambda r: r.position)
 
+    # Fallback: capture single-ellipsis verse snippets that end right before a
+    # citation, even when there isn't a closing ellipsis nearby.
+    # Example: "…out of the abundance of the heart the mouth speaketh. Matthew 12:34"
+    for r in _refs_by_pos:
+        ref_pos = r.position
+        back_start = max(0, ref_pos - 260)
+        back = text[back_start:ref_pos]
+        epos = back.rfind('\u2026')
+        if epos == -1:
+            continue
+        frag = back[epos + 1:].strip()
+        # Prefer cutting at sentence end if present; avoid dragging headings.
+        cut = max(frag.rfind('.'), frag.rfind('!'), frag.rfind('?'))
+        if cut != -1 and cut >= 20:
+            frag = frag[:cut].strip()
+        frag = frag.strip().rstrip(' .,;:\u2026')
+        if 6 <= len(frag) <= 150 and not _SCRIPTURE_RE.search(frag):
+            qpos = back_start + epos
+            if qpos not in _seen_qpos:
+                quotes_with_pos.append((qpos, frag, True))
+                _seen_qpos.add(qpos)
+
     def _midpoint_window(pos: int) -> tuple:
         """Return (lo, hi) clipped to the midpoints between adjacent refs.
 
@@ -732,6 +754,174 @@ def _build_opts(true_items: list, false_items: list, rng: random.Random):
     return opts, ans
 
 
+_STOPWORDS = frozenset({
+    "a", "an", "the", "and", "or", "but", "of", "to", "in", "on", "at", "for", "with",
+    "from", "into", "over", "under", "as", "by", "is", "are", "was", "were", "be", "been",
+    "being", "that", "this", "these", "those", "it", "its", "his", "her", "their", "our",
+    "your", "my", "we", "you", "i", "he", "she", "they", "not",
+})
+
+_META_PREFIXES_GLEANED = (
+    "it is my prayer", "let us all", "the answer is",
+    "as i said", "i believe", "i have seen", "i have rarely",
+    "i have often", "i have wondered", "i have known",
+    "what about", "why is", "this is why",
+    "in other words", "this is another reason", "we all",
+    "this will invite", "it cannot possibly", "the reason why",
+    "it is important to note", "please note", "note that",
+    "you will notice", "you will see", "you will find",
+)
+
+
+def _norm_key(s: str) -> str:
+    """Normalize an option/statement/quote for dedup + overlap checks."""
+    s = (s or "").strip().lower()
+    s = s.replace("\u2019", "'").replace("\u2018", "'")
+    s = s.replace("\u201c", '"').replace("\u201d", '"')
+    s = re.sub(r"[\"'`]+", "", s)
+    s = re.sub(r"[^a-z0-9\s]", " ", s)
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
+def _token_set(s: str) -> set:
+    return {t for t in _norm_key(s).split() if t and t not in _STOPWORDS}
+
+
+def _jaccard(a: set, b: set) -> float:
+    if not a and not b:
+        return 1.0
+    if not a or not b:
+        return 0.0
+    return len(a & b) / len(a | b)
+
+
+def _too_similar(a: str, b: str, threshold: float = 0.86) -> bool:
+    """Detect near-duplicates (including 'X increasing / Y decreasing' reversals)."""
+    na, nb = _norm_key(a), _norm_key(b)
+    if not na or not nb:
+        return False
+    if na == nb:
+        return True
+    if na in nb or nb in na:
+        return True
+    return _jaccard(_token_set(a), _token_set(b)) >= threshold
+
+
+def _dedup_norm(items: list[str]) -> list[str]:
+    out = []
+    seen = set()
+    for it in items:
+        k = _norm_key(it)
+        if not k or k in seen:
+            continue
+        seen.add(k)
+        out.append(it)
+    return out
+
+
+def _sample_diverse(pool: list[str], k: int, rng: random.Random, used: list[str] | None = None) -> list[str]:
+    """Greedy sample that avoids near-duplicates against itself and `used`."""
+    used = used or []
+    rng.shuffle(pool)
+    picked = []
+    for cand in pool:
+        if any(_too_similar(cand, p) for p in picked):
+            continue
+        if any(_too_similar(cand, u) for u in used):
+            continue
+        picked.append(cand)
+        if len(picked) >= k:
+            return picked
+    # Fallback: no diversity possible, return simple sample if available.
+    if len(pool) >= k:
+        return pool[:k]
+    return picked
+
+
+def _build_tf_options(true_pool: list[str], false_pool: list[str], rng: random.Random,
+                      min_true: int = 2, max_true: int = 3) -> tuple[dict, dict] | tuple[None, None]:
+    """Build 5 T/F options with hard guarantees:
+
+    - At least 1 True and 1 False
+    - No normalized duplicates
+    - Avoid near-duplicates where possible
+    """
+    true_pool = _dedup_norm(list(true_pool or []))
+    false_pool = _dedup_norm(list(false_pool or []))
+
+    true_keys = {_norm_key(x) for x in true_pool}
+    false_pool = [x for x in false_pool if _norm_key(x) not in true_keys]
+
+    if not true_pool or not false_pool:
+        return None, None
+
+    total = 5
+    candidates = []
+    for nt in range(min_true, max_true + 1):
+        nf = total - nt
+        if 1 <= nt <= len(true_pool) and 1 <= nf <= len(false_pool):
+            candidates.append(nt)
+    if not candidates:
+        for nt in range(1, total):
+            nf = total - nt
+            if 1 <= nt <= len(true_pool) and 1 <= nf <= len(false_pool):
+                candidates.append(nt)
+    if not candidates:
+        return None, None
+
+    nt = rng.choice(candidates)
+    nf = total - nt
+
+    tp = _sample_diverse(true_pool, nt, rng)
+    fp = _sample_diverse(false_pool, nf, rng, used=tp)
+    if len(tp) != nt or len(fp) != nf:
+        return None, None
+
+    opts, ans = _build_opts(tp, fp, rng)
+    keys = [_norm_key(v) for v in opts.values()]
+    if len(set(keys)) != total:
+        return None, None
+    if not (any(ans.values()) and not all(ans.values())):
+        return None, None
+    return opts, ans
+
+
+def _quote_ok(q: str) -> bool:
+    q = (q or "").strip()
+    if not q:
+        return False
+    # Avoid ultra-common tiny fragments like "Well done" that appear in many verses.
+    if len(q.split()) < 3:
+        return False
+    if len(q) < 10:
+        return False
+    if _SCRIPTURE_RE.search(q):
+        return False
+    return True
+
+
+def _is_gleaned_candidate(s: str) -> bool:
+    s = (s or "").strip().rstrip(".,;:!?")
+    if not s:
+        return False
+    if _SCRIPTURE_RE.search(s):
+        return False
+    if "…" in s or "..." in s:
+        return False
+    wc = len(s.split())
+    if wc < 6 or wc > 30:
+        return False
+    s_lower = s.lower()
+    if any(s_lower.startswith(p) for p in _META_PREFIXES_GLEANED):
+        return False
+    # Require some specificity: enough non-stopword content tokens.
+    tokens = [t for t in re.findall(r"[a-z]{4,}", s_lower) if t not in _STOPWORDS]
+    if len(set(tokens)) < 5:
+        return False
+    return True
+
+
 def _mkq(stem, opts, ans, ref_str, context=""):
     return {
         "question": stem, "options": opts, "answers": ans,
@@ -741,72 +931,84 @@ def _mkq(stem, opts, ans, ref_str, context=""):
 
 # T1/T2: "[Ref] talks about" / "[Ref] does not talk about"
 def _q_talks_about(ref, all_topics, rng, negated=False):
-    my = ref.topics[:10]
-    other = [t for t in all_topics if t not in my]
+    my = _dedup_norm(ref.topics[:10])
+    my_keys = {_norm_key(t) for t in my}
+    other = [t for t in _dedup_norm(all_topics) if _norm_key(t) not in my_keys]
     if len(my) < 1 or len(other) < 3:
         return None
+
     verb = "does not talk about" if negated else "talks about"
-    stem = f"{ref.full_ref} {verb}"
-    if negated:
-        nt = rng.randint(2, 3); nf = 5 - nt
-        tp, fp = other, my
-    else:
-        nt = rng.randint(2, 3); nf = 5 - nt
-        tp, fp = my, other
-    if len(tp) < nt or len(fp) < nf:
+    stem = f"{ref.full_ref}: {verb}"
+
+    true_pool = other if negated else my
+    false_pool = my if negated else other
+
+    opts, ans = _build_tf_options(true_pool, false_pool, rng, min_true=2, max_true=3)
+    if not opts:
         return None
-    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
     return _mkq(stem, opts, ans, ref.full_ref, ref.commentary[0] if ref.commentary else "")
 
 
 # T3/T4: "[Ref] is [not] the biblical basis of"
 def _q_biblical_basis(ref, all_teachings, rng, negated=False):
-    # Use teaching_points (numbered book points) first, fall back to commentary
-    my = ref.teaching_points[:10] or ref.commentary[:10]
-    other = [t for t in all_teachings if t not in my]
+    # Prefer explicit numbered teaching points; fall back to commentary only
+    # when it reads like a discrete teaching statement.
+    my_pool = list(ref.teaching_points or [])
+    if not my_pool:
+        # Commentary fallback: only keep teaching-like statements.
+        my_pool = [c for c in (ref.commentary or []) if re.search(r"\b(?:is|are|demands|requires|means|involves|stage|sign|key|mark)\b", c, re.IGNORECASE)]
+
+    my = _dedup_norm(my_pool[:10])
+    # Exclude ALL of this ref's teaching points/commentary from the wrong pool
+    # (avoid a ref's own items leaking into its false options via slicing).
+    exclude = {_norm_key(t) for t in _dedup_norm(my_pool)}
+    other = [t for t in _dedup_norm(all_teachings) if _norm_key(t) not in exclude]
+
     if len(my) < 1 or len(other) < 3:
         return None
+
     neg = "not " if negated else ""
     stem = f"{ref.full_ref} is {neg}the biblical basis of"
+
+    true_pool = other if negated else my
+    false_pool = my if negated else other
+    # Non-negated: typically fewer True options reads better.
     if negated:
-        nt = rng.randint(2, 3)
-        nf = 5 - nt
-        tp, fp = other, my
+        opts, ans = _build_tf_options(true_pool, false_pool, rng, min_true=2, max_true=3)
     else:
-        nt = rng.randint(1, 2)
-        nf = 5 - nt
-        tp, fp = my, other
-    if len(tp) < nt or len(fp) < nf:
+        opts, ans = _build_tf_options(true_pool, false_pool, rng, min_true=1, max_true=2)
+    if not opts:
         return None
-    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+
     ctx = my[0] if my else ""
     return _mkq(stem, opts, ans, ref.full_ref, ctx)
 
 
 # T5/T6: "The following quotations can[not] be found in [Ref]"
-def _q_quotation(ref, all_quotes_flat, rng, negated=False):
-    my = ref.paired_quotes[:10]
-    other = [q for q in all_quotes_flat if q not in my]
-    # Need at least 1 quote from this ref and 4 from other refs to build 5 options.
-    if len(my) < 1 or len(other) < 4:
+def _q_quotation(ref, all_quotes_flat, rng, negated=False, quote_index: dict | None = None):
+    my_all = [q for q in (ref.paired_quotes or []) if _quote_ok(q)]
+    if quote_index:
+        # Prefer quotes that uniquely belong to this reference.
+        uniq = [q for q in my_all if quote_index.get(_norm_key(q), set()) == {ref.full_ref}]
+        my_all = uniq or my_all
+
+    my = _dedup_norm(my_all[:10])
+    my_keys = {_norm_key(q) for q in my}
+    other = [q for q in _dedup_norm(all_quotes_flat) if _norm_key(q) not in my_keys and _quote_ok(q)]
+
+    # Need at least 1 quote from this ref and enough other quotes to build 5 options.
+    if len(my) < 1 or len(other) < 3:
         return None
+
     verb = "cannot" if negated else "can"
     stem = f"The following quotations {verb} be found in {ref.full_ref}"
-    if negated:
-        # True options = other refs (cannot be found here)
-        # False options = my quotes (can be found here)
-        nt = min(rng.randint(2, 3), len(other))
-        nf = min(5 - nt, len(my))
-        tp, fp = other, my
-    else:
-        # True options = my quotes (can be found here)
-        # False options = other refs (cannot be found here)
-        nt = min(rng.randint(1, 2), len(my))
-        nf = min(5 - nt, len(other))
-        tp, fp = my, other
-    if len(tp) < nt or len(fp) < nf or nt + nf < 5:
+
+    true_pool = other if negated else my
+    false_pool = my if negated else other
+    opts, ans = _build_tf_options(true_pool, false_pool, rng, min_true=1 if not negated else 2, max_true=2 if not negated else 3)
+    if not opts:
         return None
-    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
+
     return _mkq(stem, opts, ans, ref.full_ref, "; ".join(my[:2]))
 
 
@@ -856,12 +1058,16 @@ def _trim_reason_phrase(text: str) -> str:
 
 
 def _q_gleaned_from(ref, statement, all_refs, rng, negated=False):
+    stmt = (statement or "").strip().rstrip(".,;:!?")
+    if _INCOMPLETE_REASON_RE.match(stmt):
+        stmt = "Loyalty is important " + stmt[0].lower() + stmt[1:]
+    if not _is_gleaned_candidate(stmt):
+        return None
+
     wrong = _tricky_wrong_refs(ref, all_refs, rng, n=4)
     if len(wrong) < 4:
         return None
-    stmt = statement
-    if _INCOMPLETE_REASON_RE.match(stmt):
-        stmt = "Loyalty is important " + stmt[0].lower() + stmt[1:]
+
     verb = "cannot" if negated else "can"
     stem = f'The statement "{stmt}" {verb} be gleaned from'
     if negated:
@@ -884,20 +1090,21 @@ _ACCORDING_TO_STEMS = [
 
 
 def _q_according_to(book_title, topic, correct, wrong, rng, negated=False):
+    correct = _dedup_norm(list(correct or []))
+    wrong = _dedup_norm(list(wrong or []))
     if len(correct) < 1 or len(wrong) < 3:
         return None
+
     neg = "not " if negated else ""
     intro = rng.choice(_ACCORDING_TO_STEMS)
     stem = f"{intro} {book_title}, the following are {neg}{topic}"
-    if negated:
-        nt = rng.randint(2, 3); nf = 5 - nt
-        tp, fp = wrong, correct
-    else:
-        nt = rng.randint(2, 3); nf = 5 - nt
-        tp, fp = correct, wrong
-    if len(tp) < nt or len(fp) < nf:
+
+    true_pool = wrong if negated else correct
+    false_pool = correct if negated else wrong
+
+    opts, ans = _build_tf_options(true_pool, false_pool, rng, min_true=2, max_true=3)
+    if not opts:
         return None
-    opts, ans = _build_opts(rng.sample(tp, k=nt), rng.sample(fp, k=nf), rng)
     return _mkq(stem, opts, ans, book_title, f"See {book_title}")
 
 
@@ -946,13 +1153,18 @@ def _q_names(book_title, topic, correct_names, wrong_names, rng, negated=False):
 
 # ── Pool generation ────────────────────────────────────────────────────────
 
-def generate_question_pool(chapter, pool_size=None, seed=None, config=None, global_teachings=None, global_patterned_items=None):
+def generate_question_pool(chapter, pool_size=None, seed=None, config=None, global_teachings=None, global_patterned_items=None, global_patterned_by_group=None):
     """Generate a UO-SAT-style question pool for one chapter.
 
     The pool size is automatically scaled so that every scripture reference in
     the chapter receives at least one question.  The caller-supplied pool_size
     (or 15 as the default) acts as a *minimum*; the actual count may be higher
     when the chapter contains more refs than that minimum.
+
+    Notes for this book's exam style:
+    - Many items are answered via per-option True/False (UO-SAT). Question
+      builders must avoid duplicates and near-duplicates, and must include at
+      least one True and one False option.
     """
     rng = random.Random(seed)
     book_title = "Loyalty and Disloyalty"
@@ -986,13 +1198,23 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
         )
 
     # Build a combined patterned-item pool for According-to wrong options.
-    # Includes cross-chapter patterned items so distractors aren't limited
-    # to the current chapter's list.
+    # Prefer same-group cross-chapter items when available.
     extra_patterned = list(global_patterned_items or [])
+    global_patterned_by_group = global_patterned_by_group or {}
 
     # Flat pools for wrong answers
     all_topics = _dedup([t for r in refs for t in r.topics])
-    all_quotes = _dedup([q for r in refs for q in r.paired_quotes])
+    all_quotes = _dedup([q for r in refs for q in r.paired_quotes if _quote_ok(q)])
+
+    # Quote index (normalized quote -> set of refs that contain it). Used to
+    # avoid ambiguous quote/ref questions.
+    quote_index: dict[str, set] = {}
+    for r in refs:
+        for q in (r.paired_quotes or []):
+            if not _quote_ok(q):
+                continue
+            k = _norm_key(q)
+            quote_index.setdefault(k, set()).add(r.full_ref)
 
     questions = []
     qid = 1
@@ -1026,24 +1248,44 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
         if t == 3:
             return _q_biblical_basis(ref, all_teachings, rng, negated=True)
         if t == 4 and ref.paired_quotes:
-            return _q_quotation(ref, all_quotes, rng)
+            return _q_quotation(ref, all_quotes, rng, quote_index=quote_index)
         if t == 5 and ref.paired_quotes:
-            return _q_quotation(ref, all_quotes, rng, negated=True)
+            return _q_quotation(ref, all_quotes, rng, negated=True, quote_index=quote_index)
         if t == 6 and ref.paired_quotes:
-            return _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng)
+            qs = [q for q in ref.paired_quotes if _quote_ok(q)]
+            if quote_index:
+                uniq = [q for q in qs if quote_index.get(_norm_key(q), set()) == {ref.full_ref}]
+                qs = uniq or qs
+            if not qs:
+                return None
+            return _q_scripture_found(ref, rng.choice(qs), refs, rng)
         if t == 7 and ref.paired_quotes:
-            return _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng, negated=True)
-        if t == 8 and (ref.commentary or ref.topics or ref.teaching_points):
-            stmt = rng.choice(ref.teaching_points or ref.commentary or ref.topics)
+            qs = [q for q in ref.paired_quotes if _quote_ok(q)]
+            if quote_index:
+                uniq = [q for q in qs if quote_index.get(_norm_key(q), set()) == {ref.full_ref}]
+                qs = uniq or qs
+            if not qs:
+                return None
+            return _q_scripture_found(ref, rng.choice(qs), refs, rng, negated=True)
+        if t == 8 and (ref.commentary or ref.teaching_points):
+            pool = [s for s in (ref.teaching_points or []) + (ref.commentary or []) if _is_gleaned_candidate(s)]
+            if not pool:
+                return None
+            stmt = rng.choice(pool)
             return _q_gleaned_from(ref, stmt, refs, rng)
-        if t == 9 and (ref.commentary or ref.topics or ref.teaching_points):
-            stmt = rng.choice(ref.teaching_points or ref.commentary or ref.topics)
+        if t == 9 and (ref.commentary or ref.teaching_points):
+            pool = [s for s in (ref.teaching_points or []) + (ref.commentary or []) if _is_gleaned_candidate(s)]
+            if not pool:
+                return None
+            stmt = rng.choice(pool)
             return _q_gleaned_from(ref, stmt, refs, rng, negated=True)
         if t == 10 and patterned:
             gn = rng.choice(list(patterned.keys()))
             items = patterned[gn]
-            wp = [i for grp in patterned.values() for i in grp if i not in items]
-            # Supplement with cross-chapter patterned items as additional distractors.
+            # Prefer same-group global patterned items as distractors.
+            same_group = [x for x in global_patterned_by_group.get(gn, []) if x not in items]
+            wp = same_group or [i for grp in patterned.values() for i in grp if i not in items]
+            # Supplement with legacy cross-chapter patterned items as additional distractors.
             wp = _dedup(wp + [x for x in extra_patterned if x not in items and x not in wp])
             if not wp:
                 wp = all_topics[:10]
@@ -1051,7 +1293,8 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
         if t == 11 and patterned:
             gn = rng.choice(list(patterned.keys()))
             items = patterned[gn]
-            wp = [i for grp in patterned.values() for i in grp if i not in items]
+            same_group = [x for x in global_patterned_by_group.get(gn, []) if x not in items]
+            wp = same_group or [i for grp in patterned.values() for i in grp if i not in items]
             wp = _dedup(wp + [x for x in extra_patterned if x not in items and x not in wp])
             if not wp:
                 wp = all_topics[:10]
@@ -1079,10 +1322,15 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
         """
         # --- scripture / quotation types (need paired_quotes) ---
         if ref.paired_quotes:
-            q = _q_scripture_found(ref, rng.choice(ref.paired_quotes), refs, rng)
-            if q:
-                return q
-            q = _q_quotation(ref, all_quotes, rng)
+            qs = [q for q in ref.paired_quotes if _quote_ok(q)]
+            if quote_index:
+                uniq = [q for q in qs if quote_index.get(_norm_key(q), set()) == {ref.full_ref}]
+                qs = uniq or qs
+            if qs:
+                q = _q_scripture_found(ref, rng.choice(qs), refs, rng)
+                if q:
+                    return q
+            q = _q_quotation(ref, all_quotes, rng, quote_index=quote_index)
             if q:
                 return q
         # --- basis / talks (always fallback-available) ---
@@ -1093,8 +1341,8 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
             q = _q_talks_about(ref, all_topics, rng, negated=neg)
             if q:
                 return q
-        # --- gleaned-from (needs commentary / topics) ---
-        pool = ref.teaching_points or ref.commentary or ref.topics
+        # --- gleaned-from (needs commentary / teaching points) ---
+        pool = [s for s in (ref.teaching_points or []) + (ref.commentary or []) if _is_gleaned_candidate(s)]
         if pool:
             for neg in (False, True):
                 q = _q_gleaned_from(ref, rng.choice(pool), refs, rng, negated=neg)
@@ -1141,14 +1389,19 @@ def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
     # biblical-basis wrong-option pool with reason-phrase / stage items.
     global_teachings = []
     global_patterned_items = []
+    global_patterned_by_group: dict[str, list[str]] = {}
     for chapter in chapters:
         global_teachings.extend(_extract_teachings(chapter.text))
         refs = _extract_refs_with_context(chapter.text)
         global_teachings.extend(tp for r in refs for tp in r.teaching_points)
-        for items in _extract_patterned_lists(chapter.text).values():
-            global_patterned_items.extend(items)   # ← separate list
+        pat = _extract_patterned_lists(chapter.text)
+        for group_name, items in pat.items():
+            global_patterned_items.extend(items)   # legacy flat list
+            global_patterned_by_group.setdefault(group_name, []).extend(items)
     global_teachings = _dedup(global_teachings)
     global_patterned_items = _dedup(global_patterned_items)
+    for k in list(global_patterned_by_group):
+        global_patterned_by_group[k] = _dedup(global_patterned_by_group[k])
 
     output = {}
     for chapter in chapters:
@@ -1157,5 +1410,6 @@ def generate_all_chapter_questions(chapters, pool_size=None, seed=None):
             chapter=chapter, pool_size=pool_size, seed=ch_seed,
             global_teachings=global_teachings,
             global_patterned_items=global_patterned_items,
+            global_patterned_by_group=global_patterned_by_group,
         )
     return output

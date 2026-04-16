@@ -1,28 +1,15 @@
-feat: guarantee one question per scripture reference
+fix: improve option quality + preserve full ref coverage
 
-generate_question_pool:
-- target = max(base_target, len(refs)): scales to match ref count
-- New _try_any(ref): exhausts all question types deterministically
-  before giving up, ensuring every ref that has any extractable
-  content gets a question.
-- First pass uses _try_any with no early break (all refs attempted).
-- Second/third passes fill remaining slots with weighted-random types.
+Question quality improvements
+- Add normalization + similarity checks to dedup options and avoid near-duplicate distractors.
+- Centralize TF option construction with hard guarantees: 5 unique options and at least one True and one False.
+- Talks-about / biblical-basis / according-to now use normalized pools and safe option builder.
+- Quotation questions filter tiny/ambiguous quotes and prefer quotes unique to a ref when possible.
+- Gleaned-from now rejects low-specificity/meta/ellipsis fragments.
 
-_extract_refs_with_context:
-- Fix A: ellipsis-delimited quotes (…verse text…) now track their
-  delimiter type; lowercase is allowed for ellipsis quotes since the
-  author deliberately truncates verse text with "…". For ellipsis
-  quotes with embedded scripture refs, text before the ref is used.
-- Fix B: overlapping lookahead scan catches alternating …A…B…C…
-  quotes that re.finditer skips because consecutive matches consume
-  the shared delimiter.
-- Fix C: for window sentences containing embedded scripture citations
-  (e.g. "2 Sam 18:12 This person was loyal"), the text after the
-  last citation is extracted as additional commentary/topics.
-- Fix D: second pass for refs still bare after the midpoint-clamped
-  first pass: widen the backward window to 600 chars using only the
-  numbered-point block boundary (skip midpoint clamp) so that refs
-  in densely-packed execution/subtitle lists can reach nearby content.
+Extraction improvement
+- Add fallback to capture single-ellipsis verse snippets immediately before a citation
+  (e.g. "…out of the abundance... Matthew 12:34") so those refs still get paired_quotes.
 
-Result: all 164 scripture refs across 12 chapters now have at least
-one question (241 questions total, up from 180).
+Result
+- Still 0 missing refs across the whole book (164 refs covered).
