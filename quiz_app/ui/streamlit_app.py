@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import tempfile
 import time
 from pathlib import Path
 
 _APP_ROOT = str(Path(__file__).resolve().parents[1])
+_REPO_ROOT = Path(__file__).resolve().parents[2]
 if _APP_ROOT not in sys.path:
     sys.path.insert(0, _APP_ROOT)
 
@@ -20,20 +22,26 @@ from generator.epub_parser import parse_epub  # noqa: E402
 from generator.question_generator import generate_all_chapter_questions  # noqa: E402
 from generator.variant_generator import generate_exam_variants, generate_quiz_variants  # noqa: E402
 
-# Data directory: use /tmp on cloud for writes, but fall back to app's data/ for reads
+# Data directory: use /tmp on cloud for writes, but use app's data/ for local runs.
 _LOCAL_DATA = Path(_APP_ROOT) / "data"
 _CLOUD_DATA = Path("/tmp/ud_exam_data")
-_IS_CLOUD = not _LOCAL_DATA.exists() or not Path(_APP_ROOT).joinpath(".venv").exists()
+
+# Local dev venv is at repo root; Streamlit Cloud typically has no repo-root .venv.
+# Allow env override if needed.
+_IS_CLOUD = os.environ.get("UD_EXAM_CLOUD", "").strip().lower() in {"1", "true", "yes"} or not (_REPO_ROOT / ".venv").exists()
+
 DATA_DIR = _CLOUD_DATA if _IS_CLOUD else _LOCAL_DATA
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-# Bundle: on cloud, prefer /tmp copy (user-uploaded); fall back to shipped copy in app/data/
+# Bundle: on cloud, prefer /tmp copy (user-uploaded); locally prefer app/data/.
 _CLOUD_BUNDLE = _CLOUD_DATA / "books_bundle.json"
 _LOCAL_BUNDLE = _LOCAL_DATA / "books_bundle.json"
 
 
 def _bundle_path() -> Path:
-    return _CLOUD_BUNDLE if _CLOUD_BUNDLE.exists() else _LOCAL_BUNDLE
+    if _IS_CLOUD:
+        return _CLOUD_BUNDLE if _CLOUD_BUNDLE.exists() else _LOCAL_BUNDLE
+    return _LOCAL_BUNDLE if _LOCAL_BUNDLE.exists() else _CLOUD_BUNDLE
 
 
 LABELS = ["a", "b", "c", "d", "e"]
@@ -51,6 +59,18 @@ def _load_json(path: Path, default=None):
         return default or {}
     with path.open("r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def _load_books_bundle() -> dict:
+    """Load the books bundle, merging local and cloud copies when both exist."""
+    if _IS_CLOUD:
+        merged: dict = dict(_load_json(_LOCAL_BUNDLE, {}))
+        merged.update(_load_json(_CLOUD_BUNDLE, {}))
+        return merged
+
+    merged = dict(_load_json(_CLOUD_BUNDLE, {}))
+    merged.update(_load_json(_LOCAL_BUNDLE, {}))
+    return merged
 
 
 def _build_book_payload(questions_by_chapter: dict) -> dict:
@@ -280,7 +300,7 @@ def main() -> None:
                     st.warning("Upload at least one EPUB.")
                 else:
                     # Merge into existing bundle so adding the next book doesn't wipe earlier ones.
-                    bundle_out: dict = dict(_load_json(_bundle_path(), {}))
+                    bundle_out: dict = dict(_load_books_bundle())
 
                     bar = st.progress(0)
                     for idx, epub_file in enumerate(uploaded):
@@ -307,7 +327,7 @@ def main() -> None:
         st.markdown("---")
 
     # ── load data ──────────────────────────────────────────────────────
-    bundle = _load_json(_bundle_path(), {})
+    bundle = _load_books_bundle()
     if not bundle:
         st.info("👆 Upload EPUB file(s) and click **Generate Questions** to begin.")
         return
