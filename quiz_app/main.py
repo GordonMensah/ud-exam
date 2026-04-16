@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from generator.epub_parser import chapters_to_dict, parse_epub
 from generator.question_generator import generate_all_chapter_questions
@@ -17,6 +17,7 @@ QUIZ_VARIANTS_PATH = DATA_DIR / "quiz_variants.json"
 EXAM_VARIANTS_PATH = DATA_DIR / "exam_variants.json"
 CHAPTERS_PATH = DATA_DIR / "chapters.json"
 VARIANTS_PATH = DATA_DIR / "variants.json"
+BUNDLE_PATH = DATA_DIR / "books_bundle.json"
 
 
 def save_json(path: Path, data: Any) -> None:
@@ -24,6 +25,14 @@ def save_json(path: Path, data: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+
+
+def load_json(path: Path, default: Optional[Any] = None) -> Any:
+    """Load JSON data if it exists; otherwise return default."""
+    if not path.exists():
+        return {} if default is None else default
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def generate_from_epub(epub_path: Path, seed: int = 42) -> dict[str, Any]:
@@ -60,11 +69,16 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     """Run CLI workflow."""
     args = parse_args()
-    books: dict[str, Any] = {}
+
+    # Merge behavior: keep existing bundled books and add/overwrite only those generated now.
+    books: dict[str, Any] = dict(load_json(BUNDLE_PATH, {}))
+
+    last_book_name: Optional[str] = None
     for offset, epub_path in enumerate(args.epub):
         book_seed = args.seed + offset
         book_payload = generate_from_epub(epub_path, seed=book_seed)
-        books[book_payload["book_name"]] = {
+        last_book_name = book_payload["book_name"]
+        books[last_book_name] = {
             "chapters": book_payload["chapters"],
             "questions": book_payload["questions"],
             "quiz_variants": book_payload["quiz_variants"],
@@ -72,15 +86,15 @@ def main() -> None:
         }
 
     # Backward-compatible single-book outputs when one EPUB is provided.
-    if len(books) == 1:
-        one_book = next(iter(books.values()))
+    if len(args.epub) == 1 and last_book_name is not None:
+        one_book = books[last_book_name]
         save_json(CHAPTERS_PATH, one_book["chapters"])
         save_json(QUESTIONS_PATH, one_book["questions"])
         save_json(QUIZ_VARIANTS_PATH, one_book["quiz_variants"])
         save_json(EXAM_VARIANTS_PATH, one_book["exam_variants"])
 
     save_json(VARIANTS_PATH, {name: value["quiz_variants"] for name, value in books.items()})
-    save_json(DATA_DIR / "books_bundle.json", books)
+    save_json(BUNDLE_PATH, books)
     print(f"Generated JSON files in: {DATA_DIR}")
 
 

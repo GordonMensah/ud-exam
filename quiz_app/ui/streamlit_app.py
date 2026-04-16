@@ -30,7 +30,12 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 # Bundle: on cloud, prefer /tmp copy (user-uploaded); fall back to shipped copy in app/data/
 _CLOUD_BUNDLE = _CLOUD_DATA / "books_bundle.json"
 _LOCAL_BUNDLE = _LOCAL_DATA / "books_bundle.json"
-BUNDLE_PATH = _CLOUD_BUNDLE if _CLOUD_BUNDLE.exists() else _LOCAL_BUNDLE
+
+
+def _bundle_path() -> Path:
+    return _CLOUD_BUNDLE if _CLOUD_BUNDLE.exists() else _LOCAL_BUNDLE
+
+
 LABELS = ["a", "b", "c", "d", "e"]
 
 # ── helpers ────────────────────────────────────────────────────────────────
@@ -274,7 +279,9 @@ def main() -> None:
                 if not uploaded:
                     st.warning("Upload at least one EPUB.")
                 else:
-                    bundle_out: dict = {}
+                    # Merge into existing bundle so adding the next book doesn't wipe earlier ones.
+                    bundle_out: dict = dict(_load_json(_bundle_path(), {}))
+
                     bar = st.progress(0)
                     for idx, epub_file in enumerate(uploaded):
                         with tempfile.NamedTemporaryFile(delete=False, suffix=".epub") as tmp:
@@ -291,15 +298,16 @@ def main() -> None:
                             f"✅ **{epub_file.name}** — {len(chapters)} chapters, {total} questions"
                         )
                         bar.progress((idx + 1) / len(uploaded))
-                    # On cloud, save to writable /tmp; locally save to data/
-                    save_target = _CLOUD_BUNDLE if _IS_CLOUD else BUNDLE_PATH
+
+                    # On cloud, save to writable /tmp; locally save to app data/
+                    save_target = _CLOUD_BUNDLE if _IS_CLOUD else _LOCAL_BUNDLE
                     _save_json(save_target, bundle_out)
                     st.success("Done! Scroll to Diagnostics tab to verify.")
 
         st.markdown("---")
 
     # ── load data ──────────────────────────────────────────────────────
-    bundle = _load_json(BUNDLE_PATH, {})
+    bundle = _load_json(_bundle_path(), {})
     if not bundle:
         st.info("👆 Upload EPUB file(s) and click **Generate Questions** to begin.")
         return
