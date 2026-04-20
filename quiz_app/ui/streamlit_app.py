@@ -238,6 +238,20 @@ def _render_question(
                 label_visibility="collapsed",
             )
 
+        # Scripture reference block (always visible for 'talks about' questions)
+        src_text = question["source"].get("text", "")
+        src_ref = question["source"].get("reference", "")
+        is_talks_about = "talks about" in question["question"].lower()
+        if is_talks_about and src_text and not src_text.lower().startswith("see "):
+            st.markdown(
+                f'<div style="margin:8px 0 4px 0; padding:10px 14px; '
+                f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
+                f'border-radius:4px; font-style:italic; font-size:0.95em;">'
+                f'<span style="font-weight:600; font-style:normal;">📖 {src_ref}:</span> '
+                f'"{src_text}"</div>',
+                unsafe_allow_html=True,
+            )
+
         st.markdown("</div>", unsafe_allow_html=True)
 
         # Save / feedback
@@ -261,7 +275,19 @@ def _render_question(
                         f'Ref: {feedback["source"]["reference"]}</span>',
                         unsafe_allow_html=True,
                     )
-                    st.caption(feedback["source"]["text"])
+                    fb_text = feedback["source"].get("text", "")
+                    fb_ref = feedback["source"].get("reference", "")
+                    if fb_text and not fb_text.lower().startswith("see "):
+                        st.markdown(
+                            f'<div style="margin:4px 0; padding:8px 12px; '
+                            f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
+                            f'border-radius:4px; font-style:italic; font-size:0.9em;">'
+                            f'<span style="font-weight:600; font-style:normal;">📖 {fb_ref}:</span> '
+                            f'"{fb_text}"</div>',
+                            unsafe_allow_html=True,
+                        )
+                    else:
+                        st.caption(fb_text)
 
         # Post-submission review (exam mode)
         if is_submitted:
@@ -277,6 +303,17 @@ def _render_question(
                 f'{question["source"]["reference"]}</span>',
                 unsafe_allow_html=True,
             )
+            rev_text = question["source"].get("text", "")
+            rev_ref = question["source"].get("reference", "")
+            if rev_text and not rev_text.lower().startswith("see "):
+                st.markdown(
+                    f'<div style="margin:4px 0; padding:8px 12px; '
+                    f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
+                    f'border-radius:4px; font-style:italic; font-size:0.9em;">'
+                    f'<span style="font-weight:600; font-style:normal;">📖 {rev_ref}:</span> '
+                    f'"{rev_text}"</div>',
+                    unsafe_allow_html=True,
+                )
 
 
 # ── main app ───────────────────────────────────────────────────────────────
