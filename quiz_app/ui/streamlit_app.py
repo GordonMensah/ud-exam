@@ -279,8 +279,13 @@ def _render_question(
                 f'{question["options"][lb]} ✓</div>'
                 for lb in LABELS if question["answers"].get(lb)
             )
-            # Scripture verse (only when real text, not "See BookName")
-            has_verse = fb_text and not fb_text.lower().startswith("see ")
+            # Scripture verse — only show if it's not identical to any answer option
+            option_texts = {v.strip().lower() for v in question["options"].values()}
+            has_verse = (
+                fb_text
+                and not fb_text.lower().startswith("see ")
+                and fb_text.strip().lower() not in option_texts
+            )
             verse_block = (
                 f'<div style="margin-top:8px; padding-top:8px; '
                 f'border-top:1px solid #c8d8f0; font-style:italic;">'
@@ -316,7 +321,12 @@ def _render_question(
                 f'{question["options"][lb]} ✓</div>'
                 for lb in LABELS if question["answers"].get(lb)
             )
-            has_verse = rev_text and not rev_text.lower().startswith("see ")
+            rev_option_texts = {v.strip().lower() for v in question["options"].values()}
+            has_verse = (
+                rev_text
+                and not rev_text.lower().startswith("see ")
+                and rev_text.strip().lower() not in rev_option_texts
+            )
             verse_block = (
                 f'<div style="margin-top:8px; padding-top:8px; '
                 f'border-top:1px solid #c8d8f0; font-style:italic;">'
