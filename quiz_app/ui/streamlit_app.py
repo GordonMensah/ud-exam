@@ -273,16 +273,9 @@ def _render_question(
                 unsafe_allow_html=True,
             )
             # Build correct-answer lines (options where answer is True)
-            correct_lines = "".join(
-                f'<div style="margin:2px 0;">'
-                f'<span style="font-weight:600;">{lb}.</span> '
-                f'{question["options"][lb]}</div>'
-                for lb in LABELS if question["answers"].get(lb)
-            )
             has_verse = fb_text and not fb_text.lower().startswith("see ")
             verse_block = (
-                f'<div style="margin-top:8px; padding-top:8px; '
-                f'border-top:1px solid #c8d8f0; font-style:italic;">'
+                f'<div style="margin-top:4px; font-style:italic;">'
                 f'&ldquo;{fb_text}&rdquo;</div>'
                 if has_verse else ""
             )
@@ -291,7 +284,6 @@ def _render_question(
                 f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
                 f'border-radius:4px; font-size:0.95em;">'
                 f'<span style="font-weight:600; font-style:normal;">📖 {fb_ref}</span>'
-                f'{correct_lines}'
                 f'{verse_block}'
                 f'</div>',
                 unsafe_allow_html=True,
