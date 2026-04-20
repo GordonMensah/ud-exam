@@ -255,25 +255,33 @@ def _render_question(
                 feedback = engine.answer_question(qid, response)
                 if show_feedback:
                     sc = feedback["question_score"]
-                    badge = "badge-correct" if sc >= 0 else "badge-wrong"
-                    st.markdown(
-                        f'<span class="{badge}">Score: {sc}/5.0 &nbsp;|&nbsp; '
-                        f'Ref: {feedback["source"]["reference"]}</span>',
-                        unsafe_allow_html=True,
-                    )
-                    fb_text = feedback["source"].get("text", "")
-                    fb_ref = feedback["source"].get("reference", "")
-                    if fb_text and not fb_text.lower().startswith("see "):
-                        st.markdown(
-                            f'<div style="margin:4px 0; padding:8px 12px; '
-                            f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
-                            f'border-radius:4px; font-style:italic; font-size:0.9em;">'
-                            f'<span style="font-weight:600; font-style:normal;">📖 {fb_ref}:</span> '
-                            f'"{fb_text}"</div>',
-                            unsafe_allow_html=True,
-                        )
-                    else:
-                        st.caption(fb_text)
+                    # Persist feedback in session_state so it survives re-renders
+                    st.session_state[f"fb_{qid}"] = {
+                        "score": sc,
+                        "ref": feedback["source"]["reference"],
+                        "text": feedback["source"].get("text", ""),
+                    }
+
+        # Show persisted feedback (survives re-renders)
+        if show_feedback and f"fb_{qid}" in st.session_state and not is_submitted:
+            fb = st.session_state[f"fb_{qid}"]
+            sc, fb_ref, fb_text = fb["score"], fb["ref"], fb["text"]
+            badge = "badge-correct" if sc >= 0 else "badge-wrong"
+            st.markdown(
+                f'<span class="{badge}">Score: {sc}/5.0 &nbsp;|&nbsp; '
+                f'Ref: {fb_ref}</span>',
+                unsafe_allow_html=True,
+            )
+            if fb_text and not fb_text.lower().startswith("see "):
+                st.markdown(
+                    f'<div style="margin:6px 0 2px 0; padding:10px 14px; '
+                    f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
+                    f'border-radius:4px; font-size:0.95em;">'
+                    f'<span style="font-weight:600; font-style:normal;">📖 {fb_ref}</span><br>'
+                    f'<span style="font-style:italic;">&ldquo;{fb_text}&rdquo;</span>'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
 
         # Post-submission review (exam mode)
         if is_submitted:
