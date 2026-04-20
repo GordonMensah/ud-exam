@@ -272,10 +272,18 @@ def _render_question(
                 f'Ref: {fb_ref}</span>',
                 unsafe_allow_html=True,
             )
-            # Build correct-answer lines (options where answer is True)
+            # Correct answer lines
+            correct_lines = "".join(
+                f'<div style="margin:3px 0;">'
+                f'<span style="font-weight:600; color:#2e6b2e;">{lb}.</span> '
+                f'{question["options"][lb]} ✓</div>'
+                for lb in LABELS if question["answers"].get(lb)
+            )
+            # Scripture verse (only when real text, not "See BookName")
             has_verse = fb_text and not fb_text.lower().startswith("see ")
             verse_block = (
-                f'<div style="margin-top:4px; font-style:italic;">'
+                f'<div style="margin-top:8px; padding-top:8px; '
+                f'border-top:1px solid #c8d8f0; font-style:italic;">'
                 f'&ldquo;{fb_text}&rdquo;</div>'
                 if has_verse else ""
             )
@@ -283,7 +291,8 @@ def _render_question(
                 f'<div style="margin:6px 0 2px 0; padding:10px 14px; '
                 f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
                 f'border-radius:4px; font-size:0.95em;">'
-                f'<span style="font-weight:600; font-style:normal;">📖 {fb_ref}</span>'
+                f'<span style="font-weight:600;">📖 {fb_ref}</span>'
+                f'<div style="margin-top:6px;">{correct_lines}</div>'
                 f'{verse_block}'
                 f'</div>',
                 unsafe_allow_html=True,
@@ -294,26 +303,36 @@ def _render_question(
             resp = engine.state.responses.get(qid, {})
             sc = _score_q(resp, question["answers"])
             badge = "badge-correct" if sc >= 0 else "badge-wrong"
-            correct_str = " | ".join(
-                f"{lb}.{'T' if question['answers'][lb] else 'F'}" for lb in LABELS
-            )
+            rev_ref = question["source"].get("reference", "")
+            rev_text = question["source"].get("text", "")
             st.markdown(
                 f'<span class="{badge}">Score: {sc}/5.0 &nbsp;|&nbsp; '
-                f'Correct: {correct_str} &nbsp;|&nbsp; '
-                f'{question["source"]["reference"]}</span>',
+                f'Ref: {rev_ref}</span>',
                 unsafe_allow_html=True,
             )
-            rev_text = question["source"].get("text", "")
-            rev_ref = question["source"].get("reference", "")
-            if rev_text and not rev_text.lower().startswith("see "):
-                st.markdown(
-                    f'<div style="margin:4px 0; padding:8px 12px; '
-                    f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
-                    f'border-radius:4px; font-style:italic; font-size:0.9em;">'
-                    f'<span style="font-weight:600; font-style:normal;">📖 {rev_ref}:</span> '
-                    f'"{rev_text}"</div>',
-                    unsafe_allow_html=True,
-                )
+            correct_lines = "".join(
+                f'<div style="margin:3px 0;">'
+                f'<span style="font-weight:600; color:#2e6b2e;">{lb}.</span> '
+                f'{question["options"][lb]} ✓</div>'
+                for lb in LABELS if question["answers"].get(lb)
+            )
+            has_verse = rev_text and not rev_text.lower().startswith("see ")
+            verse_block = (
+                f'<div style="margin-top:8px; padding-top:8px; '
+                f'border-top:1px solid #c8d8f0; font-style:italic;">'
+                f'&ldquo;{rev_text}&rdquo;</div>'
+                if has_verse else ""
+            )
+            st.markdown(
+                f'<div style="margin:6px 0 2px 0; padding:10px 14px; '
+                f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
+                f'border-radius:4px; font-size:0.95em;">'
+                f'<span style="font-weight:600;">📖 {rev_ref}</span>'
+                f'<div style="margin-top:6px;">{correct_lines}</div>'
+                f'{verse_block}'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
 
 # ── main app ───────────────────────────────────────────────────────────────
