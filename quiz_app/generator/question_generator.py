@@ -1368,7 +1368,9 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
     if len(questions) < target:
         dummy_topics = all_teachings or all_topics
         dummy_wrong = all_topics or all_teachings
-        while len(questions) < target and dummy_topics and dummy_wrong:
+        fallback_attempts = 0
+        fallback_max = (target - len(questions)) * 10
+        while len(questions) < target and dummy_topics and dummy_wrong and fallback_attempts < fallback_max:
             topic = rng.choice([
                 "qualities of a good leader",
                 "signs of poor leadership",
@@ -1376,6 +1378,7 @@ def generate_question_pool(chapter, pool_size=None, seed=None, config=None, glob
                 "common leadership mistakes",
                 "keys to effective leadership",
             ])
+            fallback_attempts += 1
             cn = rng.sample(dummy_topics[:15], k=min(3, len(dummy_topics)))
             cw = rng.sample(dummy_wrong[:20], k=min(4, len(dummy_wrong)))
             _add(_q_according_to(book_title, topic, cn, cw, rng, negated=rng.choice([True, False])))
