@@ -290,7 +290,10 @@ def _extract_refs_with_context(text: str) -> list:
         else:
             closest = min(refs, key=lambda r: abs(r.position - q_pos))
             dist = abs(closest.position - q_pos)
-        if dist < 500:  # within 500 chars
+        # Use a tight window (200 chars) so only the immediately adjacent
+        # citation is paired — avoids attributing a quote to the wrong
+        # nearby ref when multiple refs appear in the same passage.
+        if dist < 200:
             closest.paired_quotes.append(q_text)
 
     # Step 4: extract numbered teaching points ("12. Be genuinely happy...")
