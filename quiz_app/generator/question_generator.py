@@ -946,7 +946,8 @@ def _q_talks_about(ref, all_topics, rng, negated=False):
     opts, ans = _build_tf_options(true_pool, false_pool, rng, min_true=2, max_true=3)
     if not opts:
         return None
-    return _mkq(stem, opts, ans, ref.full_ref, ref.commentary[0] if ref.commentary else "")
+    verse_text = ref.paired_quotes[0] if ref.paired_quotes else (ref.commentary[0] if ref.commentary else "")
+    return _mkq(stem, opts, ans, ref.full_ref, verse_text)
 
 
 # T3/T4: "[Ref] is [not] the biblical basis of"
@@ -980,7 +981,7 @@ def _q_biblical_basis(ref, all_teachings, rng, negated=False):
     if not opts:
         return None
 
-    ctx = my[0] if my else ""
+    ctx = (ref.paired_quotes[0] if ref.paired_quotes else None) or (my[0] if my else "")
     return _mkq(stem, opts, ans, ref.full_ref, ctx)
 
 
