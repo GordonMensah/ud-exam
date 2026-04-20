@@ -272,16 +272,30 @@ def _render_question(
                 f'Ref: {fb_ref}</span>',
                 unsafe_allow_html=True,
             )
-            if fb_text and not fb_text.lower().startswith("see "):
-                st.markdown(
-                    f'<div style="margin:6px 0 2px 0; padding:10px 14px; '
-                    f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
-                    f'border-radius:4px; font-size:0.95em;">'
-                    f'<span style="font-weight:600; font-style:normal;">📖 {fb_ref}</span><br>'
-                    f'<span style="font-style:italic;">&ldquo;{fb_text}&rdquo;</span>'
-                    f'</div>',
-                    unsafe_allow_html=True,
-                )
+            # Build correct-answer lines (options where answer is True)
+            correct_lines = "".join(
+                f'<div style="margin:2px 0;">'
+                f'<span style="font-weight:600;">{lb}.</span> '
+                f'{question["options"][lb]}</div>'
+                for lb in LABELS if question["answers"].get(lb)
+            )
+            has_verse = fb_text and not fb_text.lower().startswith("see ")
+            verse_block = (
+                f'<div style="margin-top:8px; padding-top:8px; '
+                f'border-top:1px solid #c8d8f0; font-style:italic;">'
+                f'&ldquo;{fb_text}&rdquo;</div>'
+                if has_verse else ""
+            )
+            st.markdown(
+                f'<div style="margin:6px 0 2px 0; padding:10px 14px; '
+                f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
+                f'border-radius:4px; font-size:0.95em;">'
+                f'<span style="font-weight:600; font-style:normal;">📖 {fb_ref}</span>'
+                f'{correct_lines}'
+                f'{verse_block}'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
 
         # Post-submission review (exam mode)
         if is_submitted:
