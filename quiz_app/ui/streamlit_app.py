@@ -238,20 +238,6 @@ def _render_question(
                 label_visibility="collapsed",
             )
 
-        # Scripture reference block (always visible for 'talks about' questions)
-        src_text = question["source"].get("text", "")
-        src_ref = question["source"].get("reference", "")
-        is_talks_about = "talks about" in question["question"].lower()
-        if is_talks_about and src_text and not src_text.lower().startswith("see "):
-            st.markdown(
-                f'<div style="margin:8px 0 4px 0; padding:10px 14px; '
-                f'background:#f0f4ff; border-left:4px solid #4a6fa5; '
-                f'border-radius:4px; font-style:italic; font-size:0.95em;">'
-                f'<span style="font-weight:600; font-style:normal;">📖 {src_ref}:</span> '
-                f'"{src_text}"</div>',
-                unsafe_allow_html=True,
-            )
-
         st.markdown("</div>", unsafe_allow_html=True)
 
         # Save / feedback
